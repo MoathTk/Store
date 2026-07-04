@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'login_screen.dart';
+import '../../../../core/theme/app_gradients.dart';
+import 'sign_up_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -52,10 +53,10 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     super.dispose();
   }
 
-  void _goToLogin() {
+  void _goToSignUp() {
     Navigator.of(context).pushReplacement(
       PageRouteBuilder(
-        pageBuilder: (_, __, ___) => const LoginScreen(),
+        pageBuilder: (_, __, ___) => const SignUpScreen(),
         transitionsBuilder: (_, animation, __, child) {
           return FadeTransition(opacity: animation, child: child);
         },
@@ -66,21 +67,14 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    final gradients = Theme.of(context).extension<AppGradients>()!;
+    final colors = Theme.of(context).colorScheme;
+
     return Scaffold(
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color(0xFF0F0C29),
-              Color(0xFF302B63),
-              Color(0xFF24243E),
-            ],
-          ),
-        ),
+        decoration: BoxDecoration(gradient: gradients.backgroundGradient),
         child: SafeArea(
           child: Center(
             child: SingleChildScrollView(
@@ -92,13 +86,13 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      _buildLogo(),
+                      _buildLogo(gradients, colors),
                       const SizedBox(height: 40),
-                      _buildTitle(),
+                      _buildTitle(colors),
                       const SizedBox(height: 16),
-                      _buildSubtitle(),
+                      _buildSubtitle(colors),
                       const SizedBox(height: 60),
-                      _buildGoButton(),
+                      _buildGoButton(colors),
                     ],
                   ),
                 ),
@@ -110,7 +104,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     );
   }
 
-  Widget _buildLogo() {
+  Widget _buildLogo(AppGradients gradients, ColorScheme colors) {
     return AnimatedBuilder(
       animation: _pulse,
       builder: (context, child) => Transform.scale(
@@ -122,72 +116,69 @@ class _WelcomeScreenState extends State<WelcomeScreen>
         height: 130,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          gradient: const LinearGradient(
-            colors: [Color(0xFF667eea), Color(0xFF764ba2)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          gradient: gradients.cardGradient,
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF667eea).withValues(alpha: 0.4),
+              color: colors.primary.withValues(alpha: 0.4),
               blurRadius: 50,
               spreadRadius: 8,
             ),
           ],
         ),
-        child: const Icon(
+        child: Icon(
           Icons.store_rounded,
           size: 65,
-          color: Colors.white,
+          color: colors.onPrimary,
         ),
       ),
     );
   }
 
-  Widget _buildTitle() {
-    return const Text(
+  Widget _buildTitle(ColorScheme colors) {
+    return Text(
       'Store\nManagement',
       textAlign: TextAlign.center,
       style: TextStyle(
         fontSize: 40,
         fontWeight: FontWeight.bold,
-        color: Colors.white,
+        color: colors.onSurface,
         letterSpacing: 2,
         height: 1.2,
       ),
     );
   }
 
-  Widget _buildSubtitle() {
+  Widget _buildSubtitle(ColorScheme colors) {
     return Text(
       'Efficiently manage your inventory,\nsales, and staff in one place.',
       textAlign: TextAlign.center,
       style: TextStyle(
         fontSize: 16,
-        color: Colors.white.withValues(alpha: 0.6),
+        color: colors.onSurface.withValues(alpha: 0.6),
         fontWeight: FontWeight.w300,
         height: 1.5,
       ),
     );
   }
 
-  Widget _buildGoButton() {
+  Widget _buildGoButton(ColorScheme colors) {
     return SizedBox(
       width: 220,
       height: 56,
       child: ElevatedButton(
-        onPressed: _goToLogin,
+        onPressed: _goToSignUp,
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF667eea),
-          foregroundColor: Colors.white,
+          backgroundColor: colors.primary,
+          foregroundColor: colors.onPrimary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(28),
           ),
           elevation: 8,
-          shadowColor: const Color(0xFF667eea).withValues(alpha: 0.5),
+          shadowColor: colors.primary.withValues(alpha: 0.5),
         ),
-        child: const Row(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               'Get Started',
@@ -195,10 +186,11 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 1.2,
+                color: colors.onPrimary,
               ),
             ),
-            SizedBox(width: 10),
-            Icon(Icons.arrow_forward_rounded, size: 22),
+            const SizedBox(width: 10),
+            Icon(Icons.arrow_forward_rounded, size: 22, color: colors.onPrimary),
           ],
         ),
       ),

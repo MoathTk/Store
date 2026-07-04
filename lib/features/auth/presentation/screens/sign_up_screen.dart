@@ -5,23 +5,25 @@ import '../../../../core/theme/app_gradients.dart';
 import '../providers/auth_provider.dart';
 import 'home_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen>
+class _SignUpScreenState extends State<SignUpScreen>
     with SingleTickerProviderStateMixin {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
   late Animation<double> _scaleAnimation;
   bool _obscurePassword = true;
+  bool _obscureConfirm = true;
   AuthProvider? _authProvider;
 
   @override
@@ -34,15 +36,13 @@ class _LoginScreenState extends State<LoginScreen>
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.3),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: const Interval(0.0, 0.6, curve: Curves.easeOutCubic),
-      ),
-    );
+    _slideAnimation =
+        Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(
+          CurvedAnimation(
+            parent: _animationController,
+            curve: const Interval(0.0, 0.6, curve: Curves.easeOutCubic),
+          ),
+        );
     _scaleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _animationController,
@@ -61,14 +61,15 @@ class _LoginScreenState extends State<LoginScreen>
     _authProvider?.removeListener(_onAuthChanged);
     _usernameController.dispose();
     _passwordController.dispose();
+    _confirmController.dispose();
     _animationController.dispose();
     super.dispose();
   }
 
-  void _login() {
+  void _signUp() {
     if (_formKey.currentState!.validate()) {
       final provider = context.read<AuthProvider>();
-      provider.login(
+      provider.signUp(
         _usernameController.text.trim(),
         _passwordController.text,
       );
@@ -122,15 +123,15 @@ class _LoginScreenState extends State<LoginScreen>
                             children: [
                               _buildLogo(gradients, colors),
                               const SizedBox(height: 40),
-                              _buildWelcomeText(colors),
+                              _buildHeader(colors),
                               const SizedBox(height: 40),
                               _buildUsernameField(colors),
                               const SizedBox(height: 20),
                               _buildPasswordField(colors),
-                              const SizedBox(height: 12),
-                              _buildForgotPassword(colors),
-                              const SizedBox(height: 24),
-                              _buildLoginButton(colors, auth),
+                              const SizedBox(height: 20),
+                              _buildConfirmField(colors),
+                              const SizedBox(height: 30),
+                              _buildSignUpButton(colors, auth),
                               if (auth.error != null) ...[
                                 const SizedBox(height: 12),
                                 Text(
@@ -164,8 +165,8 @@ class _LoginScreenState extends State<LoginScreen>
         child: child,
       ),
       child: Container(
-        width: 110,
-        height: 110,
+        width: 100,
+        height: 100,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           gradient: gradients.cardGradient,
@@ -179,30 +180,30 @@ class _LoginScreenState extends State<LoginScreen>
         ),
         child: Icon(
           Icons.store_rounded,
-          size: 55,
+          size: 50,
           color: colors.onPrimary,
         ),
       ),
     );
   }
 
-  Widget _buildWelcomeText(ColorScheme colors) {
+  Widget _buildHeader(ColorScheme colors) {
     return Column(
       children: [
         Text(
-          'Welcome Back!',
+          'Create Account',
           style: TextStyle(
-            fontSize: 34,
+            fontSize: 30,
             fontWeight: FontWeight.bold,
             color: colors.onSurface,
-            letterSpacing: 1.5,
+            letterSpacing: 1.2,
           ),
         ),
         const SizedBox(height: 10),
         Text(
-          'Sign in to manage your store',
+          'Set up your credentials to get started',
           style: TextStyle(
-            fontSize: 16,
+            fontSize: 15,
             color: colors.onSurface.withValues(alpha: 0.6),
             fontWeight: FontWeight.w300,
           ),
@@ -217,7 +218,7 @@ class _LoginScreenState extends State<LoginScreen>
       validator: (v) => v == null || v.isEmpty ? 'Enter username' : null,
       style: TextStyle(color: colors.onSurface, fontSize: 16),
       cursorColor: colors.primary,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: 'Username',
         prefixIcon: Icon(Icons.person_outline_rounded),
       ),
@@ -228,7 +229,11 @@ class _LoginScreenState extends State<LoginScreen>
     return TextFormField(
       controller: _passwordController,
       obscureText: _obscurePassword,
-      validator: (v) => v == null || v.isEmpty ? 'Enter password' : null,
+      validator: (v) {
+        if (v == null || v.isEmpty) return 'Enter password';
+        if (v.length < 6) return 'At least 6 characters';
+        return null;
+      },
       style: TextStyle(color: colors.onSurface, fontSize: 16),
       cursorColor: colors.primary,
       decoration: InputDecoration(
@@ -240,36 +245,47 @@ class _LoginScreenState extends State<LoginScreen>
                 ? Icons.visibility_off_rounded
                 : Icons.visibility_rounded,
           ),
-          onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+          onPressed: () =>
+              setState(() => _obscurePassword = !_obscurePassword),
         ),
       ),
     );
   }
 
-  Widget _buildForgotPassword(ColorScheme colors) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: TextButton(
-        onPressed: () {},
-        child: Text(
-          'Forgot Password?',
-          style: TextStyle(
-            color: colors.onSurface.withValues(alpha: 0.5),
-            fontSize: 13,
-            fontWeight: FontWeight.w400,
+  Widget _buildConfirmField(ColorScheme colors) {
+    return TextFormField(
+      controller: _confirmController,
+      obscureText: _obscureConfirm,
+      validator: (v) {
+        if (v == null || v.isEmpty) return 'Confirm your password';
+        if (v != _passwordController.text) return 'Passwords do not match';
+        return null;
+      },
+      style: TextStyle(color: colors.onSurface, fontSize: 16),
+      cursorColor: colors.primary,
+      decoration: InputDecoration(
+        labelText: 'Confirm Password',
+        prefixIcon: Icon(Icons.lock_outline_rounded),
+        suffixIcon: IconButton(
+          icon: Icon(
+            _obscureConfirm
+                ? Icons.visibility_off_rounded
+                : Icons.visibility_rounded,
           ),
+          onPressed: () =>
+              setState(() => _obscureConfirm = !_obscureConfirm),
         ),
       ),
     );
   }
 
-  Widget _buildLoginButton(ColorScheme colors, AuthProvider auth) {
+  Widget _buildSignUpButton(ColorScheme colors, AuthProvider auth) {
     final isLoading = auth.status == AuthStatus.loading;
     return SizedBox(
       width: double.infinity,
       height: AppConstants.buttonHeight,
       child: ElevatedButton(
-        onPressed: isLoading ? null : _login,
+        onPressed: isLoading ? null : _signUp,
         child: isLoading
             ? SizedBox(
                 width: 26,
@@ -284,7 +300,7 @@ class _LoginScreenState extends State<LoginScreen>
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Sign In',
+                    'Create Account',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
