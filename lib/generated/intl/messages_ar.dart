@@ -20,14 +20,67 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ar';
 
-  static String m0(label) => "صفحة ${label}";
+  static String m0(name) => "هل أنت متأكد أنك تريد حذف \"${name}\"؟";
 
-  static String m1(name) => "هل أنت متأكد أنك تريد حذف \"${name}\"؟";
+  static String m1(label) => "صفحة ${label}";
+
+  static String m2(name) => "هل أنت متأكد أنك تريد حذف \"${name}\"؟";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "appTitle": MessageLookupByLibrary.simpleMessage("إدارة المتجر"),
     "brandName": MessageLookupByLibrary.simpleMessage("لايت"),
+    "customersActionDelete": MessageLookupByLibrary.simpleMessage("حذف"),
+    "customersActionEdit": MessageLookupByLibrary.simpleMessage("تعديل"),
+    "customersAddAddressHint": MessageLookupByLibrary.simpleMessage("العنوان"),
+    "customersAddCancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
+    "customersAddCreate": MessageLookupByLibrary.simpleMessage("إنشاء"),
+    "customersAddDialogTitle": MessageLookupByLibrary.simpleMessage(
+      "إضافة عميل",
+    ),
+    "customersAddFullNameError": MessageLookupByLibrary.simpleMessage(
+      "أدخل الاسم الكامل",
+    ),
+    "customersAddFullNameHint": MessageLookupByLibrary.simpleMessage(
+      "الاسم الكامل",
+    ),
+    "customersAddNew": MessageLookupByLibrary.simpleMessage("إضافة جديد"),
+    "customersAddNotesHint": MessageLookupByLibrary.simpleMessage("ملاحظات"),
+    "customersAddPhoneHint": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
+    "customersAddPlaceHint": MessageLookupByLibrary.simpleMessage("المكان"),
+    "customersAddTypeLabel": MessageLookupByLibrary.simpleMessage("النوع"),
+    "customersColAddress": MessageLookupByLibrary.simpleMessage("العنوان"),
+    "customersColFullName": MessageLookupByLibrary.simpleMessage(
+      "الاسم الكامل",
+    ),
+    "customersColId": MessageLookupByLibrary.simpleMessage("المعرف"),
+    "customersColNotes": MessageLookupByLibrary.simpleMessage("ملاحظات"),
+    "customersColPhone": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
+    "customersColPlace": MessageLookupByLibrary.simpleMessage("المكان"),
+    "customersColType": MessageLookupByLibrary.simpleMessage("النوع"),
+    "customersDeleteButton": MessageLookupByLibrary.simpleMessage("حذف"),
+    "customersDeleteCancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
+    "customersDeleteConfirm": m0,
+    "customersDeleteTitle": MessageLookupByLibrary.simpleMessage("حذف العميل"),
+    "customersEmptySubtitle": MessageLookupByLibrary.simpleMessage(
+      "أضف عميلك الأول للبدء",
+    ),
+    "customersEmptyTitle": MessageLookupByLibrary.simpleMessage(
+      "لا يوجد عملاء بعد",
+    ),
+    "customersErrorTitle": MessageLookupByLibrary.simpleMessage(
+      "فشل في تحميل العملاء",
+    ),
+    "customersExport": MessageLookupByLibrary.simpleMessage("تصدير"),
+    "customersExportComingSoon": MessageLookupByLibrary.simpleMessage("قريباً"),
+    "customersNext": MessageLookupByLibrary.simpleMessage("التالي >"),
+    "customersPrevious": MessageLookupByLibrary.simpleMessage("< السابق"),
+    "customersTitle": MessageLookupByLibrary.simpleMessage("العملاء"),
+    "customersTypeNormal": MessageLookupByLibrary.simpleMessage("عادي"),
+    "customersTypeProvider": MessageLookupByLibrary.simpleMessage("مزود"),
+    "customersTypeProviderAndCustomer": MessageLookupByLibrary.simpleMessage(
+      "مزود وعميل",
+    ),
     "errorInvalidCredentials": MessageLookupByLibrary.simpleMessage(
       "اسم المستخدم أو كلمة المرور غير صحيحة.",
     ),
@@ -63,7 +116,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "navProduct": MessageLookupByLibrary.simpleMessage("المنتجات"),
     "navSetting": MessageLookupByLibrary.simpleMessage("الإعدادات"),
     "navStores": MessageLookupByLibrary.simpleMessage("المتاجر"),
-    "placeholderPage": m0,
+    "placeholderPage": m1,
     "signupConfirmErrorEmpty": MessageLookupByLibrary.simpleMessage(
       "يرجى تأكيد كلمة المرور",
     ),
@@ -88,7 +141,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "storesAddTooltip": MessageLookupByLibrary.simpleMessage("إضافة متجر"),
     "storesDeleteButton": MessageLookupByLibrary.simpleMessage("حذف"),
     "storesDeleteCancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
-    "storesDeleteConfirm": m1,
+    "storesDeleteConfirm": m2,
     "storesDeleteTitle": MessageLookupByLibrary.simpleMessage("حذف المتجر"),
     "storesEmptySubtitle": MessageLookupByLibrary.simpleMessage(
       "أضف متجرك الأول للبدء",

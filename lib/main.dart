@@ -6,6 +6,12 @@ import 'package:store_management/generated/l10n.dart';
 import 'core/database/database_helper.dart';
 import 'core/providers/language_provider.dart';
 import 'core/providers/theme_provider.dart';
+import 'features/customers/data/datasources/customer_local_datasource.dart';
+import 'features/customers/data/repositories/customer_repository_impl.dart';
+import 'features/customers/domain/usecases/create_customer_usecase.dart';
+import 'features/customers/domain/usecases/delete_customer_usecase.dart';
+import 'features/customers/domain/usecases/get_all_customers_usecase.dart';
+import 'features/customers/presentation/providers/customer_provider.dart';
 import 'features/dashboard/presentation/providers/navigation_provider.dart';
 import 'features/stores/data/datasources/store_local_datasource.dart';
 import 'features/stores/data/repositories/store_repository_impl.dart';
@@ -54,6 +60,16 @@ class MyApp extends StatelessWidget {
             final dataSource = StoreLocalDataSource(DatabaseHelper.instance);
             final repository = StoreRepositoryImpl(dataSource);
             return StoreProvider(repository)..loadStores();
+          },
+        ),
+        ChangeNotifierProvider(
+          create: (_) {
+            final dataSource = CustomerLocalDataSource(DatabaseHelper.instance);
+            final repository = CustomerRepositoryImpl(dataSource);
+            final getAll = GetAllCustomersUseCase(repository);
+            final create = CreateCustomerUseCase(repository);
+            final delete = DeleteCustomerUseCase(repository);
+            return CustomerProvider(getAll, create, delete)..loadCustomers();
           },
         ),
       ],

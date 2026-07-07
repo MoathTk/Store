@@ -2,7 +2,7 @@
 
 ## Overview
 
-A Flutter store management app with Clean Architecture, Material 3 theming, SQLite database, local-only authentication, and full Arabic/English localization with RTL support. Has auth flow (welcome → login/signup), a dashboard shell with sidebar navigation, and a stores feature with full CRUD and responsive grid UI. No other business features (products, inventory, sales) exist yet.
+A Flutter store management app with Clean Architecture, Material 3 theming, SQLite database, local-only authentication, and full Arabic/English localization with RTL support. Has auth flow (welcome → login/signup), a dashboard shell with sidebar navigation, stores feature with full CRUD and responsive grid UI, and customers feature with full CRUD and a premium data table UI. No other business features (products, inventory, sales) exist yet.
 
 **Stack:** Flutter 3.x | Dart ^3.9.2 | Provider | Clean Architecture (feature-first)
 
@@ -76,6 +76,33 @@ lib/
 │               ├── store_card.dart           # Tall gradient card (name, #id, date, delete)
 │               ├── store_grid.dart           # State-aware grid (loading/error/empty/stores)
 │               └── empty_stores.dart         # "No stores yet" illustration
+│   └── customers/                    # Customer management (data table UI)
+│       ├── domain/
+│       │   ├── entities/
+│       │   │   ├── customer.dart            # Customer {id, fullName, type?, place?, address?, phone?, notes?, insertedAt}
+│       │   │   └── customer_type.dart       # CustomerType enum (normal, provider, providerAndCustomer)
+│       │   ├── repositories/customer_repository.dart  # Abstract CRUD interface
+│       │   └── usecases/
+│       │       ├── get_all_customers_usecase.dart
+│       │       ├── get_customer_by_id_usecase.dart
+│       │       ├── create_customer_usecase.dart
+│       │       ├── update_customer_usecase.dart
+│       │       └── delete_customer_usecase.dart
+│       ├── data/
+│       │   ├── datasources/customer_local_datasource.dart  # SQLite CRUD via DatabaseHelper
+│       │   ├── models/customer_model.dart                  # CustomerModel.toMap / fromMap / fromCreateParams
+│       │   └── repositories/customer_repository_impl.dart  # Concrete implementation
+│       └── presentation/             # UI layer
+│           ├── providers/customer_provider.dart   # CustomerStatus enum + pagination + sorting
+│           ├── screens/customers_screen.dart      # Main screen with card container + table
+│           └── widgets/
+│               ├── customer_avatar.dart           # CircleAvatar with initials
+│               ├── customer_type_badge.dart       # Colored chip for customer type
+│               ├── customer_action_menu.dart      # Three-dot popup menu (edit/delete)
+│               ├── customer_table_container.dart  # White card with shadow + border
+│               ├── customer_table_header.dart     # Title row + Export/Add New buttons
+│               ├── customer_data_table.dart       # Full DataTable with 8 columns + state handling
+│               └── customer_table_pagination.dart # Previous/Next + page number boxes
 ├── l10n/                              # Localization source files (ARB)
 │   ├── intl_en.arb                    # English strings
 │   └── intl_ar.arb                    # Arabic strings
@@ -122,6 +149,17 @@ StoresScreen → StoreProvider (ChangeNotifier)
                                          └─▶ stores table (id, name, createdAt)
 ```
 
+### Customers
+```
+CustomersScreen → CustomerProvider (ChangeNotifier, pagination + sorting)
+                   └─▶ GetAllCustomersUseCase / CreateCustomerUseCase / DeleteCustomerUseCase
+                         └─▶ CustomerRepository (interface)
+                               └─▶ CustomerRepositoryImpl
+                                     └─▶ CustomerLocalDataSource
+                                           └─▶ DatabaseHelper
+                                                 └─▶ customers table (id, fullName, type, place, address, phone, notes, insertedAt)
+```
+
 ---
 
 ## Navigation Flow
@@ -139,8 +177,9 @@ Dashboard internal nav (sidebar → content area):
 ```
 Sidebar item tap → NavigationProvider.select(item)
                      → switch(activeItem):
-                         NavItem.stores → StoresScreen
-                         _              → placeholder with navItemLabel(context, item)
+                         NavItem.stores     → StoresScreen
+                         NavItem.customer   → CustomersScreen (premium data table)
+                         _                  → placeholder with navItemLabel(context, item)
 ```
 
 Style: Manual `Navigator.pushReplacement` with `PageRouteBuilder` + `FadeTransition` (600ms).
@@ -156,6 +195,7 @@ Style: Manual `Navigator.pushReplacement` with `PageRouteBuilder` + `FadeTransit
 | `AuthProvider` | Global | AuthStatus (idle/loading/success/failure), user, error |
 | `NavigationProvider` | Global | Active NavItem (dashboard/order/product/...), select(), reset() |
 | `StoreProvider` | Global | StoreStatus (idle/loading/success/failure), List<Store>, error, loadStores(), createStore(), deleteStore() |
+| `CustomerProvider` | Global | CustomerStatus (idle/loading/success/failure), client-side pagination (10/page), sorting by id/fullName/place, CRUD via use cases |
 
 All extend `ChangeNotifier`, consumed via `Provider.of` / `context.watch` / `context.read`.
 
@@ -304,11 +344,29 @@ CREATE TABLE stores (
 );
 ```
 
+### customers Table Schema
+
+```sql
+CREATE TABLE customers (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  fullName   TEXT    NOT NULL,
+  type       TEXT    NULL,
+  place      TEXT    NULL,
+  address    TEXT    NULL,
+  phone      TEXT    NULL,
+  notes      TEXT    NULL,
+  insertedAt TEXT    NOT NULL
+);
+```
+
+`type` stores one of: `'normal'`, `'provider'`, `'provider_and_customer'` — mapped to/from `CustomerType` enum.
+
 ### Migration History
 
 | From | To | SQL |
 |------|----|-----|
 | 1 | 2 | `ALTER TABLE stores ADD COLUMN createdAt TEXT NOT NULL DEFAULT ''` |
+| 2 | 3 | `CREATE TABLE customers (...)` |
 
 ---
 
@@ -319,7 +377,7 @@ CREATE TABLE stores (
 3. **Commented-out debug code** (`auth_local_datasource.dart:9-10`): Leftover `delete` calls.
 4. **No error handling** on `hasCredentials()` in `main.dart:18`.
 5. **Test coverage**: Only 1 smoke test. Missing unit tests for providers, use cases, and repositories.
-6. **No other business features**: Products, inventory, orders, customers, employees, billing, analytics — none exist yet. Only `stores` has a full UI.
+6. **No other business features**: Products, inventory, orders, employees, billing, analytics — none exist yet. Only `stores` and `customers` have full UIs.
 
 ---
 

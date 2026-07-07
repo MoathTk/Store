@@ -20,14 +20,71 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(label) => "${label} Page";
+  static String m0(name) => "Are you sure you want to delete \"${name}\"?";
 
-  static String m1(name) => "Are you sure you want to delete \"${name}\"?";
+  static String m1(label) => "${label} Page";
+
+  static String m2(name) => "Are you sure you want to delete \"${name}\"?";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "appTitle": MessageLookupByLibrary.simpleMessage("Store Management"),
     "brandName": MessageLookupByLibrary.simpleMessage("Light"),
+    "customersActionDelete": MessageLookupByLibrary.simpleMessage("Delete"),
+    "customersActionEdit": MessageLookupByLibrary.simpleMessage("Edit"),
+    "customersAddAddressHint": MessageLookupByLibrary.simpleMessage("Address"),
+    "customersAddCancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+    "customersAddCreate": MessageLookupByLibrary.simpleMessage("Create"),
+    "customersAddDialogTitle": MessageLookupByLibrary.simpleMessage(
+      "Add Customer",
+    ),
+    "customersAddFullNameError": MessageLookupByLibrary.simpleMessage(
+      "Enter full name",
+    ),
+    "customersAddFullNameHint": MessageLookupByLibrary.simpleMessage(
+      "Full Name",
+    ),
+    "customersAddNew": MessageLookupByLibrary.simpleMessage("Add New"),
+    "customersAddNotesHint": MessageLookupByLibrary.simpleMessage("Notes"),
+    "customersAddPhoneHint": MessageLookupByLibrary.simpleMessage(
+      "Phone Number",
+    ),
+    "customersAddPlaceHint": MessageLookupByLibrary.simpleMessage("Place"),
+    "customersAddTypeLabel": MessageLookupByLibrary.simpleMessage("Type"),
+    "customersColAddress": MessageLookupByLibrary.simpleMessage("Address"),
+    "customersColFullName": MessageLookupByLibrary.simpleMessage("Full Name"),
+    "customersColId": MessageLookupByLibrary.simpleMessage("ID"),
+    "customersColNotes": MessageLookupByLibrary.simpleMessage("Notes"),
+    "customersColPhone": MessageLookupByLibrary.simpleMessage("Phone Number"),
+    "customersColPlace": MessageLookupByLibrary.simpleMessage("Place"),
+    "customersColType": MessageLookupByLibrary.simpleMessage("Type"),
+    "customersDeleteButton": MessageLookupByLibrary.simpleMessage("Delete"),
+    "customersDeleteCancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+    "customersDeleteConfirm": m0,
+    "customersDeleteTitle": MessageLookupByLibrary.simpleMessage(
+      "Delete Customer",
+    ),
+    "customersEmptySubtitle": MessageLookupByLibrary.simpleMessage(
+      "Add your first customer to get started",
+    ),
+    "customersEmptyTitle": MessageLookupByLibrary.simpleMessage(
+      "No customers yet",
+    ),
+    "customersErrorTitle": MessageLookupByLibrary.simpleMessage(
+      "Failed to load customers",
+    ),
+    "customersExport": MessageLookupByLibrary.simpleMessage("Export"),
+    "customersExportComingSoon": MessageLookupByLibrary.simpleMessage(
+      "Coming soon",
+    ),
+    "customersNext": MessageLookupByLibrary.simpleMessage("Next >"),
+    "customersPrevious": MessageLookupByLibrary.simpleMessage("< Previous"),
+    "customersTitle": MessageLookupByLibrary.simpleMessage("Customers"),
+    "customersTypeNormal": MessageLookupByLibrary.simpleMessage("Normal"),
+    "customersTypeProvider": MessageLookupByLibrary.simpleMessage("Provider"),
+    "customersTypeProviderAndCustomer": MessageLookupByLibrary.simpleMessage(
+      "Provider & Customer",
+    ),
     "errorInvalidCredentials": MessageLookupByLibrary.simpleMessage(
       "Invalid username or password.",
     ),
@@ -63,7 +120,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "navProduct": MessageLookupByLibrary.simpleMessage("Product"),
     "navSetting": MessageLookupByLibrary.simpleMessage("Setting"),
     "navStores": MessageLookupByLibrary.simpleMessage("Stores"),
-    "placeholderPage": m0,
+    "placeholderPage": m1,
     "signupConfirmErrorEmpty": MessageLookupByLibrary.simpleMessage(
       "Confirm your password",
     ),
@@ -90,7 +147,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "storesAddTooltip": MessageLookupByLibrary.simpleMessage("Add store"),
     "storesDeleteButton": MessageLookupByLibrary.simpleMessage("Delete"),
     "storesDeleteCancel": MessageLookupByLibrary.simpleMessage("Cancel"),
-    "storesDeleteConfirm": m1,
+    "storesDeleteConfirm": m2,
     "storesDeleteTitle": MessageLookupByLibrary.simpleMessage("Delete Store"),
     "storesEmptySubtitle": MessageLookupByLibrary.simpleMessage(
       "Add your first store to get started",

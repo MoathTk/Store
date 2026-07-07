@@ -463,6 +463,321 @@ class S {
       args: [],
     );
   }
+
+  /// `Customers`
+  String get customersTitle {
+    return Intl.message(
+      'Customers',
+      name: 'customersTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Export`
+  String get customersExport {
+    return Intl.message('Export', name: 'customersExport', desc: '', args: []);
+  }
+
+  /// `Coming soon`
+  String get customersExportComingSoon {
+    return Intl.message(
+      'Coming soon',
+      name: 'customersExportComingSoon',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add New`
+  String get customersAddNew {
+    return Intl.message('Add New', name: 'customersAddNew', desc: '', args: []);
+  }
+
+  /// `ID`
+  String get customersColId {
+    return Intl.message('ID', name: 'customersColId', desc: '', args: []);
+  }
+
+  /// `Full Name`
+  String get customersColFullName {
+    return Intl.message(
+      'Full Name',
+      name: 'customersColFullName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Type`
+  String get customersColType {
+    return Intl.message('Type', name: 'customersColType', desc: '', args: []);
+  }
+
+  /// `Place`
+  String get customersColPlace {
+    return Intl.message('Place', name: 'customersColPlace', desc: '', args: []);
+  }
+
+  /// `Address`
+  String get customersColAddress {
+    return Intl.message(
+      'Address',
+      name: 'customersColAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone Number`
+  String get customersColPhone {
+    return Intl.message(
+      'Phone Number',
+      name: 'customersColPhone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notes`
+  String get customersColNotes {
+    return Intl.message('Notes', name: 'customersColNotes', desc: '', args: []);
+  }
+
+  /// `Normal`
+  String get customersTypeNormal {
+    return Intl.message(
+      'Normal',
+      name: 'customersTypeNormal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Provider`
+  String get customersTypeProvider {
+    return Intl.message(
+      'Provider',
+      name: 'customersTypeProvider',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Provider & Customer`
+  String get customersTypeProviderAndCustomer {
+    return Intl.message(
+      'Provider & Customer',
+      name: 'customersTypeProviderAndCustomer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `< Previous`
+  String get customersPrevious {
+    return Intl.message(
+      '< Previous',
+      name: 'customersPrevious',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Next >`
+  String get customersNext {
+    return Intl.message('Next >', name: 'customersNext', desc: '', args: []);
+  }
+
+  /// `No customers yet`
+  String get customersEmptyTitle {
+    return Intl.message(
+      'No customers yet',
+      name: 'customersEmptyTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add your first customer to get started`
+  String get customersEmptySubtitle {
+    return Intl.message(
+      'Add your first customer to get started',
+      name: 'customersEmptySubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to load customers`
+  String get customersErrorTitle {
+    return Intl.message(
+      'Failed to load customers',
+      name: 'customersErrorTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete Customer`
+  String get customersDeleteTitle {
+    return Intl.message(
+      'Delete Customer',
+      name: 'customersDeleteTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete "{name}"?`
+  String customersDeleteConfirm(Object name) {
+    return Intl.message(
+      'Are you sure you want to delete "$name"?',
+      name: 'customersDeleteConfirm',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `Cancel`
+  String get customersDeleteCancel {
+    return Intl.message(
+      'Cancel',
+      name: 'customersDeleteCancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete`
+  String get customersDeleteButton {
+    return Intl.message(
+      'Delete',
+      name: 'customersDeleteButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Customer`
+  String get customersAddDialogTitle {
+    return Intl.message(
+      'Add Customer',
+      name: 'customersAddDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Full Name`
+  String get customersAddFullNameHint {
+    return Intl.message(
+      'Full Name',
+      name: 'customersAddFullNameHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter full name`
+  String get customersAddFullNameError {
+    return Intl.message(
+      'Enter full name',
+      name: 'customersAddFullNameError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Type`
+  String get customersAddTypeLabel {
+    return Intl.message(
+      'Type',
+      name: 'customersAddTypeLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Place`
+  String get customersAddPlaceHint {
+    return Intl.message(
+      'Place',
+      name: 'customersAddPlaceHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Address`
+  String get customersAddAddressHint {
+    return Intl.message(
+      'Address',
+      name: 'customersAddAddressHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone Number`
+  String get customersAddPhoneHint {
+    return Intl.message(
+      'Phone Number',
+      name: 'customersAddPhoneHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notes`
+  String get customersAddNotesHint {
+    return Intl.message(
+      'Notes',
+      name: 'customersAddNotesHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get customersAddCancel {
+    return Intl.message(
+      'Cancel',
+      name: 'customersAddCancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create`
+  String get customersAddCreate {
+    return Intl.message(
+      'Create',
+      name: 'customersAddCreate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit`
+  String get customersActionEdit {
+    return Intl.message(
+      'Edit',
+      name: 'customersActionEdit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete`
+  String get customersActionDelete {
+    return Intl.message(
+      'Delete',
+      name: 'customersActionDelete',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -28,11 +28,15 @@ class DatabaseHelper {
 
   Future<void> _onCreate(Database db, int version) async {
     await db.execute(DatabaseConfig.createStoresTable);
+    await db.execute(DatabaseConfig.createCustomersTable);
   }
 
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
     if (oldVersion < 2) {
       await db.execute(DatabaseConfig.addCreatedAtColumn);
+    }
+    if (oldVersion < 3) {
+      await db.execute(DatabaseConfig.createCustomersTable);
     }
   }
 
