@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:store_management/generated/l10n.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../providers/auth_provider.dart';
 import '../widgets/gradient_scaffold.dart';
@@ -121,7 +122,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                         ),
                         const SizedBox(height: 40),
                         Text(
-                          'Create Account',
+                          S.of(context).signupTitle,
                           style: TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
@@ -131,7 +132,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          'Set up your credentials to get started',
+                          S.of(context).signupSubtitle,
                           style: TextStyle(
                             fontSize: 15,
                             color: colors.onSurface.withValues(alpha: 0.6),
@@ -142,19 +143,19 @@ class _SignUpScreenState extends State<SignUpScreen>
                         AuthTextField(
                           controller: _usernameController,
                           icon: Icons.person_outline_rounded,
-                          label: 'Username',
+                          label: S.of(context).loginUsernameLabel,
                           validator: (v) =>
-                              v == null || v.isEmpty ? 'Enter username' : null,
+                              v == null || v.isEmpty ? S.of(context).loginUsernameError : null,
                         ),
                         const SizedBox(height: 20),
                         AuthTextField(
                           controller: _passwordController,
                           icon: Icons.lock_outline_rounded,
-                          label: 'Password',
+                          label: S.of(context).loginPasswordLabel,
                           obscure: true,
                           validator: (v) {
-                            if (v == null || v.isEmpty) return 'Enter password';
-                            if (v.length < 6) return 'At least 6 characters';
+                            if (v == null || v.isEmpty) return S.of(context).loginPasswordError;
+                            if (v.length < 6) return S.of(context).signupPasswordMinLength;
                             return null;
                           },
                         ),
@@ -162,14 +163,14 @@ class _SignUpScreenState extends State<SignUpScreen>
                         AuthTextField(
                           controller: _confirmController,
                           icon: Icons.lock_outline_rounded,
-                          label: 'Confirm Password',
+                          label: S.of(context).signupConfirmLabel,
                           obscure: true,
                           validator: (v) {
                             if (v == null || v.isEmpty) {
-                              return 'Confirm your password';
+                              return S.of(context).signupConfirmErrorEmpty;
                             }
                             if (v != _passwordController.text) {
-                              return 'Passwords do not match';
+                              return S.of(context).signupConfirmErrorMismatch;
                             }
                             return null;
                           },
@@ -178,7 +179,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                         LoadingButton(
                           isLoading: auth.status == AuthStatus.loading,
                           onPressed: _signUp,
-                          label: 'Create Account',
+                          label: S.of(context).signupCreateAccount,
                         ),
                         ErrorMessage(message: auth.error),
                       ],

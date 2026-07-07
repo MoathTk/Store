@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:store_management/generated/l10n.dart';
 import 'core/database/database_helper.dart';
+import 'core/providers/language_provider.dart';
 import 'core/providers/theme_provider.dart';
 import 'features/dashboard/presentation/providers/navigation_provider.dart';
 import 'features/stores/data/datasources/store_local_datasource.dart';
@@ -46,9 +47,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => AuthProvider(loginUseCase, signUpUseCase),
         ),
-        ChangeNotifierProvider(
-          create: (_) => NavigationProvider(),
-        ),
+        ChangeNotifierProvider(create: (_) => NavigationProvider()),
+        ChangeNotifierProvider(create: (_) => LanguageProvider()),
         ChangeNotifierProvider(
           create: (_) {
             final dataSource = StoreLocalDataSource(DatabaseHelper.instance);
@@ -57,11 +57,13 @@ class MyApp extends StatelessWidget {
           },
         ),
       ],
-      child: Consumer<ThemeProvider>(
-        builder: (context, themeProvider, _) {
+      child: Consumer2<ThemeProvider, LanguageProvider>(
+        builder: (context, themeProvider, languageProvider, _) {
           return MaterialApp(
-            title: 'Store Management',
+            onGenerateTitle: (context) => S.of(context).appTitle,
             debugShowCheckedModeBanner: false,
+            locale: languageProvider.locale,
+            supportedLocales: const [Locale('en'), Locale('ar')],
             localizationsDelegates: const [
               S.delegate,
               GlobalMaterialLocalizations.delegate,

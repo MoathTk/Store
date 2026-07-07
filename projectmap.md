@@ -2,7 +2,7 @@
 
 ## Overview
 
-A Flutter store management app with Clean Architecture, Material 3 theming, SQLite database, and local-only authentication. Has auth flow (welcome → login/signup), a dashboard shell with sidebar navigation, and a stores feature with full CRUD and responsive grid UI. No other business features (products, inventory, sales) exist yet.
+A Flutter store management app with Clean Architecture, Material 3 theming, SQLite database, local-only authentication, and full Arabic/English localization with RTL support. Has auth flow (welcome → login/signup), a dashboard shell with sidebar navigation, and a stores feature with full CRUD and responsive grid UI. No other business features (products, inventory, sales) exist yet.
 
 **Stack:** Flutter 3.x | Dart ^3.9.2 | Provider | Clean Architecture (feature-first)
 
@@ -18,7 +18,9 @@ lib/
 │   ├── database/
 │   │   ├── database_config.dart       # DB name, version, table creation SQL strings
 │   │   └── database_helper.dart       # Singleton: lazy init, onCreate, generic CRUD
-│   ├── providers/theme_provider.dart  # ThemeMode state (ChangeNotifier)
+│   ├── providers/
+│   │   ├── language_provider.dart     # Locale state (ChangeNotifier), toggle()
+│   │   └── theme_provider.dart        # ThemeMode state (ChangeNotifier)
 │   └── theme/
 │       ├── app_colors.dart            # Static color palette (light + dark)
 │       ├── app_gradients.dart         # ThemeExtension<AppGradients> for gradient support
@@ -74,7 +76,10 @@ lib/
 │               ├── store_card.dart           # Tall gradient card (name, #id, date, delete)
 │               ├── store_grid.dart           # State-aware grid (loading/error/empty/stores)
 │               └── empty_stores.dart         # "No stores yet" illustration
-└── generated/l10n.dart              # Auto-generated localization delegates
+├── l10n/                              # Localization source files (ARB)
+│   ├── intl_en.arb                    # English strings
+│   └── intl_ar.arb                    # Arabic strings
+└── generated/l10n.dart              # Auto-generated S class delegates
 ```
 
 ---
@@ -135,7 +140,7 @@ Dashboard internal nav (sidebar → content area):
 Sidebar item tap → NavigationProvider.select(item)
                      → switch(activeItem):
                          NavItem.stores → StoresScreen
-                         _              → placeholder text
+                         _              → placeholder with navItemLabel(context, item)
 ```
 
 Style: Manual `Navigator.pushReplacement` with `PageRouteBuilder` + `FadeTransition` (600ms).
@@ -147,6 +152,7 @@ Style: Manual `Navigator.pushReplacement` with `PageRouteBuilder` + `FadeTransit
 | Provider | Scope | Purpose |
 |----------|-------|---------|
 | `ThemeProvider` | Global | ThemeMode (dark/light), toggle |
+| `LanguageProvider` | Global | Locale (en/ar), toggle, RTL support via MaterialApp |
 | `AuthProvider` | Global | AuthStatus (idle/loading/success/failure), user, error |
 | `NavigationProvider` | Global | Active NavItem (dashboard/order/product/...), select(), reset() |
 | `StoreProvider` | Global | StoreStatus (idle/loading/success/failure), List<Store>, error, loadStores(), createStore(), deleteStore() |
@@ -161,7 +167,7 @@ The `Sidebar` widget is the primary navigation for the app (desktop-oriented, 25
 
 ```
 ┌──────────────────────┐
-│  [store] Light       │  ← Brand area (logo placeholder + "Light" brand name)
+│  [store] My Store    │  ← Brand area (logo placeholder + brand name from S)
 ├──────────────────────┤
 │  📊 Dashboard        │
 │  🏪 Stores           │
@@ -177,13 +183,14 @@ The `Sidebar` widget is the primary navigation for the app (desktop-oriented, 25
 │  🚪 Log out          │  ← calls AuthProvider.reset() → navigate to LoginScreen
 ├──────────────────────┤
 │  🌙 Dark Mode        │  ← theme toggle via ThemeProvider
+│  🌐 العربية/English  │  ← language toggle via LanguageProvider
 └──────────────────────┘
 ```
 
 - **All colors are theme-aware** — uses `colorScheme.surface`, `.primary`, `.onPrimary`, `.onSurface`
 - Active item uses `Material + InkWell` with `BorderRadius.circular(12)` pill effect
-- Nav items defined as `NavItem` enum with icon, label, hasDropdown metadata
-- Logout and theme toggle are built into the sidebar bottom area
+- Nav items defined as `NavItem` enum with icon, hasDropdown metadata; `label` getter removed, labels provided by `navItemLabel(BuildContext, NavItem)` helper using `S.of(context)`
+- Logout, theme toggle, and language toggle are built into the sidebar bottom area
 
 ---
 
@@ -246,6 +253,16 @@ Delete `IconButton` on each `StoreCard` → confirmation dialog → `StoreProvid
 - Dark mode default, toggle via `ThemeProvider.toggle()`
 - Consistent input/button themes defined in `AppTheme`
 
+## Localization
+
+- **Framework**: `intl` + `flutter_localization` with auto-generated `S` class
+- **Languages**: English (`intl_en.arb`) and Arabic (`intl_ar.arb`)
+- **RTL**: Arabic locale uses RTL layout automatically via MaterialApp's `locale` / `supportedLocales`
+- **Usage**: All UI strings use `S.of(context).key` — no hardcoded text remains in UI code
+- **Toggle**: Language toggle button in sidebar (bottom area, below theme toggle) calls `LanguageProvider.toggle()`
+- **State**: `LanguageProvider` (ChangeNotifier) holds the current `Locale` and provides `toggle()` to switch between `Locale('en')` and `Locale('ar')`
+- **Date formatting**: `DateFormat.yMd()` uses `Localizations.localeOf(context)` for locale-aware date display
+
 ---
 
 ## Database Layer
@@ -301,9 +318,8 @@ CREATE TABLE stores (
 2. **Dead code**: `MockAuthDataSource` (`auth_remote_datasource.dart`) is never wired into the repository. `HomeScreen` (`auth/presentation/screens/home_screen.dart`) is no longer navigated to.
 3. **Commented-out debug code** (`auth_local_datasource.dart:9-10`): Leftover `delete` calls.
 4. **No error handling** on `hasCredentials()` in `main.dart:18`.
-5. **Empty localization**: `lib/l10n/intl_en.arb` is `{}`; all UI strings are hardcoded.
-6. **Test coverage**: Only 1 smoke test. Missing unit tests for providers, use cases, and repositories.
-7. **No other business features**: Products, inventory, orders, customers, employees, billing, analytics — none exist yet. Only `stores` has a full UI.
+5. **Test coverage**: Only 1 smoke test. Missing unit tests for providers, use cases, and repositories.
+6. **No other business features**: Products, inventory, orders, customers, employees, billing, analytics — none exist yet. Only `stores` has a full UI.
 
 ---
 
@@ -347,6 +363,21 @@ CREATE TABLE stores (
 ## Platform Support
 
 All platforms enabled: Android, iOS, Windows, macOS, Linux, Web.
+
+---
+
+## main.dart Initialization
+
+The app entry point (`main.dart`) sets up:
+1. `sqfliteFfiInit()` + `databaseFactoryFfi` for desktop SQLite
+2. `WidgetsFlutterBinding.ensureInitialized()`
+3. `LanguageProvider` — checks saved locale from `SharedPreferences`
+4. `MultiProvider` wrapping `MyApp` with: `LanguageProvider` → `ThemeProvider` → `AuthProvider` → `NavigationProvider` → `StoreProvider`
+5. `MaterialApp` configured with:
+   - `locale: context.watch<LanguageProvider>().locale`
+   - `supportedLocales: [Locale('en'), Locale('ar')]`
+   - `localizationsDelegates: [S.delegate, GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate]`
+   - `title: S.of(context).appTitle`
 
 ---
 

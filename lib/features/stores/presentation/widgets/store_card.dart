@@ -65,7 +65,7 @@ class StoreCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
-                    color: colors.onPrimary,
+                    color: Colors.white,
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -76,15 +76,17 @@ class StoreCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
-                    color: colors.onPrimary.withValues(alpha: 0.7),
+                    color: Colors.white.withValues(alpha: 0.7),
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  DateFormat('MMM d, yyyy').format(store.createdAt),
+                  DateFormat.yMd(
+                    Localizations.localeOf(context).toString(),
+                  ).format(store.createdAt),
                   style: TextStyle(
                     fontSize: 12,
-                    color: colors.onPrimary.withValues(alpha: 0.5),
+                    color: Colors.white.withValues(alpha: 0.5),
                   ),
                 ),
               ],

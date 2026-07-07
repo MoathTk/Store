@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:store_management/generated/l10n.dart';
 import '../widgets/gradient_scaffold.dart';
 import '../widgets/animated_logo.dart';
 import 'sign_up_screen.dart';
@@ -74,7 +75,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             AnimatedLogo(animation: _pulse, size: 130, pulse: true),
             const SizedBox(height: 40),
             Text(
-              'Store\nManagement',
+              S.of(context).welcomeTitle,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 40,
@@ -86,7 +87,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             ),
             const SizedBox(height: 16),
             Text(
-              'Efficiently manage your inventory,\nsales, and staff in one place.',
+              S.of(context).welcomeSubtitle,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
@@ -111,7 +112,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'Get Started',
+                      S.of(context).welcomeGetStarted,
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
@@ -133,7 +134,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             TextButton(
               onPressed: _goToLogin,
               child: Text(
-                'I already have an account',
+                S.of(context).welcomeAlreadyAccount,
                 style: TextStyle(
                   color: colors.onSurface.withValues(alpha: 0.5),
                   fontSize: 14,

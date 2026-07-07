@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:store_management/generated/l10n.dart';
 import '../providers/store_provider.dart';
 import '../widgets/store_grid.dart';
 
@@ -9,12 +10,13 @@ class StoresScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+    final s = S.of(context);
 
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
         title: Text(
-          'Stores',
+          s.storesTitle,
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w600,
@@ -27,7 +29,7 @@ class StoresScreen extends StatelessWidget {
           IconButton(
             onPressed: () => _showAddDialog(context),
             icon: Icon(Icons.add_rounded, color: colors.primary),
-            tooltip: 'Add store',
+            tooltip: s.storesAddTooltip,
           ),
           const SizedBox(width: 8),
         ],
@@ -38,6 +40,7 @@ class StoresScreen extends StatelessWidget {
 
   void _showAddDialog(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+    final s = S.of(context);
     final controller = TextEditingController();
 
     showDialog(
@@ -45,7 +48,7 @@ class StoresScreen extends StatelessWidget {
       builder: (ctx) => AlertDialog(
         backgroundColor: colors.surface,
         title: Text(
-          'Add Store',
+          s.storesAddDialogTitle,
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w600,
@@ -56,7 +59,7 @@ class StoresScreen extends StatelessWidget {
           controller: controller,
           autofocus: true,
           decoration: InputDecoration(
-            hintText: 'Store name',
+            hintText: s.storesAddHint,
             hintStyle: TextStyle(color: colors.onSurface.withValues(alpha: 0.3)),
             filled: true,
             fillColor: colors.onSurface.withValues(alpha: 0.07),
@@ -77,7 +80,7 @@ class StoresScreen extends StatelessWidget {
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
             child: Text(
-              'Cancel',
+              s.storesAddCancel,
               style: TextStyle(color: colors.onSurface.withValues(alpha: 0.5)),
             ),
           ),
@@ -89,7 +92,7 @@ class StoresScreen extends StatelessWidget {
                 context.read<StoreProvider>().createStore(name);
               }
             },
-            child: Text('Create', style: TextStyle(color: colors.primary)),
+            child: Text(s.storesAddCreate, style: TextStyle(color: colors.primary)),
           ),
         ],
       ),

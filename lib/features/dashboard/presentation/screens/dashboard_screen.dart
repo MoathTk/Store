@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:store_management/generated/l10n.dart';
 import '../../../stores/presentation/screens/stores_screen.dart';
 import '../providers/navigation_provider.dart';
 import '../widgets/sidebar.dart';
@@ -12,6 +13,7 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+    final s = S.of(context);
     final activeItem = context.watch<NavigationProvider>().activeItem;
 
     return Scaffold(
@@ -27,7 +29,7 @@ class DashboardScreen extends StatelessWidget {
               NavItem.stores => const StoresScreen(),
               _ => Center(
                   child: Text(
-                    '${activeItem.label} Page',
+                    s.placeholderPage(navItemLabel(context, activeItem)),
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.w600,

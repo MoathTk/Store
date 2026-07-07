@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:store_management/generated/l10n.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../providers/auth_provider.dart';
 import '../widgets/gradient_scaffold.dart';
@@ -116,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen>
                         AnimatedLogo(animation: _scaleAnimation, size: 110),
                         const SizedBox(height: 40),
                         Text(
-                          'Welcome Back!',
+                          S.of(context).loginTitle,
                           style: TextStyle(
                             fontSize: 34,
                             fontWeight: FontWeight.bold,
@@ -126,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen>
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          'Sign in to manage your store',
+                          S.of(context).loginSubtitle,
                           style: TextStyle(
                             fontSize: 16,
                             color: colors.onSurface.withValues(alpha: 0.6),
@@ -137,18 +138,18 @@ class _LoginScreenState extends State<LoginScreen>
                         AuthTextField(
                           controller: _usernameController,
                           icon: Icons.person_outline_rounded,
-                          label: 'Username',
+                          label: S.of(context).loginUsernameLabel,
                           validator: (v) =>
-                              v == null || v.isEmpty ? 'Enter username' : null,
+                              v == null || v.isEmpty ? S.of(context).loginUsernameError : null,
                         ),
                         const SizedBox(height: 20),
                         AuthTextField(
                           controller: _passwordController,
                           icon: Icons.lock_outline_rounded,
-                          label: 'Password',
+                          label: S.of(context).loginPasswordLabel,
                           obscure: true,
                           validator: (v) =>
-                              v == null || v.isEmpty ? 'Enter password' : null,
+                              v == null || v.isEmpty ? S.of(context).loginPasswordError : null,
                         ),
                         const SizedBox(height: 12),
                         Align(
@@ -156,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen>
                           child: TextButton(
                             onPressed: () {},
                             child: Text(
-                              'Forgot Password?',
+                              S.of(context).loginForgotPassword,
                               style: TextStyle(
                                 color: colors.onSurface.withValues(alpha: 0.5),
                                 fontSize: 13,
@@ -169,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen>
                         LoadingButton(
                           isLoading: auth.status == AuthStatus.loading,
                           onPressed: _login,
-                          label: 'Sign In',
+                          label: S.of(context).loginSignIn,
                         ),
                         ErrorMessage(message: auth.error),
                       ],

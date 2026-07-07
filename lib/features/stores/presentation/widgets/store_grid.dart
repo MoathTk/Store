@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:store_management/generated/l10n.dart';
 import '../providers/store_provider.dart';
 import 'store_card.dart';
 import 'empty_stores.dart';
@@ -9,6 +10,7 @@ class StoreGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     final colors = Theme.of(context).colorScheme;
     final provider = context.watch<StoreProvider>();
 
@@ -28,7 +30,7 @@ class StoreGrid extends StatelessWidget {
                 Icon(Icons.error_outline_rounded, size: 48, color: colors.error),
                 const SizedBox(height: 16),
                 Text(
-                  'Failed to load stores',
+                  s.storesErrorTitle,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
@@ -78,27 +80,28 @@ class StoreGrid extends StatelessWidget {
   }
 
   void _confirmDelete(BuildContext context, int id, String name) {
+    final s = S.of(context);
     final colors = Theme.of(context).colorScheme;
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: colors.surface,
-        title: Text('Delete Store', style: TextStyle(color: colors.onSurface)),
+        title: Text(s.storesDeleteTitle, style: TextStyle(color: colors.onSurface)),
         content: Text(
-          'Are you sure you want to delete "$name"?',
+          s.storesDeleteConfirm(name),
           style: TextStyle(color: colors.onSurface.withValues(alpha: 0.7)),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
-            child: Text('Cancel', style: TextStyle(color: colors.onSurface.withValues(alpha: 0.5))),
+            child: Text(s.storesDeleteCancel, style: TextStyle(color: colors.onSurface.withValues(alpha: 0.5))),
           ),
           TextButton(
             onPressed: () {
               Navigator.of(ctx).pop();
               context.read<StoreProvider>().deleteStore(id);
             },
-            child: Text('Delete', style: TextStyle(color: colors.error)),
+            child: Text(s.storesDeleteButton, style: TextStyle(color: colors.error)),
           ),
         ],
       ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:store_management/generated/l10n.dart';
+import '../../../../core/providers/language_provider.dart';
 import '../../../../core/providers/theme_provider.dart';
 import '../../../../features/auth/presentation/providers/auth_provider.dart';
 import '../../../../features/auth/presentation/screens/login_screen.dart';
@@ -11,9 +13,11 @@ class Sidebar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     final colors = Theme.of(context).colorScheme;
     final nav = context.watch<NavigationProvider>();
     final themeProvider = context.watch<ThemeProvider>();
+    final languageProvider = context.watch<LanguageProvider>();
 
     return Container(
       width: 250,
@@ -40,7 +44,7 @@ class Sidebar extends StatelessWidget {
                 ),
                 const SizedBox(width: 12),
                 Text(
-                  'Light',
+                  s.brandName,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
@@ -65,7 +69,7 @@ class Sidebar extends StatelessWidget {
               children: NavItem.values.map((item) {
                 return SidebarItem(
                   icon: item.icon,
-                  label: item.label,
+                  label: navItemLabel(context, item),
                   isActive: nav.activeItem == item,
                   hasDropdown: item.hasDropdown,
                   onTap: () => nav.select(item),
@@ -77,7 +81,7 @@ class Sidebar extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             child: SidebarItem(
               icon: Icons.logout_rounded,
-              label: 'Log out',
+              label: s.navLogout,
               isActive: false,
               onTap: () {
                 context.read<AuthProvider>().reset();
@@ -99,7 +103,7 @@ class Sidebar extends StatelessWidget {
             endIndent: 28,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: GestureDetector(
               onTap: () => themeProvider.toggle(),
               child: Row(
@@ -113,7 +117,7 @@ class Sidebar extends StatelessWidget {
                   ),
                   const SizedBox(width: 12),
                   Text(
-                    themeProvider.isDark ? 'Dark Mode' : 'Light Mode',
+                    themeProvider.isDark ? s.modeDark : s.modeLight,
                     style: TextStyle(
                       fontSize: 13,
                       color: colors.onSurface.withValues(alpha: 0.4),
@@ -123,6 +127,32 @@ class Sidebar extends StatelessWidget {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: GestureDetector(
+              onTap: () => languageProvider.toggle(),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.language_rounded,
+                    size: 18,
+                    color: colors.onSurface.withValues(alpha: 0.4),
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    languageProvider.locale.languageCode == 'en'
+                        ? 'العربية'
+                        : 'English',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: colors.onSurface.withValues(alpha: 0.4),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
         ],
       ),
     );
