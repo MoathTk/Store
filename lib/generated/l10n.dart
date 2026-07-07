@@ -778,6 +778,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Search by name or phone`
+  String get customersSearchHint {
+    return Intl.message(
+      'Search by name or phone',
+      name: 'customersSearchHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update Customer`
+  String get customersUpdateDialogTitle {
+    return Intl.message(
+      'Update Customer',
+      name: 'customersUpdateDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get customersUpdateSave {
+    return Intl.message(
+      'Save',
+      name: 'customersUpdateSave',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

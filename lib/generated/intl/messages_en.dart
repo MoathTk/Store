@@ -79,12 +79,19 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "customersNext": MessageLookupByLibrary.simpleMessage("Next >"),
     "customersPrevious": MessageLookupByLibrary.simpleMessage("< Previous"),
+    "customersSearchHint": MessageLookupByLibrary.simpleMessage(
+      "Search by name or phone",
+    ),
     "customersTitle": MessageLookupByLibrary.simpleMessage("Customers"),
     "customersTypeNormal": MessageLookupByLibrary.simpleMessage("Normal"),
     "customersTypeProvider": MessageLookupByLibrary.simpleMessage("Provider"),
     "customersTypeProviderAndCustomer": MessageLookupByLibrary.simpleMessage(
       "Provider & Customer",
     ),
+    "customersUpdateDialogTitle": MessageLookupByLibrary.simpleMessage(
+      "Update Customer",
+    ),
+    "customersUpdateSave": MessageLookupByLibrary.simpleMessage("Save"),
     "errorInvalidCredentials": MessageLookupByLibrary.simpleMessage(
       "Invalid username or password.",
     ),

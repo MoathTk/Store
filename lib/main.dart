@@ -11,6 +11,7 @@ import 'features/customers/data/repositories/customer_repository_impl.dart';
 import 'features/customers/domain/usecases/create_customer_usecase.dart';
 import 'features/customers/domain/usecases/delete_customer_usecase.dart';
 import 'features/customers/domain/usecases/get_all_customers_usecase.dart';
+import 'features/customers/domain/usecases/update_customer_usecase.dart';
 import 'features/customers/presentation/providers/customer_provider.dart';
 import 'features/dashboard/presentation/providers/navigation_provider.dart';
 import 'features/stores/data/datasources/store_local_datasource.dart';
@@ -68,8 +69,10 @@ class MyApp extends StatelessWidget {
             final repository = CustomerRepositoryImpl(dataSource);
             final getAll = GetAllCustomersUseCase(repository);
             final create = CreateCustomerUseCase(repository);
+            final update = UpdateCustomerUseCase(repository);
             final delete = DeleteCustomerUseCase(repository);
-            return CustomerProvider(getAll, create, delete)..loadCustomers();
+            return CustomerProvider(getAll, create, update, delete)
+              ..loadCustomers();
           },
         ),
       ],

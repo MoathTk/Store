@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:store_management/generated/l10n.dart';
+import '../providers/customer_provider.dart';
 
 class CustomerTableHeader extends StatelessWidget {
   final VoidCallback onAdd;
@@ -10,9 +12,9 @@ class CustomerTableHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final s = S.of(context);
     final colors = Theme.of(context).colorScheme;
+    final provider = context.watch<CustomerProvider>();
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           s.customersTitle,
@@ -22,6 +24,43 @@ class CustomerTableHeader extends StatelessWidget {
             color: colors.onSurface,
           ),
         ),
+        const SizedBox(width: 24),
+        SizedBox(
+          width: 260,
+          child: TextField(
+            controller: TextEditingController.fromValue(
+              TextEditingValue(text: provider.searchQuery),
+            ),
+            onChanged: provider.search,
+            decoration: InputDecoration(
+              hintText: s.customersSearchHint,
+              hintStyle: TextStyle(
+                fontSize: 14,
+                color: colors.onSurface.withValues(alpha: 0.35),
+              ),
+              prefixIcon: Icon(
+                Icons.search_rounded,
+                size: 20,
+                color: colors.onSurface.withValues(alpha: 0.35),
+              ),
+              filled: true,
+              fillColor: colors.onSurface.withValues(alpha: 0.06),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide.none,
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: colors.primary, width: 1.5),
+              ),
+              contentPadding: const EdgeInsets.symmetric(vertical: 10),
+              isDense: true,
+            ),
+            style: TextStyle(fontSize: 14, color: colors.onSurface),
+            cursorColor: colors.primary,
+          ),
+        ),
+        const Spacer(),
         Row(
           children: [
             OutlinedButton.icon(

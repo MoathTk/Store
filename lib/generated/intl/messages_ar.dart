@@ -75,12 +75,19 @@ class MessageLookup extends MessageLookupByLibrary {
     "customersExportComingSoon": MessageLookupByLibrary.simpleMessage("قريباً"),
     "customersNext": MessageLookupByLibrary.simpleMessage("التالي >"),
     "customersPrevious": MessageLookupByLibrary.simpleMessage("< السابق"),
+    "customersSearchHint": MessageLookupByLibrary.simpleMessage(
+      "ابحث بالاسم أو رقم الهاتف",
+    ),
     "customersTitle": MessageLookupByLibrary.simpleMessage("العملاء"),
     "customersTypeNormal": MessageLookupByLibrary.simpleMessage("عادي"),
     "customersTypeProvider": MessageLookupByLibrary.simpleMessage("مزود"),
     "customersTypeProviderAndCustomer": MessageLookupByLibrary.simpleMessage(
       "مزود وعميل",
     ),
+    "customersUpdateDialogTitle": MessageLookupByLibrary.simpleMessage(
+      "تحديث العميل",
+    ),
+    "customersUpdateSave": MessageLookupByLibrary.simpleMessage("حفظ"),
     "errorInvalidCredentials": MessageLookupByLibrary.simpleMessage(
       "اسم المستخدم أو كلمة المرور غير صحيحة.",
     ),

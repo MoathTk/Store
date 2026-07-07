@@ -83,5 +83,8 @@
     "customersAddCancel": "Cancel",
     "customersAddCreate": "Create",
     "customersActionEdit": "Edit",
-    "customersActionDelete": "Delete"
+    "customersActionDelete": "Delete",
+    "customersSearchHint": "Search by name or phone",
+    "customersUpdateDialogTitle": "Update Customer",
+    "customersUpdateSave": "Save"
 }

@@ -18,8 +18,7 @@ class CustomersScreen extends StatelessWidget {
       backgroundColor: Colors.transparent,
       body: Container(
         color: colors.surfaceContainerLowest,
-        child: Padding(
-          padding: const EdgeInsets.all(24),
+        child: Center(
           child: CustomerTableContainer(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,7 +27,8 @@ class CustomersScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 const Divider(height: 1, thickness: 0.5),
                 const SizedBox(height: 16),
-                const Expanded(child: CustomerDataTable()),
+                Center(child: const Expanded(child: CustomerDataTable())),
+                Spacer(),
                 const CustomerTablePagination(),
               ],
             ),

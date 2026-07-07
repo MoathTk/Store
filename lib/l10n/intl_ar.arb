@@ -83,5 +83,8 @@
     "customersAddCancel": "إلغاء",
     "customersAddCreate": "إنشاء",
     "customersActionEdit": "تعديل",
-    "customersActionDelete": "حذف"
+    "customersActionDelete": "حذف",
+    "customersSearchHint": "ابحث بالاسم أو رقم الهاتف",
+     "customersUpdateDialogTitle": "تحديث العميل",
+    "customersUpdateSave": "حفظ"
 }

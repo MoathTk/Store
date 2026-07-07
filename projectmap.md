@@ -151,8 +151,8 @@ StoresScreen → StoreProvider (ChangeNotifier)
 
 ### Customers
 ```
-CustomersScreen → CustomerProvider (ChangeNotifier, pagination + sorting)
-                   └─▶ GetAllCustomersUseCase / CreateCustomerUseCase / DeleteCustomerUseCase
+CustomersScreen → CustomerProvider (ChangeNotifier, search + pagination + sorting)
+                   └─▶ GetAllCustomersUseCase / CreateCustomerUseCase / UpdateCustomerUseCase / DeleteCustomerUseCase
                          └─▶ CustomerRepository (interface)
                                └─▶ CustomerRepositoryImpl
                                      └─▶ CustomerLocalDataSource
@@ -195,7 +195,7 @@ Style: Manual `Navigator.pushReplacement` with `PageRouteBuilder` + `FadeTransit
 | `AuthProvider` | Global | AuthStatus (idle/loading/success/failure), user, error |
 | `NavigationProvider` | Global | Active NavItem (dashboard/order/product/...), select(), reset() |
 | `StoreProvider` | Global | StoreStatus (idle/loading/success/failure), List<Store>, error, loadStores(), createStore(), deleteStore() |
-| `CustomerProvider` | Global | CustomerStatus (idle/loading/success/failure), client-side pagination (10/page), sorting by id/fullName/place, CRUD via use cases |
+| `CustomerProvider` | Global | CustomerStatus (idle/loading/success/failure), search by name/phone, client-side pagination (10/page), sorting by id/fullName/place, full CRUD via use cases |
 
 All extend `ChangeNotifier`, consumed via `Provider.of` / `context.watch` / `context.read`.
 
@@ -283,6 +283,71 @@ Simple `AlertDialog` with `TextField` for name + "Create"/"Cancel" buttons. Call
 ### Delete Store
 
 Delete `IconButton` on each `StoreCard` → confirmation dialog → `StoreProvider.deleteStore()`.
+
+---
+
+## Customers Feature
+
+The `CustomersScreen` is shown when `NavItem.customer` is selected in the sidebar.
+
+### CustomerProvider (ChangeNotifier)
+
+```
+CustomerStatus: idle → loading → success | failure
+```
+
+| Method | Effect |
+|--------|--------|
+| `loadCustomers()` | Fetches all customers from DB via `GetAllCustomersUseCase` |
+| `createCustomer(...)` | Creates with all fields via `CreateCustomerUseCase`, reloads |
+| `updateCustomer(...)` | Updates existing customer via `UpdateCustomerUseCase`, reloads |
+| `deleteCustomer(id)` | Deletes via `DeleteCustomerUseCase`, reloads |
+| `search(query)` | Filters by fullName or phone (case-insensitive), resets to page 1 |
+| `goToPage(page)` | Client-side pagination, 10 items per page |
+| `toggleSort(field)` | Sorts by id/fullName/place, ascending toggle |
+
+### UI Layout
+
+```
+Screen (`surfaceContainerLowest` bg)
+  └── Center (maxWidth: 1200)
+      └── CustomerTableContainer (surface bg, primary-tinted shadow, border-radius 16, padding 24)
+          └── Column
+              ├── CustomerTableHeader
+              │   ├── Title ("Customers", bold 24)
+              │   ├── Search field (260px, search icon, filters by name/phone)
+              │   └── Export (OutlinedButton) + Add New (FilledButton)
+              ├── Divider (thin)
+              ├── Expanded
+              │   └── CustomerDataTable (DataTable, 8 columns, row height 50)
+              │       ├── #ID (sortable)
+              │       ├── Full Name (sortable, with CustomerAvatar initials)
+              │       ├── Type (CustomerTypeBadge — colored chip)
+              │       ├── Place (sortable)
+              │       ├── Address (muted, truncated)
+              │       ├── Phone
+              │       ├── Notes (truncated)
+              │       └── Action (CustomerActionMenu — three-dot popup: Edit/Delete)
+              └── CustomerTablePagination
+                  ├── "< Previous" TextButton
+                  ├── Page numbers (01, 02, … active = primary bg box)
+                  └── "Next >" TextButton
+```
+
+### State Handling
+
+| CustomerStatus | UI |
+|---------------|-----|
+| `idle` / `loading` | Centered `CircularProgressIndicator` |
+| `success` (empty) | Icon + "No customers yet" + subtext |
+| `success` (has data) | Premium `DataTable` with pagination + sorting + search |
+| `failure` | Error icon + message in `colors.error` |
+
+### Dialogs
+
+- **Add**: `_showAddDialog` in `CustomersScreen` — all fields, type dropdown, full name required
+- **Update**: `_showUpdateDialog` in `CustomerDataTable` — pre-filled with existing data, same fields
+- **Delete**: `_confirmDelete` in `CustomerDataTable` — confirmation dialog → `deleteCustomer(id)`
 
 ---
 
@@ -430,7 +495,7 @@ The app entry point (`main.dart`) sets up:
 1. `sqfliteFfiInit()` + `databaseFactoryFfi` for desktop SQLite
 2. `WidgetsFlutterBinding.ensureInitialized()`
 3. `LanguageProvider` — checks saved locale from `SharedPreferences`
-4. `MultiProvider` wrapping `MyApp` with: `LanguageProvider` → `ThemeProvider` → `AuthProvider` → `NavigationProvider` → `StoreProvider`
+4. `MultiProvider` wrapping `MyApp` with: `LanguageProvider` → `ThemeProvider` → `AuthProvider` → `NavigationProvider` → `StoreProvider` → `CustomerProvider`
 5. `MaterialApp` configured with:
    - `locale: context.watch<LanguageProvider>().locale`
    - `supportedLocales: [Locale('en'), Locale('ar')]`

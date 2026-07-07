@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import '../../domain/entities/customer.dart';
 import '../../domain/usecases/get_all_customers_usecase.dart';
 import '../../domain/usecases/create_customer_usecase.dart';
+import '../../domain/usecases/update_customer_usecase.dart';
 import '../../domain/usecases/delete_customer_usecase.dart';
 
 enum CustomerStatus { idle, loading, success, failure }
@@ -11,9 +12,10 @@ enum CustomerSortField { id, fullName, place }
 class CustomerProvider extends ChangeNotifier {
   final GetAllCustomersUseCase _getAllUseCase;
   final CreateCustomerUseCase _createUseCase;
+  final UpdateCustomerUseCase _updateUseCase;
   final DeleteCustomerUseCase _deleteUseCase;
 
-  CustomerProvider(this._getAllUseCase, this._createUseCase, this._deleteUseCase);
+  CustomerProvider(this._getAllUseCase, this._createUseCase, this._updateUseCase, this._deleteUseCase);
 
   CustomerStatus _status = CustomerStatus.idle;
   List<Customer> _allCustomers = [];
@@ -22,18 +24,30 @@ class CustomerProvider extends ChangeNotifier {
   static const int _pageSize = 10;
   CustomerSortField _sortField = CustomerSortField.fullName;
   bool _sortAscending = true;
+  String _searchQuery = '';
 
   CustomerStatus get status => _status;
   List<Customer> get allCustomers => _allCustomers;
   String? get error => _error;
   int get currentPage => _currentPage;
   int get pageSize => _pageSize;
-  int get totalPages => (_allCustomers.length / _pageSize).ceil().clamp(1, 999);
+  String get searchQuery => _searchQuery;
+
+  List<Customer> get _filtered {
+    if (_searchQuery.isEmpty) return _allCustomers;
+    final q = _searchQuery.toLowerCase();
+    return _allCustomers.where((c) {
+      return c.fullName.toLowerCase().contains(q) ||
+          (c.phone?.toLowerCase().contains(q) ?? false);
+    }).toList();
+  }
+
+  int get totalPages => (_filtered.length / _pageSize).ceil().clamp(1, 999);
   CustomerSortField get sortField => _sortField;
   bool get sortAscending => _sortAscending;
 
   List<Customer> get paginatedCustomers {
-    final sorted = List<Customer>.from(_allCustomers);
+    final sorted = List<Customer>.from(_filtered);
     sorted.sort((a, b) {
       int cmp;
       switch (_sortField) {
@@ -95,6 +109,37 @@ class CustomerProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> updateCustomer({
+    required int id,
+    String? fullName,
+    String? type,
+    String? place,
+    String? address,
+    String? phone,
+    String? notes,
+  }) async {
+    _status = CustomerStatus.loading;
+    _error = null;
+    notifyListeners();
+
+    try {
+      await _updateUseCase.execute(
+        id: id,
+        fullName: fullName,
+        type: type,
+        place: place,
+        address: address,
+        phone: phone,
+        notes: notes,
+      );
+      await loadCustomers();
+    } catch (e) {
+      _error = e.toString();
+      _status = CustomerStatus.failure;
+      notifyListeners();
+    }
+  }
+
   Future<void> deleteCustomer(int id) async {
     try {
       await _deleteUseCase.execute(id);
@@ -119,6 +164,12 @@ class CustomerProvider extends ChangeNotifier {
       _sortField = field;
       _sortAscending = true;
     }
+    notifyListeners();
+  }
+
+  void search(String query) {
+    _searchQuery = query;
+    _currentPage = 1;
     notifyListeners();
   }
 }
