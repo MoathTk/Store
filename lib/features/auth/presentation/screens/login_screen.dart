@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/constants/app_constants.dart';
-import '../../../../core/theme/app_gradients.dart';
 import '../providers/auth_provider.dart';
-import 'home_screen.dart';
+import '../widgets/gradient_scaffold.dart';
+import '../widgets/animated_logo.dart';
+import '../widgets/auth_text_field.dart';
+import '../widgets/loading_button.dart';
+import '../widgets/error_message.dart';
+import '../../../../features/dashboard/presentation/screens/dashboard_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -21,7 +25,6 @@ class _LoginScreenState extends State<LoginScreen>
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
   late Animation<double> _scaleAnimation;
-  bool _obscurePassword = true;
   AuthProvider? _authProvider;
 
   @override
@@ -34,15 +37,13 @@ class _LoginScreenState extends State<LoginScreen>
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.3),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: const Interval(0.0, 0.6, curve: Curves.easeOutCubic),
-      ),
-    );
+    _slideAnimation =
+        Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(
+          CurvedAnimation(
+            parent: _animationController,
+            curve: const Interval(0.0, 0.6, curve: Curves.easeOutCubic),
+          ),
+        );
     _scaleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _animationController,
@@ -67,10 +68,9 @@ class _LoginScreenState extends State<LoginScreen>
 
   void _login() {
     if (_formKey.currentState!.validate()) {
-      final provider = context.read<AuthProvider>();
-      provider.login(
+      context.read<AuthProvider>().login(
         _usernameController.text.trim(),
-        _passwordController.text,
+        _passwordController.text.trim(),
       );
     }
   }
@@ -83,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen>
     if (user == null) return;
     Navigator.of(context).pushReplacement(
       PageRouteBuilder(
-        pageBuilder: (_, __, ___) => HomeScreen(username: user.username),
+        pageBuilder: (_, __, ___) => DashboardScreen(username: user.username),
         transitionsBuilder: (_, animation, __, child) =>
             FadeTransition(opacity: animation, child: child),
         transitionDuration: const Duration(milliseconds: 600),
@@ -93,209 +93,93 @@ class _LoginScreenState extends State<LoginScreen>
 
   @override
   Widget build(BuildContext context) {
-    final gradients = Theme.of(context).extension<AppGradients>()!;
     final colors = Theme.of(context).colorScheme;
 
-    return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(gradient: gradients.backgroundGradient),
-        child: SafeArea(
-          child: Center(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
-              child: FadeTransition(
-                opacity: _fadeAnimation,
-                child: SlideTransition(
-                  position: _slideAnimation,
-                  child: Form(
-                    key: _formKey,
-                    child: ConstrainedBox(
-                      constraints: const BoxConstraints(
-                        maxWidth: AppConstants.formMaxWidth,
-                      ),
-                      child: Consumer<AuthProvider>(
-                        builder: (context, auth, _) {
-                          return Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              _buildLogo(gradients, colors),
-                              const SizedBox(height: 40),
-                              _buildWelcomeText(colors),
-                              const SizedBox(height: 40),
-                              _buildUsernameField(colors),
-                              const SizedBox(height: 20),
-                              _buildPasswordField(colors),
-                              const SizedBox(height: 12),
-                              _buildForgotPassword(colors),
-                              const SizedBox(height: 24),
-                              _buildLoginButton(colors, auth),
-                              if (auth.error != null) ...[
-                                const SizedBox(height: 12),
-                                Text(
-                                  auth.error!,
-                                  style: TextStyle(
-                                    color: colors.error,
-                                    fontSize: 13,
-                                  ),
-                                ),
-                              ],
-                            ],
-                          );
-                        },
-                      ),
-                    ),
-                  ),
+    return GradientScaffold(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: FadeTransition(
+          opacity: _fadeAnimation,
+          child: SlideTransition(
+            position: _slideAnimation,
+            child: Form(
+              key: _formKey,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxWidth: AppConstants.formMaxWidth,
+                ),
+                child: Consumer<AuthProvider>(
+                  builder: (context, auth, _) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AnimatedLogo(animation: _scaleAnimation, size: 110),
+                        const SizedBox(height: 40),
+                        Text(
+                          'Welcome Back!',
+                          style: TextStyle(
+                            fontSize: 34,
+                            fontWeight: FontWeight.bold,
+                            color: colors.onSurface,
+                            letterSpacing: 1.5,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Sign in to manage your store',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: colors.onSurface.withValues(alpha: 0.6),
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                        const SizedBox(height: 40),
+                        AuthTextField(
+                          controller: _usernameController,
+                          icon: Icons.person_outline_rounded,
+                          label: 'Username',
+                          validator: (v) =>
+                              v == null || v.isEmpty ? 'Enter username' : null,
+                        ),
+                        const SizedBox(height: 20),
+                        AuthTextField(
+                          controller: _passwordController,
+                          icon: Icons.lock_outline_rounded,
+                          label: 'Password',
+                          obscure: true,
+                          validator: (v) =>
+                              v == null || v.isEmpty ? 'Enter password' : null,
+                        ),
+                        const SizedBox(height: 12),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                            onPressed: () {},
+                            child: Text(
+                              'Forgot Password?',
+                              style: TextStyle(
+                                color: colors.onSurface.withValues(alpha: 0.5),
+                                fontSize: 13,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        LoadingButton(
+                          isLoading: auth.status == AuthStatus.loading,
+                          onPressed: _login,
+                          label: 'Sign In',
+                        ),
+                        ErrorMessage(message: auth.error),
+                      ],
+                    );
+                  },
                 ),
               ),
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildLogo(AppGradients gradients, ColorScheme colors) {
-    return AnimatedBuilder(
-      animation: _scaleAnimation,
-      builder: (context, child) => Transform.scale(
-        scale: _scaleAnimation.value,
-        child: child,
-      ),
-      child: Container(
-        width: 110,
-        height: 110,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          gradient: gradients.cardGradient,
-          boxShadow: [
-            BoxShadow(
-              color: colors.primary.withValues(alpha: 0.4),
-              blurRadius: 40,
-              spreadRadius: 5,
-            ),
-          ],
-        ),
-        child: Icon(
-          Icons.store_rounded,
-          size: 55,
-          color: colors.onPrimary,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildWelcomeText(ColorScheme colors) {
-    return Column(
-      children: [
-        Text(
-          'Welcome Back!',
-          style: TextStyle(
-            fontSize: 34,
-            fontWeight: FontWeight.bold,
-            color: colors.onSurface,
-            letterSpacing: 1.5,
-          ),
-        ),
-        const SizedBox(height: 10),
-        Text(
-          'Sign in to manage your store',
-          style: TextStyle(
-            fontSize: 16,
-            color: colors.onSurface.withValues(alpha: 0.6),
-            fontWeight: FontWeight.w300,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildUsernameField(ColorScheme colors) {
-    return TextFormField(
-      controller: _usernameController,
-      validator: (v) => v == null || v.isEmpty ? 'Enter username' : null,
-      style: TextStyle(color: colors.onSurface, fontSize: 16),
-      cursorColor: colors.primary,
-      decoration: InputDecoration(
-        labelText: 'Username',
-        prefixIcon: Icon(Icons.person_outline_rounded),
-      ),
-    );
-  }
-
-  Widget _buildPasswordField(ColorScheme colors) {
-    return TextFormField(
-      controller: _passwordController,
-      obscureText: _obscurePassword,
-      validator: (v) => v == null || v.isEmpty ? 'Enter password' : null,
-      style: TextStyle(color: colors.onSurface, fontSize: 16),
-      cursorColor: colors.primary,
-      decoration: InputDecoration(
-        labelText: 'Password',
-        prefixIcon: Icon(Icons.lock_outline_rounded),
-        suffixIcon: IconButton(
-          icon: Icon(
-            _obscurePassword
-                ? Icons.visibility_off_rounded
-                : Icons.visibility_rounded,
-          ),
-          onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildForgotPassword(ColorScheme colors) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: TextButton(
-        onPressed: () {},
-        child: Text(
-          'Forgot Password?',
-          style: TextStyle(
-            color: colors.onSurface.withValues(alpha: 0.5),
-            fontSize: 13,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildLoginButton(ColorScheme colors, AuthProvider auth) {
-    final isLoading = auth.status == AuthStatus.loading;
-    return SizedBox(
-      width: double.infinity,
-      height: AppConstants.buttonHeight,
-      child: ElevatedButton(
-        onPressed: isLoading ? null : _login,
-        child: isLoading
-            ? SizedBox(
-                width: 26,
-                height: 26,
-                child: CircularProgressIndicator(
-                  color: colors.onPrimary,
-                  strokeWidth: 2.5,
-                ),
-              )
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Sign In',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 1.2,
-                      color: colors.onPrimary,
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Icon(Icons.arrow_forward_rounded, size: 22, color: colors.onPrimary),
-                ],
-              ),
       ),
     );
   }

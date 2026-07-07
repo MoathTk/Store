@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:store_management/generated/l10n.dart';
+import 'core/database/database_helper.dart';
 import 'core/providers/theme_provider.dart';
+import 'features/dashboard/presentation/providers/navigation_provider.dart';
+import 'features/stores/data/datasources/store_local_datasource.dart';
+import 'features/stores/data/repositories/store_repository_impl.dart';
+import 'features/stores/presentation/providers/store_provider.dart';
 import 'core/theme/app_theme.dart';
 import 'features/auth/data/datasources/auth_local_datasource.dart';
 import 'features/auth/data/repositories/auth_repository_impl.dart';
@@ -14,6 +20,9 @@ import 'features/auth/presentation/screens/welcome_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  sqfliteFfiInit();
+  databaseFactory = databaseFactoryFfi;
+  await DatabaseHelper.instance.database;
   final localDataSource = AuthLocalDataSource();
   final isFirstTime = !(await localDataSource.hasCredentials());
   runApp(MyApp(isFirstTime: isFirstTime));
@@ -36,6 +45,16 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(
           create: (_) => AuthProvider(loginUseCase, signUpUseCase),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => NavigationProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) {
+            final dataSource = StoreLocalDataSource(DatabaseHelper.instance);
+            final repository = StoreRepositoryImpl(dataSource);
+            return StoreProvider(repository)..loadStores();
+          },
         ),
       ],
       child: Consumer<ThemeProvider>(

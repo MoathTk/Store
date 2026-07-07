@@ -6,6 +6,8 @@ class AuthLocalDataSource {
   final _storage = const FlutterSecureStorage();
 
   Future<bool> hasCredentials() async {
+   // await _storage.delete(key: 'stored_username');
+   // await _storage.delete(key: 'stored_password');
     final username = await _storage.containsKey(key: _usernameKey);
     final password = await _storage.containsKey(key: _passwordKey);
     return username && password;
