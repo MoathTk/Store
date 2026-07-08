@@ -117,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen>
                         AnimatedLogo(animation: _scaleAnimation, size: 110),
                         const SizedBox(height: 40),
                         Text(
-                          S.of(context).loginTitle,
+                          S.of(context)!.loginTitle,
                           style: TextStyle(
                             fontSize: 34,
                             fontWeight: FontWeight.bold,
@@ -127,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen>
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          S.of(context).loginSubtitle,
+                          S.of(context)!.loginSubtitle,
                           style: TextStyle(
                             fontSize: 16,
                             color: colors.onSurface.withValues(alpha: 0.6),
@@ -138,18 +138,18 @@ class _LoginScreenState extends State<LoginScreen>
                         AuthTextField(
                           controller: _usernameController,
                           icon: Icons.person_outline_rounded,
-                          label: S.of(context).loginUsernameLabel,
+                          label: S.of(context)!.loginUsernameLabel,
                           validator: (v) =>
-                              v == null || v.isEmpty ? S.of(context).loginUsernameError : null,
+                              v == null || v.isEmpty ? S.of(context)!.loginUsernameError : null,
                         ),
                         const SizedBox(height: 20),
                         AuthTextField(
                           controller: _passwordController,
                           icon: Icons.lock_outline_rounded,
-                          label: S.of(context).loginPasswordLabel,
+                          label: S.of(context)!.loginPasswordLabel,
                           obscure: true,
                           validator: (v) =>
-                              v == null || v.isEmpty ? S.of(context).loginPasswordError : null,
+                              v == null || v.isEmpty ? S.of(context)!.loginPasswordError : null,
                         ),
                         const SizedBox(height: 12),
                         Align(
@@ -157,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen>
                           child: TextButton(
                             onPressed: () {},
                             child: Text(
-                              S.of(context).loginForgotPassword,
+                              S.of(context)!.loginForgotPassword,
                               style: TextStyle(
                                 color: colors.onSurface.withValues(alpha: 0.5),
                                 fontSize: 13,
@@ -170,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen>
                         LoadingButton(
                           isLoading: auth.status == AuthStatus.loading,
                           onPressed: _login,
-                          label: S.of(context).loginSignIn,
+                          label: S.of(context)!.loginSignIn,
                         ),
                         ErrorMessage(message: auth.error),
                       ],

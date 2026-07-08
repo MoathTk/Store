@@ -75,7 +75,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             AnimatedLogo(animation: _pulse, size: 130, pulse: true),
             const SizedBox(height: 40),
             Text(
-              S.of(context).welcomeTitle,
+              S.of(context)!.welcomeTitle,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 40,
@@ -87,7 +87,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             ),
             const SizedBox(height: 16),
             Text(
-              S.of(context).welcomeSubtitle,
+              S.of(context)!.welcomeSubtitle,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
@@ -112,7 +112,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      S.of(context).welcomeGetStarted,
+                      S.of(context)!.welcomeGetStarted,
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
@@ -134,7 +134,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             TextButton(
               onPressed: _goToLogin,
               child: Text(
-                S.of(context).welcomeAlreadyAccount,
+                S.of(context)!.welcomeAlreadyAccount,
                 style: TextStyle(
                   color: colors.onSurface.withValues(alpha: 0.5),
                   fontSize: 14,

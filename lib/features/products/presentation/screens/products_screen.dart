@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:store_management/generated/l10n.dart';
-import '../providers/customer_provider.dart';
-import '../widgets/customer_data_table.dart';
-import '../widgets/customer_table_container.dart';
-import '../widgets/customer_table_header.dart';
-import '../widgets/customer_table_pagination.dart';
+import '../../../stores/presentation/providers/store_provider.dart';
+import '../providers/product_provider.dart';
+import '../widgets/product_data_table.dart';
+import '../widgets/product_table_container.dart';
+import '../widgets/product_table_header.dart';
+import '../widgets/product_table_pagination.dart';
 
-class CustomersScreen extends StatelessWidget {
-  const CustomersScreen({super.key});
+class ProductsScreen extends StatelessWidget {
+  const ProductsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,17 +20,17 @@ class CustomersScreen extends StatelessWidget {
       body: Container(
         color: colors.surfaceContainerLowest,
         child: Center(
-          child: CustomerTableContainer(
+          child: ProductTableContainer(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomerTableHeader(onAdd: () => _showAddDialog(context)),
+                ProductTableHeader(onAdd: () => _showAddDialog(context)),
                 const SizedBox(height: 20),
                 const Divider(height: 1, thickness: 0.5),
                 const SizedBox(height: 16),
-                Center(child: const Expanded(child: CustomerDataTable())),
-                Spacer(),
-                const CustomerTablePagination(),
+                Center(child: const Expanded(child: ProductDataTable())),
+                const Spacer(),
+                const ProductTablePagination(),
               ],
             ),
           ),
@@ -42,18 +43,18 @@ class CustomersScreen extends StatelessWidget {
     final s = S.of(context)!;
     final colors = Theme.of(context).colorScheme;
     final nameCtrl = TextEditingController();
-    final phoneCtrl = TextEditingController();
-    final placeCtrl = TextEditingController();
-    final addressCtrl = TextEditingController();
-    final notesCtrl = TextEditingController();
-    String? selectedType;
+    final boxCtrl = TextEditingController();
+    final fillCtrl = TextEditingController();
+    final currentStateCtrl = TextEditingController();
+    final stores = context.read<StoreProvider>().stores;
+    int? selectedStoreId = stores.isNotEmpty ? stores.first.id : null;
 
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: colors.surface,
         title: Text(
-          s.customersAddDialogTitle,
+          s.productsAddDialogTitle,
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w600,
@@ -70,7 +71,7 @@ class CustomersScreen extends StatelessWidget {
                   controller: nameCtrl,
                   autofocus: true,
                   decoration: InputDecoration(
-                    labelText: s.customersAddFullNameHint,
+                    labelText: s.productsAddNameHint,
                     labelStyle: TextStyle(
                       color: colors.onSurface.withValues(alpha: 0.5),
                     ),
@@ -93,10 +94,10 @@ class CustomersScreen extends StatelessWidget {
                   cursorColor: colors.primary,
                 ),
                 const SizedBox(height: 16),
-                DropdownButtonFormField<String>(
-                  initialValue: selectedType,
+                DropdownButtonFormField<int>(
+                  initialValue: selectedStoreId,
                   decoration: InputDecoration(
-                    labelText: s.customersAddTypeLabel,
+                    labelText: s.productsAddStoreIdHint,
                     labelStyle: TextStyle(
                       color: colors.onSurface.withValues(alpha: 0.5),
                     ),
@@ -116,36 +117,20 @@ class CustomersScreen extends StatelessWidget {
                     ),
                   ),
                   dropdownColor: colors.surface,
-                  items: [
-                    DropdownMenuItem(
-                      value: null,
-                      child: Text(
-                        '—',
-                        style: TextStyle(
-                          color: colors.onSurface.withValues(alpha: 0.3),
-                        ),
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: 'normal',
-                      child: Text(s.customersTypeNormal),
-                    ),
-                    DropdownMenuItem(
-                      value: 'provider',
-                      child: Text(s.customersTypeProvider),
-                    ),
-                    DropdownMenuItem(
-                      value: 'provider_and_customer',
-                      child: Text(s.customersTypeProviderAndCustomer),
-                    ),
-                  ],
-                  onChanged: (v) => selectedType = v,
+                  items: stores.map((store) {
+                    return DropdownMenuItem(
+                      value: store.id,
+                      child: Text(store.name),
+                    );
+                  }).toList(),
+                  onChanged: (v) => selectedStoreId = v,
                 ),
                 const SizedBox(height: 16),
                 TextField(
-                  controller: phoneCtrl,
+                  controller: boxCtrl,
+                  keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    labelText: s.customersAddPhoneHint,
+                    labelText: s.productsAddBoxHint,
                     labelStyle: TextStyle(
                       color: colors.onSurface.withValues(alpha: 0.5),
                     ),
@@ -169,9 +154,10 @@ class CustomersScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 TextField(
-                  controller: placeCtrl,
+                  controller: fillCtrl,
+                  keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    labelText: s.customersAddPlaceHint,
+                    labelText: s.productsAddFillHint,
                     labelStyle: TextStyle(
                       color: colors.onSurface.withValues(alpha: 0.5),
                     ),
@@ -195,9 +181,10 @@ class CustomersScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 TextField(
-                  controller: addressCtrl,
+                  controller: currentStateCtrl,
+                  keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    labelText: s.customersAddAddressHint,
+                    labelText: s.productsAddCurrentStateHint,
                     labelStyle: TextStyle(
                       color: colors.onSurface.withValues(alpha: 0.5),
                     ),
@@ -215,34 +202,6 @@ class CustomersScreen extends StatelessWidget {
                       horizontal: 16,
                       vertical: 14,
                     ),
-                  ),
-                  style: TextStyle(color: colors.onSurface),
-                  cursorColor: colors.primary,
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: notesCtrl,
-                  maxLines: 3,
-                  decoration: InputDecoration(
-                    labelText: s.customersAddNotesHint,
-                    labelStyle: TextStyle(
-                      color: colors.onSurface.withValues(alpha: 0.5),
-                    ),
-                    filled: true,
-                    fillColor: colors.onSurface.withValues(alpha: 0.07),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: colors.primary, width: 2),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 14,
-                    ),
-                    alignLabelWithHint: true,
                   ),
                   style: TextStyle(color: colors.onSurface),
                   cursorColor: colors.primary,
@@ -255,7 +214,7 @@ class CustomersScreen extends StatelessWidget {
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
             child: Text(
-              s.customersAddCancel,
+              s.productsAddCancel,
               style: TextStyle(color: colors.onSurface.withValues(alpha: 0.5)),
             ),
           ),
@@ -263,26 +222,23 @@ class CustomersScreen extends StatelessWidget {
             onPressed: () {
               final name = nameCtrl.text.trim();
               if (name.isEmpty) return;
+              if (selectedStoreId == null) return;
+              final box = int.tryParse(boxCtrl.text.trim()) ?? 0;
+              final fill = int.tryParse(fillCtrl.text.trim()) ?? 0;
+              final currentState =
+                  int.tryParse(currentStateCtrl.text.trim()) ?? 0;
+              if (box <= 0 || fill <= 0) return;
               Navigator.of(ctx).pop();
-              context.read<CustomerProvider>().createCustomer(
-                fullName: name,
-                type: selectedType,
-                place: placeCtrl.text.trim().isEmpty
-                    ? null
-                    : placeCtrl.text.trim(),
-                address: addressCtrl.text.trim().isEmpty
-                    ? null
-                    : addressCtrl.text.trim(),
-                phone: phoneCtrl.text.trim().isEmpty
-                    ? null
-                    : phoneCtrl.text.trim(),
-                notes: notesCtrl.text.trim().isEmpty
-                    ? null
-                    : notesCtrl.text.trim(),
+              context.read<ProductProvider>().createProduct(
+                name: name,
+                storeId: selectedStoreId!,
+                box: box,
+                fill: fill,
+                currentState: currentState,
               );
             },
             child: Text(
-              s.customersAddCreate,
+              s.productsAddCreate,
               style: TextStyle(color: colors.primary),
             ),
           ),

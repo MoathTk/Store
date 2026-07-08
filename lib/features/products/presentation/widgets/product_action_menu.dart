@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:store_management/generated/l10n.dart';
 
-class CustomerActionMenu extends StatelessWidget {
+class ProductActionMenu extends StatelessWidget {
   final VoidCallback onEdit;
   final VoidCallback onDelete;
 
-  const CustomerActionMenu({
+  const ProductActionMenu({
     super.key,
     required this.onEdit,
     required this.onDelete,
@@ -25,14 +25,8 @@ class CustomerActionMenu extends StatelessWidget {
         }
       },
       itemBuilder: (_) => [
-        PopupMenuItem(
-          value: 'edit',
-          child: Text(s.customersActionEdit),
-        ),
-        PopupMenuItem(
-          value: 'delete',
-          child: Text(s.customersActionDelete),
-        ),
+        PopupMenuItem(value: 'edit', child: Text(s.productsActionEdit)),
+        PopupMenuItem(value: 'delete', child: Text(s.productsActionDelete)),
       ],
     );
   }

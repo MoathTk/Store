@@ -44,7 +44,7 @@ class Sidebar extends StatelessWidget {
                 ),
                 const SizedBox(width: 12),
                 Text(
-                  s.brandName,
+                  s!.brandName,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,

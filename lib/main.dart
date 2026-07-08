@@ -13,6 +13,13 @@ import 'features/customers/domain/usecases/delete_customer_usecase.dart';
 import 'features/customers/domain/usecases/get_all_customers_usecase.dart';
 import 'features/customers/domain/usecases/update_customer_usecase.dart';
 import 'features/customers/presentation/providers/customer_provider.dart';
+import 'features/products/data/datasources/product_local_datasource.dart';
+import 'features/products/data/repositories/product_repository_impl.dart';
+import 'features/products/domain/usecases/create_product_usecase.dart';
+import 'features/products/domain/usecases/delete_product_usecase.dart';
+import 'features/products/domain/usecases/get_all_products_usecase.dart';
+import 'features/products/domain/usecases/update_product_usecase.dart';
+import 'features/products/presentation/providers/product_provider.dart';
 import 'features/dashboard/presentation/providers/navigation_provider.dart';
 import 'features/stores/data/datasources/store_local_datasource.dart';
 import 'features/stores/data/repositories/store_repository_impl.dart';
@@ -75,11 +82,23 @@ class MyApp extends StatelessWidget {
               ..loadCustomers();
           },
         ),
+        ChangeNotifierProvider(
+          create: (_) {
+            final dataSource = ProductLocalDataSource(DatabaseHelper.instance);
+            final repository = ProductRepositoryImpl(dataSource);
+            final getAll = GetAllProductsUseCase(repository);
+            final create = CreateProductUseCase(repository);
+            final update = UpdateProductUseCase(repository);
+            final delete = DeleteProductUseCase(repository);
+            return ProductProvider(getAll, create, update, delete)
+              ..loadProducts();
+          },
+        ),
       ],
       child: Consumer2<ThemeProvider, LanguageProvider>(
         builder: (context, themeProvider, languageProvider, _) {
           return MaterialApp(
-            onGenerateTitle: (context) => S.of(context).appTitle,
+            onGenerateTitle: (context) => S.of(context)!.appTitle,
             debugShowCheckedModeBanner: false,
             locale: languageProvider.locale,
             supportedLocales: const [Locale('en'), Locale('ar')],

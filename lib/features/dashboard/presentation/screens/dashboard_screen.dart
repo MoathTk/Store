@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:store_management/generated/l10n.dart';
 import '../../../customers/presentation/screens/customers_screen.dart';
+import '../../../products/presentation/screens/products_screen.dart';
 import '../../../stores/presentation/screens/stores_screen.dart';
 import '../providers/navigation_provider.dart';
 import '../widgets/sidebar.dart';
@@ -29,9 +30,10 @@ class DashboardScreen extends StatelessWidget {
             child: switch (activeItem) {
               NavItem.stores => const StoresScreen(),
               NavItem.customer => const CustomersScreen(),
+              NavItem.product => const ProductsScreen(),
               _ => Center(
                   child: Text(
-                    s.placeholderPage(navItemLabel(context, activeItem)),
+                    s!.placeholderPage(navItemLabel(context, activeItem)),
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.w600,

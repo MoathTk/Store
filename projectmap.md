@@ -2,7 +2,7 @@
 
 ## Overview
 
-A Flutter store management app with Clean Architecture, Material 3 theming, SQLite database, local-only authentication, and full Arabic/English localization with RTL support. Has auth flow (welcome → login/signup), a dashboard shell with sidebar navigation, stores feature with full CRUD and responsive grid UI, and customers feature with full CRUD and a premium data table UI. No other business features (products, inventory, sales) exist yet.
+A Flutter store management app with Clean Architecture, Material 3 theming, SQLite database, local-only authentication, and full Arabic/English localization with RTL support. Has auth flow (welcome → login/signup), a dashboard shell with sidebar navigation, stores feature with full CRUD and responsive grid UI, customers feature with full CRUD and a premium data table UI, and products feature with full CRUD and a premium data table UI.
 
 **Stack:** Flutter 3.x | Dart ^3.9.2 | Provider | Clean Architecture (feature-first)
 
@@ -103,6 +103,29 @@ lib/
 │               ├── customer_table_header.dart     # Title row + Export/Add New buttons
 │               ├── customer_data_table.dart       # Full DataTable with 8 columns + state handling
 │               └── customer_table_pagination.dart # Previous/Next + page number boxes
+│   └── products/                      # Product management (data table UI)
+│       ├── domain/
+│       │   ├── entities/product.dart            # Product {id, name, storeId, box, fill, currentState, addedAt} + initialState getter
+│       │   ├── repositories/product_repository.dart  # Abstract CRUD interface
+│       │   └── usecases/
+│       │       ├── get_all_products_usecase.dart
+│       │       ├── get_product_by_id_usecase.dart
+│       │       ├── create_product_usecase.dart
+│       │       ├── update_product_usecase.dart
+│       │       └── delete_product_usecase.dart
+│       ├── data/
+│       │   ├── datasources/product_local_datasource.dart  # SQLite CRUD via DatabaseHelper
+│       │   ├── models/product_model.dart                  # ProductModel.toMap / fromMap / fromCreateParams
+│       │   └── repositories/product_repository_impl.dart  # Concrete implementation
+│       └── presentation/             # UI layer
+│           ├── providers/product_provider.dart   # ProductStatus enum + search + pagination + sorting
+│           ├── screens/products_screen.dart      # Main screen with card container + table
+│           └── widgets/
+│               ├── product_action_menu.dart      # Three-dot popup menu (edit/delete)
+│               ├── product_table_container.dart  # White card with border
+│               ├── product_table_header.dart     # Title row + Export/Add New buttons
+│               ├── product_data_table.dart       # Full DataTable with 8 columns + state handling + store name lookup
+│               └── product_table_pagination.dart # Previous/Next + page number boxes
 ├── l10n/                              # Localization source files (ARB)
 │   ├── intl_en.arb                    # English strings
 │   └── intl_ar.arb                    # Arabic strings
@@ -160,6 +183,17 @@ CustomersScreen → CustomerProvider (ChangeNotifier, search + pagination + sort
                                                  └─▶ customers table (id, fullName, type, place, address, phone, notes, insertedAt)
 ```
 
+### Products
+```
+ProductsScreen → ProductProvider (ChangeNotifier, search + pagination + sorting)
+                  └─▶ GetAllProductsUseCase / CreateProductUseCase / UpdateProductUseCase / DeleteProductUseCase
+                        └─▶ ProductRepository (interface)
+                              └─▶ ProductRepositoryImpl
+                                    └─▶ ProductLocalDataSource
+                                          └─▶ DatabaseHelper
+                                                └─▶ products table (id, name, storeId, box, fill, currentState, addedAt)
+```
+
 ---
 
 ## Navigation Flow
@@ -179,6 +213,7 @@ Sidebar item tap → NavigationProvider.select(item)
                      → switch(activeItem):
                          NavItem.stores     → StoresScreen
                          NavItem.customer   → CustomersScreen (premium data table)
+                         NavItem.product    → ProductsScreen (premium data table)
                          _                  → placeholder with navItemLabel(context, item)
 ```
 
@@ -196,6 +231,7 @@ Style: Manual `Navigator.pushReplacement` with `PageRouteBuilder` + `FadeTransit
 | `NavigationProvider` | Global | Active NavItem (dashboard/order/product/...), select(), reset() |
 | `StoreProvider` | Global | StoreStatus (idle/loading/success/failure), List<Store>, error, loadStores(), createStore(), deleteStore() |
 | `CustomerProvider` | Global | CustomerStatus (idle/loading/success/failure), search by name/phone, client-side pagination (10/page), sorting by id/fullName/place, full CRUD via use cases |
+| `ProductProvider` | Global | ProductStatus (idle/loading/success/failure), search by name/id, client-side pagination (10/page), sorting by id/name/storeId/currentState, full CRUD via use cases |
 
 All extend `ChangeNotifier`, consumed via `Provider.of` / `context.watch` / `context.read`.
 
@@ -351,6 +387,72 @@ Screen (`surfaceContainerLowest` bg)
 
 ---
 
+## Products Feature
+
+The `ProductsScreen` is shown when `NavItem.product` is selected in the sidebar.
+
+### ProductProvider (ChangeNotifier)
+
+```
+ProductStatus: idle → loading → success | failure
+```
+
+| Method | Effect |
+|--------|--------|
+| `loadProducts()` | Fetches all products from DB via `GetAllProductsUseCase` |
+| `createProduct(...)` | Creates with name, storeId, box, fill, currentState via `CreateProductUseCase`, reloads |
+| `updateProduct(...)` | Updates existing product via `UpdateProductUseCase`, reloads |
+| `deleteProduct(id)` | Deletes via `DeleteProductUseCase`, reloads |
+| `search(query)` | Filters by name or id (case-insensitive), resets to page 1 |
+| `goToPage(page)` | Client-side pagination, 10 items per page |
+| `toggleSort(field)` | Sorts by id/name/storeId/currentState, ascending toggle |
+
+### UI Layout
+
+```
+Screen (`surfaceContainerLowest` bg)
+  └── Center (maxWidth: 1200)
+      └── ProductTableContainer (surface bg, border)
+          └── Column
+              ├── ProductTableHeader
+              │   ├── Title ("Products", bold 24)
+              │   ├── Search field (260px, search icon, filters by name/id)
+              │   └── Export (OutlinedButton) + Add New (FilledButton)
+              ├── Divider (thin)
+              ├── Expanded
+              │   └── ProductDataTable (DataTable, 8 columns, row height 50)
+              │       ├── #ID (sortable)
+              │       ├── Name (sortable)
+              │       ├── Store (sortable, name looked up via StoreProvider)
+              │       ├── Boxes
+              │       ├── Items/Box
+              │       ├── Initial Qty (computed: box * fill)
+              │       ├── Current Qty (sortable, highlighted when < initial)
+              │       └── Date Added
+              │       └── Action (ProductActionMenu — three-dot popup: Edit/Delete)
+              └── ProductTablePagination
+                  ├── "< Previous" TextButton
+                  ├── Page numbers (01, 02, … active = primary bg box)
+                  └── "Next >" TextButton
+```
+
+### State Handling
+
+| ProductStatus | UI |
+|--------------|-----|
+| `idle` / `loading` | Centered `CircularProgressIndicator` |
+| `success` (empty) | Icon + "No products yet" + subtext |
+| `success` (has data) | Premium `DataTable` with pagination + sorting + search |
+| `failure` | Error icon + message in `colors.error` |
+
+### Dialogs
+
+- **Add** (`_showAddDialog` in `ProductsScreen`): Name text field, Store dropdown (populated from `StoreProvider`), Boxes (number), Items/Box (number), Current Qty (number). Validation: name required, store selected, box > 0, fill > 0.
+- **Update** (`_showUpdateDialog` in `ProductDataTable`): Pre-filled with existing data, same fields.
+- **Delete** (`_confirmDelete` in `ProductDataTable`): Confirmation dialog → `deleteProduct(id)`.
+
+---
+
 ## Theming
 
 - **Material 3** with `ColorScheme.fromSeed(seedColor: AppColors.primary)`
@@ -426,12 +528,29 @@ CREATE TABLE customers (
 
 `type` stores one of: `'normal'`, `'provider'`, `'provider_and_customer'` — mapped to/from `CustomerType` enum.
 
+### products Table Schema
+
+```sql
+CREATE TABLE products (
+  id           INTEGER PRIMARY KEY AUTOINCREMENT,
+  name         TEXT    NOT NULL,
+  storeId      INTEGER NOT NULL,
+  box          INTEGER NOT NULL,
+  fill         INTEGER NOT NULL,
+  currentState INTEGER NOT NULL,
+  addedAt      TEXT    NOT NULL
+);
+```
+
+`initialState = box * fill` is computed by the `Product` entity getter (not stored in DB).
+
 ### Migration History
 
 | From | To | SQL |
 |------|----|-----|
 | 1 | 2 | `ALTER TABLE stores ADD COLUMN createdAt TEXT NOT NULL DEFAULT ''` |
 | 2 | 3 | `CREATE TABLE customers (...)` |
+| 3 | 4 | `CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, storeId INTEGER NOT NULL, box INTEGER NOT NULL, fill INTEGER NOT NULL, currentState INTEGER NOT NULL, addedAt TEXT NOT NULL)` |
 
 ---
 
@@ -442,7 +561,7 @@ CREATE TABLE customers (
 3. **Commented-out debug code** (`auth_local_datasource.dart:9-10`): Leftover `delete` calls.
 4. **No error handling** on `hasCredentials()` in `main.dart:18`.
 5. **Test coverage**: Only 1 smoke test. Missing unit tests for providers, use cases, and repositories.
-6. **No other business features**: Products, inventory, orders, employees, billing, analytics — none exist yet. Only `stores` and `customers` have full UIs.
+6. **No other business features**: Inventory, orders, employees, billing, analytics — none exist yet. Only `stores`, `customers`, and `products` have full UIs.
 
 ---
 
@@ -495,7 +614,7 @@ The app entry point (`main.dart`) sets up:
 1. `sqfliteFfiInit()` + `databaseFactoryFfi` for desktop SQLite
 2. `WidgetsFlutterBinding.ensureInitialized()`
 3. `LanguageProvider` — checks saved locale from `SharedPreferences`
-4. `MultiProvider` wrapping `MyApp` with: `LanguageProvider` → `ThemeProvider` → `AuthProvider` → `NavigationProvider` → `StoreProvider` → `CustomerProvider`
+4. `MultiProvider` wrapping `MyApp` with: `LanguageProvider` → `ThemeProvider` → `AuthProvider` → `NavigationProvider` → `StoreProvider` → `CustomerProvider` → `ProductProvider`
 5. `MaterialApp` configured with:
    - `locale: context.watch<LanguageProvider>().locale`
    - `supportedLocales: [Locale('en'), Locale('ar')]`

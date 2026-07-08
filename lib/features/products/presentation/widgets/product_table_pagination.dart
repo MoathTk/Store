@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:store_management/generated/l10n.dart';
-import '../providers/customer_provider.dart';
+import '../providers/product_provider.dart';
 
-class CustomerTablePagination extends StatelessWidget {
-  const CustomerTablePagination({super.key});
+class ProductTablePagination extends StatelessWidget {
+  const ProductTablePagination({super.key});
 
   @override
   Widget build(BuildContext context) {
     final s = S.of(context)!;
     final colors = Theme.of(context).colorScheme;
-    final provider = context.watch<CustomerProvider>();
+    final provider = context.watch<ProductProvider>();
 
-    if (provider.status != CustomerStatus.success) {
+    if (provider.status != ProductStatus.success) {
       return const SizedBox.shrink();
     }
 

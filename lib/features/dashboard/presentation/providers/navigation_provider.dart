@@ -21,16 +21,16 @@ enum NavItem {
 String navItemLabel(BuildContext context, NavItem item) {
   final s = S.of(context);
   return switch (item) {
-    NavItem.dashboard => s.navDashboard,
-    NavItem.stores => s.navStores,
-    NavItem.order => s.navOrder,
-    NavItem.product => s.navProduct,
-    NavItem.customer => s.navCustomer,
-    NavItem.employee => s.navEmployee,
-    NavItem.billing => s.navBilling,
-    NavItem.analytics => s.navAnalytics,
-    NavItem.setting => s.navSetting,
-    NavItem.help => s.navHelp,
+    NavItem.dashboard => s!.navDashboard,
+    NavItem.stores => s!.navStores,
+    NavItem.order => s!.navOrder,
+    NavItem.product => s!.navProduct,
+    NavItem.customer => s!.navCustomer,
+    NavItem.employee => s!.navEmployee,
+    NavItem.billing => s!.navBilling,
+    NavItem.analytics => s!.navAnalytics,
+    NavItem.setting => s!.navSetting,
+    NavItem.help => s!.navHelp,
   };
 }
 

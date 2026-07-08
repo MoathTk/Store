@@ -9,7 +9,7 @@ class CustomerTypeBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final s = S.of(context);
+    final s = S.of(context)!;
     final colors = Theme.of(context).colorScheme;
 
     final (Color bg, Color fg, String label) = switch (type) {

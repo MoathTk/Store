@@ -10,7 +10,7 @@ class StoreGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final s = S.of(context);
+    final s = S.of(context)!;
     final colors = Theme.of(context).colorScheme;
     final provider = context.watch<StoreProvider>();
 
@@ -80,7 +80,7 @@ class StoreGrid extends StatelessWidget {
   }
 
   void _confirmDelete(BuildContext context, int id, String name) {
-    final s = S.of(context);
+    final s = S.of(context)!;
     final colors = Theme.of(context).colorScheme;
     showDialog(
       context: context,

@@ -1,838 +1,870 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'intl/messages_all.dart';
+import 'dart:async';
 
-// **************************************************************************
-// Generator: Flutter Intl IDE plugin
-// Made by Localizely
-// **************************************************************************
+import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart' as intl;
 
-// ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
-// ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
-// ignore_for_file: avoid_redundant_argument_values, avoid_escaping_inner_quotes
+import 'l10n_ar.dart';
+import 'l10n_en.dart';
 
-class S {
-  S();
+// ignore_for_file: type=lint
 
-  static S? _current;
+/// Callers can lookup localized strings with an instance of S
+/// returned by `S.of(context)`.
+///
+/// Applications need to include `S.delegate()` in their app's
+/// `localizationDelegates` list, and the locales they support in the app's
+/// `supportedLocales` list. For example:
+///
+/// ```dart
+/// import 'generated/l10n.dart';
+///
+/// return MaterialApp(
+///   localizationsDelegates: S.localizationsDelegates,
+///   supportedLocales: S.supportedLocales,
+///   home: MyApplicationHome(),
+/// );
+/// ```
+///
+/// ## Update pubspec.yaml
+///
+/// Please make sure to update your pubspec.yaml to include the following
+/// packages:
+///
+/// ```yaml
+/// dependencies:
+///   # Internationalization support.
+///   flutter_localizations:
+///     sdk: flutter
+///   intl: any # Use the pinned version from flutter_localizations
+///
+///   # Rest of dependencies
+/// ```
+///
+/// ## iOS Applications
+///
+/// iOS applications define key application metadata, including supported
+/// locales, in an Info.plist file that is built into the application bundle.
+/// To configure the locales supported by your app, you’ll need to edit this
+/// file.
+///
+/// First, open your project’s ios/Runner.xcworkspace Xcode workspace file.
+/// Then, in the Project Navigator, open the Info.plist file under the Runner
+/// project’s Runner folder.
+///
+/// Next, select the Information Property List item, select Add Item from the
+/// Editor menu, then select Localizations from the pop-up menu.
+///
+/// Select and expand the newly-created Localizations item then, for each
+/// locale your application supports, add a new item and select the locale
+/// you wish to add from the pop-up menu in the Value field. This list should
+/// be consistent with the languages listed in the S.supportedLocales
+/// property.
+abstract class S {
+  S(String locale)
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
-  static S get current {
-    assert(
-      _current != null,
-      'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.',
-    );
-    return _current!;
-  }
+  final String localeName;
 
-  static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
-
-  static Future<S> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false)
-        ? locale.languageCode
-        : locale.toString();
-    final localeName = Intl.canonicalizedLocale(name);
-    return initializeMessages(localeName).then((_) {
-      Intl.defaultLocale = localeName;
-      final instance = S();
-      S._current = instance;
-
-      return instance;
-    });
-  }
-
-  static S of(BuildContext context) {
-    final instance = S.maybeOf(context);
-    assert(
-      instance != null,
-      'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?',
-    );
-    return instance!;
-  }
-
-  static S? maybeOf(BuildContext context) {
+  static S? of(BuildContext context) {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Store Management`
-  String get appTitle {
-    return Intl.message(
-      'Store Management',
-      name: 'appTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Store\nManagement`
-  String get welcomeTitle {
-    return Intl.message(
-      'Store\nManagement',
-      name: 'welcomeTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Efficiently manage your inventory, sales, and staff in one place.`
-  String get welcomeSubtitle {
-    return Intl.message(
-      'Efficiently manage your inventory, sales, and staff in one place.',
-      name: 'welcomeSubtitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Get Started`
-  String get welcomeGetStarted {
-    return Intl.message(
-      'Get Started',
-      name: 'welcomeGetStarted',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `I already have an account`
-  String get welcomeAlreadyAccount {
-    return Intl.message(
-      'I already have an account',
-      name: 'welcomeAlreadyAccount',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Welcome Back!`
-  String get loginTitle {
-    return Intl.message(
-      'Welcome Back!',
-      name: 'loginTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Sign in to manage your store`
-  String get loginSubtitle {
-    return Intl.message(
-      'Sign in to manage your store',
-      name: 'loginSubtitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Username`
-  String get loginUsernameLabel {
-    return Intl.message(
-      'Username',
-      name: 'loginUsernameLabel',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Enter username`
-  String get loginUsernameError {
-    return Intl.message(
-      'Enter username',
-      name: 'loginUsernameError',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Password`
-  String get loginPasswordLabel {
-    return Intl.message(
-      'Password',
-      name: 'loginPasswordLabel',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Enter password`
-  String get loginPasswordError {
-    return Intl.message(
-      'Enter password',
-      name: 'loginPasswordError',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Forgot Password?`
-  String get loginForgotPassword {
-    return Intl.message(
-      'Forgot Password?',
-      name: 'loginForgotPassword',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Sign In`
-  String get loginSignIn {
-    return Intl.message('Sign In', name: 'loginSignIn', desc: '', args: []);
-  }
-
-  /// `Create Account`
-  String get signupTitle {
-    return Intl.message(
-      'Create Account',
-      name: 'signupTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Set up your credentials to get started`
-  String get signupSubtitle {
-    return Intl.message(
-      'Set up your credentials to get started',
-      name: 'signupSubtitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Confirm Password`
-  String get signupConfirmLabel {
-    return Intl.message(
-      'Confirm Password',
-      name: 'signupConfirmLabel',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Confirm your password`
-  String get signupConfirmErrorEmpty {
-    return Intl.message(
-      'Confirm your password',
-      name: 'signupConfirmErrorEmpty',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `At least 6 characters`
-  String get signupPasswordMinLength {
-    return Intl.message(
-      'At least 6 characters',
-      name: 'signupPasswordMinLength',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Passwords do not match`
-  String get signupConfirmErrorMismatch {
-    return Intl.message(
-      'Passwords do not match',
-      name: 'signupConfirmErrorMismatch',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Create Account`
-  String get signupCreateAccount {
-    return Intl.message(
-      'Create Account',
-      name: 'signupCreateAccount',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `No account found. Please sign up first.`
-  String get errorNoAccount {
-    return Intl.message(
-      'No account found. Please sign up first.',
-      name: 'errorNoAccount',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Invalid username or password.`
-  String get errorInvalidCredentials {
-    return Intl.message(
-      'Invalid username or password.',
-      name: 'errorInvalidCredentials',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Light`
-  String get brandName {
-    return Intl.message('Light', name: 'brandName', desc: '', args: []);
-  }
-
-  /// `Dashboard`
-  String get navDashboard {
-    return Intl.message('Dashboard', name: 'navDashboard', desc: '', args: []);
-  }
-
-  /// `Stores`
-  String get navStores {
-    return Intl.message('Stores', name: 'navStores', desc: '', args: []);
-  }
-
-  /// `Order`
-  String get navOrder {
-    return Intl.message('Order', name: 'navOrder', desc: '', args: []);
-  }
-
-  /// `Product`
-  String get navProduct {
-    return Intl.message('Product', name: 'navProduct', desc: '', args: []);
-  }
-
-  /// `Customer`
-  String get navCustomer {
-    return Intl.message('Customer', name: 'navCustomer', desc: '', args: []);
-  }
-
-  /// `Employee`
-  String get navEmployee {
-    return Intl.message('Employee', name: 'navEmployee', desc: '', args: []);
-  }
-
-  /// `Billing`
-  String get navBilling {
-    return Intl.message('Billing', name: 'navBilling', desc: '', args: []);
-  }
-
-  /// `Analytics`
-  String get navAnalytics {
-    return Intl.message('Analytics', name: 'navAnalytics', desc: '', args: []);
-  }
-
-  /// `Setting`
-  String get navSetting {
-    return Intl.message('Setting', name: 'navSetting', desc: '', args: []);
-  }
-
-  /// `Help`
-  String get navHelp {
-    return Intl.message('Help', name: 'navHelp', desc: '', args: []);
-  }
-
-  /// `Log out`
-  String get navLogout {
-    return Intl.message('Log out', name: 'navLogout', desc: '', args: []);
-  }
-
-  /// `Dark Mode`
-  String get modeDark {
-    return Intl.message('Dark Mode', name: 'modeDark', desc: '', args: []);
-  }
-
-  /// `Light Mode`
-  String get modeLight {
-    return Intl.message('Light Mode', name: 'modeLight', desc: '', args: []);
-  }
-
-  /// `{label} Page`
-  String placeholderPage(Object label) {
-    return Intl.message(
-      '$label Page',
-      name: 'placeholderPage',
-      desc: '',
-      args: [label],
-    );
-  }
-
-  /// `Stores`
-  String get storesTitle {
-    return Intl.message('Stores', name: 'storesTitle', desc: '', args: []);
-  }
-
-  /// `Add store`
-  String get storesAddTooltip {
-    return Intl.message(
-      'Add store',
-      name: 'storesAddTooltip',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Add Store`
-  String get storesAddDialogTitle {
-    return Intl.message(
-      'Add Store',
-      name: 'storesAddDialogTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Store name`
-  String get storesAddHint {
-    return Intl.message(
-      'Store name',
-      name: 'storesAddHint',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Cancel`
-  String get storesAddCancel {
-    return Intl.message('Cancel', name: 'storesAddCancel', desc: '', args: []);
-  }
-
-  /// `Create`
-  String get storesAddCreate {
-    return Intl.message('Create', name: 'storesAddCreate', desc: '', args: []);
-  }
-
-  /// `No stores yet`
-  String get storesEmptyTitle {
-    return Intl.message(
-      'No stores yet',
-      name: 'storesEmptyTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Add your first store to get started`
-  String get storesEmptySubtitle {
-    return Intl.message(
-      'Add your first store to get started',
-      name: 'storesEmptySubtitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Failed to load stores`
-  String get storesErrorTitle {
-    return Intl.message(
-      'Failed to load stores',
-      name: 'storesErrorTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Delete Store`
-  String get storesDeleteTitle {
-    return Intl.message(
-      'Delete Store',
-      name: 'storesDeleteTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Are you sure you want to delete "{name}"?`
-  String storesDeleteConfirm(Object name) {
-    return Intl.message(
-      'Are you sure you want to delete "$name"?',
-      name: 'storesDeleteConfirm',
-      desc: '',
-      args: [name],
-    );
-  }
-
-  /// `Cancel`
-  String get storesDeleteCancel {
-    return Intl.message(
-      'Cancel',
-      name: 'storesDeleteCancel',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Delete`
-  String get storesDeleteButton {
-    return Intl.message(
-      'Delete',
-      name: 'storesDeleteButton',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Customers`
-  String get customersTitle {
-    return Intl.message(
-      'Customers',
-      name: 'customersTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Export`
-  String get customersExport {
-    return Intl.message('Export', name: 'customersExport', desc: '', args: []);
-  }
-
-  /// `Coming soon`
-  String get customersExportComingSoon {
-    return Intl.message(
-      'Coming soon',
-      name: 'customersExportComingSoon',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Add New`
-  String get customersAddNew {
-    return Intl.message('Add New', name: 'customersAddNew', desc: '', args: []);
-  }
-
-  /// `ID`
-  String get customersColId {
-    return Intl.message('ID', name: 'customersColId', desc: '', args: []);
-  }
-
-  /// `Full Name`
-  String get customersColFullName {
-    return Intl.message(
-      'Full Name',
-      name: 'customersColFullName',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Type`
-  String get customersColType {
-    return Intl.message('Type', name: 'customersColType', desc: '', args: []);
-  }
-
-  /// `Place`
-  String get customersColPlace {
-    return Intl.message('Place', name: 'customersColPlace', desc: '', args: []);
-  }
-
-  /// `Address`
-  String get customersColAddress {
-    return Intl.message(
-      'Address',
-      name: 'customersColAddress',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Phone Number`
-  String get customersColPhone {
-    return Intl.message(
-      'Phone Number',
-      name: 'customersColPhone',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Notes`
-  String get customersColNotes {
-    return Intl.message('Notes', name: 'customersColNotes', desc: '', args: []);
-  }
-
-  /// `Normal`
-  String get customersTypeNormal {
-    return Intl.message(
-      'Normal',
-      name: 'customersTypeNormal',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Provider`
-  String get customersTypeProvider {
-    return Intl.message(
-      'Provider',
-      name: 'customersTypeProvider',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Provider & Customer`
-  String get customersTypeProviderAndCustomer {
-    return Intl.message(
-      'Provider & Customer',
-      name: 'customersTypeProviderAndCustomer',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `< Previous`
-  String get customersPrevious {
-    return Intl.message(
-      '< Previous',
-      name: 'customersPrevious',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Next >`
-  String get customersNext {
-    return Intl.message('Next >', name: 'customersNext', desc: '', args: []);
-  }
-
-  /// `No customers yet`
-  String get customersEmptyTitle {
-    return Intl.message(
-      'No customers yet',
-      name: 'customersEmptyTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Add your first customer to get started`
-  String get customersEmptySubtitle {
-    return Intl.message(
-      'Add your first customer to get started',
-      name: 'customersEmptySubtitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Failed to load customers`
-  String get customersErrorTitle {
-    return Intl.message(
-      'Failed to load customers',
-      name: 'customersErrorTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Delete Customer`
-  String get customersDeleteTitle {
-    return Intl.message(
-      'Delete Customer',
-      name: 'customersDeleteTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Are you sure you want to delete "{name}"?`
-  String customersDeleteConfirm(Object name) {
-    return Intl.message(
-      'Are you sure you want to delete "$name"?',
-      name: 'customersDeleteConfirm',
-      desc: '',
-      args: [name],
-    );
-  }
-
-  /// `Cancel`
-  String get customersDeleteCancel {
-    return Intl.message(
-      'Cancel',
-      name: 'customersDeleteCancel',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Delete`
-  String get customersDeleteButton {
-    return Intl.message(
-      'Delete',
-      name: 'customersDeleteButton',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Add Customer`
-  String get customersAddDialogTitle {
-    return Intl.message(
-      'Add Customer',
-      name: 'customersAddDialogTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Full Name`
-  String get customersAddFullNameHint {
-    return Intl.message(
-      'Full Name',
-      name: 'customersAddFullNameHint',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Enter full name`
-  String get customersAddFullNameError {
-    return Intl.message(
-      'Enter full name',
-      name: 'customersAddFullNameError',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Type`
-  String get customersAddTypeLabel {
-    return Intl.message(
-      'Type',
-      name: 'customersAddTypeLabel',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Place`
-  String get customersAddPlaceHint {
-    return Intl.message(
-      'Place',
-      name: 'customersAddPlaceHint',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Address`
-  String get customersAddAddressHint {
-    return Intl.message(
-      'Address',
-      name: 'customersAddAddressHint',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Phone Number`
-  String get customersAddPhoneHint {
-    return Intl.message(
-      'Phone Number',
-      name: 'customersAddPhoneHint',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Notes`
-  String get customersAddNotesHint {
-    return Intl.message(
-      'Notes',
-      name: 'customersAddNotesHint',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Cancel`
-  String get customersAddCancel {
-    return Intl.message(
-      'Cancel',
-      name: 'customersAddCancel',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Create`
-  String get customersAddCreate {
-    return Intl.message(
-      'Create',
-      name: 'customersAddCreate',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Edit`
-  String get customersActionEdit {
-    return Intl.message(
-      'Edit',
-      name: 'customersActionEdit',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Delete`
-  String get customersActionDelete {
-    return Intl.message(
-      'Delete',
-      name: 'customersActionDelete',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Search by name or phone`
-  String get customersSearchHint {
-    return Intl.message(
-      'Search by name or phone',
-      name: 'customersSearchHint',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Update Customer`
-  String get customersUpdateDialogTitle {
-    return Intl.message(
-      'Update Customer',
-      name: 'customersUpdateDialogTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Save`
-  String get customersUpdateSave {
-    return Intl.message(
-      'Save',
-      name: 'customersUpdateSave',
-      desc: '',
-      args: [],
-    );
-  }
+  static const LocalizationsDelegate<S> delegate = _SDelegate();
+
+  /// A list of this localizations delegate along with the default localizations
+  /// delegates.
+  ///
+  /// Returns a list of localizations delegates containing this delegate along with
+  /// GlobalMaterialLocalizations.delegate, GlobalCupertinoLocalizations.delegate,
+  /// and GlobalWidgetsLocalizations.delegate.
+  ///
+  /// Additional delegates can be added by appending to this list in
+  /// MaterialApp. This list does not have to be used at all if a custom list
+  /// of delegates is preferred or required.
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
+
+  /// A list of this localizations delegate's supported locales.
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('ar'),
+    Locale('en'),
+  ];
+
+  /// No description provided for @appTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Store Management'**
+  String get appTitle;
+
+  /// No description provided for @welcomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Store\nManagement'**
+  String get welcomeTitle;
+
+  /// No description provided for @welcomeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Efficiently manage your inventory, sales, and staff in one place.'**
+  String get welcomeSubtitle;
+
+  /// No description provided for @welcomeGetStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Started'**
+  String get welcomeGetStarted;
+
+  /// No description provided for @welcomeAlreadyAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'I already have an account'**
+  String get welcomeAlreadyAccount;
+
+  /// No description provided for @loginTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome Back!'**
+  String get loginTitle;
+
+  /// No description provided for @loginSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to manage your store'**
+  String get loginSubtitle;
+
+  /// No description provided for @loginUsernameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get loginUsernameLabel;
+
+  /// No description provided for @loginUsernameError.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter username'**
+  String get loginUsernameError;
+
+  /// No description provided for @loginPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get loginPasswordLabel;
+
+  /// No description provided for @loginPasswordError.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter password'**
+  String get loginPasswordError;
+
+  /// No description provided for @loginForgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password?'**
+  String get loginForgotPassword;
+
+  /// No description provided for @loginSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get loginSignIn;
+
+  /// No description provided for @signupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get signupTitle;
+
+  /// No description provided for @signupSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up your credentials to get started'**
+  String get signupSubtitle;
+
+  /// No description provided for @signupConfirmLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get signupConfirmLabel;
+
+  /// No description provided for @signupConfirmErrorEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm your password'**
+  String get signupConfirmErrorEmpty;
+
+  /// No description provided for @signupPasswordMinLength.
+  ///
+  /// In en, this message translates to:
+  /// **'At least 6 characters'**
+  String get signupPasswordMinLength;
+
+  /// No description provided for @signupConfirmErrorMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get signupConfirmErrorMismatch;
+
+  /// No description provided for @signupCreateAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get signupCreateAccount;
+
+  /// No description provided for @errorNoAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'No account found. Please sign up first.'**
+  String get errorNoAccount;
+
+  /// No description provided for @errorInvalidCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid username or password.'**
+  String get errorInvalidCredentials;
+
+  /// No description provided for @brandName.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get brandName;
+
+  /// No description provided for @navDashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Dashboard'**
+  String get navDashboard;
+
+  /// No description provided for @navStores.
+  ///
+  /// In en, this message translates to:
+  /// **'Stores'**
+  String get navStores;
+
+  /// No description provided for @navOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Order'**
+  String get navOrder;
+
+  /// No description provided for @navProduct.
+  ///
+  /// In en, this message translates to:
+  /// **'Product'**
+  String get navProduct;
+
+  /// No description provided for @navCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer'**
+  String get navCustomer;
+
+  /// No description provided for @navEmployee.
+  ///
+  /// In en, this message translates to:
+  /// **'Employee'**
+  String get navEmployee;
+
+  /// No description provided for @navBilling.
+  ///
+  /// In en, this message translates to:
+  /// **'Billing'**
+  String get navBilling;
+
+  /// No description provided for @navAnalytics.
+  ///
+  /// In en, this message translates to:
+  /// **'Analytics'**
+  String get navAnalytics;
+
+  /// No description provided for @navSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Setting'**
+  String get navSetting;
+
+  /// No description provided for @navHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get navHelp;
+
+  /// No description provided for @navLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get navLogout;
+
+  /// No description provided for @modeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark Mode'**
+  String get modeDark;
+
+  /// No description provided for @modeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light Mode'**
+  String get modeLight;
+
+  /// No description provided for @placeholderPage.
+  ///
+  /// In en, this message translates to:
+  /// **'{label} Page'**
+  String placeholderPage(Object label);
+
+  /// No description provided for @storesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stores'**
+  String get storesTitle;
+
+  /// No description provided for @storesAddTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Add store'**
+  String get storesAddTooltip;
+
+  /// No description provided for @storesAddDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Store'**
+  String get storesAddDialogTitle;
+
+  /// No description provided for @storesAddHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Store name'**
+  String get storesAddHint;
+
+  /// No description provided for @storesAddCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get storesAddCancel;
+
+  /// No description provided for @storesAddCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get storesAddCreate;
+
+  /// No description provided for @storesEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No stores yet'**
+  String get storesEmptyTitle;
+
+  /// No description provided for @storesEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your first store to get started'**
+  String get storesEmptySubtitle;
+
+  /// No description provided for @storesErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load stores'**
+  String get storesErrorTitle;
+
+  /// No description provided for @storesDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Store'**
+  String get storesDeleteTitle;
+
+  /// No description provided for @storesDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete \"{name}\"?'**
+  String storesDeleteConfirm(Object name);
+
+  /// No description provided for @storesDeleteCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get storesDeleteCancel;
+
+  /// No description provided for @storesDeleteButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get storesDeleteButton;
+
+  /// No description provided for @customersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Customers'**
+  String get customersTitle;
+
+  /// No description provided for @customersExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get customersExport;
+
+  /// No description provided for @customersExportComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
+  String get customersExportComingSoon;
+
+  /// No description provided for @customersAddNew.
+  ///
+  /// In en, this message translates to:
+  /// **'Add New'**
+  String get customersAddNew;
+
+  /// No description provided for @customersColId.
+  ///
+  /// In en, this message translates to:
+  /// **'ID'**
+  String get customersColId;
+
+  /// No description provided for @customersColFullName.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name'**
+  String get customersColFullName;
+
+  /// No description provided for @customersColType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get customersColType;
+
+  /// No description provided for @customersColPlace.
+  ///
+  /// In en, this message translates to:
+  /// **'Place'**
+  String get customersColPlace;
+
+  /// No description provided for @customersColAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get customersColAddress;
+
+  /// No description provided for @customersColPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get customersColPhone;
+
+  /// No description provided for @customersColNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get customersColNotes;
+
+  /// No description provided for @customersTypeNormal.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal'**
+  String get customersTypeNormal;
+
+  /// No description provided for @customersTypeProvider.
+  ///
+  /// In en, this message translates to:
+  /// **'Provider'**
+  String get customersTypeProvider;
+
+  /// No description provided for @customersTypeProviderAndCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'Provider & Customer'**
+  String get customersTypeProviderAndCustomer;
+
+  /// No description provided for @customersPrevious.
+  ///
+  /// In en, this message translates to:
+  /// **'< Previous'**
+  String get customersPrevious;
+
+  /// No description provided for @customersNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next >'**
+  String get customersNext;
+
+  /// No description provided for @customersEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No customers yet'**
+  String get customersEmptyTitle;
+
+  /// No description provided for @customersEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your first customer to get started'**
+  String get customersEmptySubtitle;
+
+  /// No description provided for @customersErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load customers'**
+  String get customersErrorTitle;
+
+  /// No description provided for @customersDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Customer'**
+  String get customersDeleteTitle;
+
+  /// No description provided for @customersDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete \"{name}\"?'**
+  String customersDeleteConfirm(Object name);
+
+  /// No description provided for @customersDeleteCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get customersDeleteCancel;
+
+  /// No description provided for @customersDeleteButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get customersDeleteButton;
+
+  /// No description provided for @customersAddDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Customer'**
+  String get customersAddDialogTitle;
+
+  /// No description provided for @customersAddFullNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name'**
+  String get customersAddFullNameHint;
+
+  /// No description provided for @customersAddFullNameError.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter full name'**
+  String get customersAddFullNameError;
+
+  /// No description provided for @customersAddTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get customersAddTypeLabel;
+
+  /// No description provided for @customersAddPlaceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Place'**
+  String get customersAddPlaceHint;
+
+  /// No description provided for @customersAddAddressHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get customersAddAddressHint;
+
+  /// No description provided for @customersAddPhoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get customersAddPhoneHint;
+
+  /// No description provided for @customersAddNotesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get customersAddNotesHint;
+
+  /// No description provided for @customersAddCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get customersAddCancel;
+
+  /// No description provided for @customersAddCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get customersAddCreate;
+
+  /// No description provided for @customersActionEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get customersActionEdit;
+
+  /// No description provided for @customersActionDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get customersActionDelete;
+
+  /// No description provided for @customersSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by name or phone'**
+  String get customersSearchHint;
+
+  /// No description provided for @customersUpdateDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Customer'**
+  String get customersUpdateDialogTitle;
+
+  /// No description provided for @customersUpdateSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get customersUpdateSave;
+
+  /// No description provided for @productsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Products'**
+  String get productsTitle;
+
+  /// No description provided for @productsSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by name or ID'**
+  String get productsSearchHint;
+
+  /// No description provided for @productsExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get productsExport;
+
+  /// No description provided for @productsExportComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
+  String get productsExportComingSoon;
+
+  /// No description provided for @productsAddNew.
+  ///
+  /// In en, this message translates to:
+  /// **'Add New'**
+  String get productsAddNew;
+
+  /// No description provided for @productsColId.
+  ///
+  /// In en, this message translates to:
+  /// **'ID'**
+  String get productsColId;
+
+  /// No description provided for @productsColName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get productsColName;
+
+  /// No description provided for @productsColStore.
+  ///
+  /// In en, this message translates to:
+  /// **'Store'**
+  String get productsColStore;
+
+  /// No description provided for @productsColBox.
+  ///
+  /// In en, this message translates to:
+  /// **'Boxes'**
+  String get productsColBox;
+
+  /// No description provided for @productsColFill.
+  ///
+  /// In en, this message translates to:
+  /// **'Items/Box'**
+  String get productsColFill;
+
+  /// No description provided for @productsColInitState.
+  ///
+  /// In en, this message translates to:
+  /// **'Initial Qty'**
+  String get productsColInitState;
+
+  /// No description provided for @productsColCurrentState.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Qty'**
+  String get productsColCurrentState;
+
+  /// No description provided for @productsColAddedAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Date Added'**
+  String get productsColAddedAt;
+
+  /// No description provided for @productsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No products yet'**
+  String get productsEmptyTitle;
+
+  /// No description provided for @productsEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your first product to get started'**
+  String get productsEmptySubtitle;
+
+  /// No description provided for @productsErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load products'**
+  String get productsErrorTitle;
+
+  /// No description provided for @productsAddDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Product'**
+  String get productsAddDialogTitle;
+
+  /// No description provided for @productsAddNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Product Name'**
+  String get productsAddNameHint;
+
+  /// No description provided for @productsAddNameError.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter product name'**
+  String get productsAddNameError;
+
+  /// No description provided for @productsAddStoreIdHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Store ID'**
+  String get productsAddStoreIdHint;
+
+  /// No description provided for @productsAddBoxHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of Boxes'**
+  String get productsAddBoxHint;
+
+  /// No description provided for @productsAddFillHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Items per Box'**
+  String get productsAddFillHint;
+
+  /// No description provided for @productsAddCurrentStateHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Total Items'**
+  String get productsAddCurrentStateHint;
+
+  /// No description provided for @productsAddCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get productsAddCancel;
+
+  /// No description provided for @productsAddCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get productsAddCreate;
+
+  /// No description provided for @productsStoreNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Store Not Found'**
+  String get productsStoreNotFound;
+
+  /// No description provided for @productsStoreNotFoundMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'No store exists with ID {id}. Please add the store first.'**
+  String productsStoreNotFoundMsg(Object id);
+
+  /// No description provided for @productsUpdateDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Product'**
+  String get productsUpdateDialogTitle;
+
+  /// No description provided for @productsUpdateSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get productsUpdateSave;
+
+  /// No description provided for @productsDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Product'**
+  String get productsDeleteTitle;
+
+  /// No description provided for @productsDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete \"{name}\"?'**
+  String productsDeleteConfirm(Object name);
+
+  /// No description provided for @productsDeleteCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get productsDeleteCancel;
+
+  /// No description provided for @productsDeleteButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get productsDeleteButton;
+
+  /// No description provided for @productsActionEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get productsActionEdit;
+
+  /// No description provided for @productsActionDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get productsActionDelete;
 }
 
-class AppLocalizationDelegate extends LocalizationsDelegate<S> {
-  const AppLocalizationDelegate();
+class _SDelegate extends LocalizationsDelegate<S> {
+  const _SDelegate();
 
-  List<Locale> get supportedLocales {
-    return const <Locale>[
-      Locale.fromSubtags(languageCode: 'en'),
-      Locale.fromSubtags(languageCode: 'ar'),
-    ];
+  @override
+  Future<S> load(Locale locale) {
+    return SynchronousFuture<S>(lookupS(locale));
   }
 
   @override
-  bool isSupported(Locale locale) => _isSupported(locale);
-  @override
-  Future<S> load(Locale locale) => S.load(locale);
-  @override
-  bool shouldReload(AppLocalizationDelegate old) => false;
+  bool isSupported(Locale locale) =>
+      <String>['ar', 'en'].contains(locale.languageCode);
 
-  bool _isSupported(Locale locale) {
-    for (var supportedLocale in supportedLocales) {
-      if (supportedLocale.languageCode == locale.languageCode) {
-        return true;
-      }
-    }
-    return false;
+  @override
+  bool shouldReload(_SDelegate old) => false;
+}
+
+S lookupS(Locale locale) {
+  // Lookup logic when only language code is specified.
+  switch (locale.languageCode) {
+    case 'ar':
+      return SAr();
+    case 'en':
+      return SEn();
   }
+
+  throw FlutterError(
+    'S.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.',
+  );
 }

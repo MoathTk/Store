@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:store_management/generated/l10n.dart';
-import '../providers/customer_provider.dart';
+import '../providers/product_provider.dart';
 
-class CustomerTableHeader extends StatelessWidget {
+class ProductTableHeader extends StatelessWidget {
   final VoidCallback onAdd;
 
-  const CustomerTableHeader({super.key, required this.onAdd});
+  const ProductTableHeader({super.key, required this.onAdd});
 
   @override
   Widget build(BuildContext context) {
     final s = S.of(context)!;
     final colors = Theme.of(context).colorScheme;
-    final provider = context.watch<CustomerProvider>();
+    final provider = context.watch<ProductProvider>();
 
     return Row(
       children: [
         Text(
-          s.customersTitle,
+          s.productsTitle,
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -33,7 +33,7 @@ class CustomerTableHeader extends StatelessWidget {
             ),
             onChanged: provider.search,
             decoration: InputDecoration(
-              hintText: s.customersSearchHint,
+              hintText: s.productsSearchHint,
               hintStyle: TextStyle(
                 fontSize: 14,
                 color: colors.onSurface.withValues(alpha: 0.35),
@@ -66,13 +66,16 @@ class CustomerTableHeader extends StatelessWidget {
             OutlinedButton.icon(
               onPressed: () {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(s.customersExportComingSoon)),
+                  SnackBar(content: Text(s.productsExportComingSoon)),
                 );
               },
               icon: const Icon(Icons.download_rounded, size: 18),
-              label: Text(s.customersExport),
+              label: Text(s.productsExport),
               style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 10,
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -82,9 +85,12 @@ class CustomerTableHeader extends StatelessWidget {
             FilledButton.icon(
               onPressed: onAdd,
               icon: const Icon(Icons.add_rounded, size: 18),
-              label: Text(s.customersAddNew),
+              label: Text(s.productsAddNew),
               style: FilledButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 10,
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),

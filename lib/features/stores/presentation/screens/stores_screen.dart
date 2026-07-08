@@ -10,7 +10,7 @@ class StoresScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final s = S.of(context);
+    final s = S.of(context)!;
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -40,7 +40,7 @@ class StoresScreen extends StatelessWidget {
 
   void _showAddDialog(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final s = S.of(context);
+    final s = S.of(context)!;
     final controller = TextEditingController();
 
     showDialog(
