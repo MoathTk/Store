@@ -30,6 +30,7 @@ class ProductLocalDataSource {
     required int box,
     required int fill,
     required int currentState,
+    required int price,
   }) async {
     final now = DateTime.now();
     final id = await _db.insert(
@@ -40,6 +41,7 @@ class ProductLocalDataSource {
         'box': box,
         'fill': fill,
         'currentState': currentState,
+        'price': price,
         'addedAt': now.toIso8601String(),
       },
     );
@@ -50,6 +52,7 @@ class ProductLocalDataSource {
       box: box,
       fill: fill,
       currentState: currentState,
+      price: price,
       addedAt: now,
     );
   }
@@ -61,6 +64,7 @@ class ProductLocalDataSource {
     int? box,
     int? fill,
     int? currentState,
+    int? price,
   }) async {
     final map = <String, dynamic>{};
     if (name != null) map['name'] = name;
@@ -68,6 +72,7 @@ class ProductLocalDataSource {
     if (box != null) map['box'] = box;
     if (fill != null) map['fill'] = fill;
     if (currentState != null) map['currentState'] = currentState;
+    if (price != null) map['price'] = price;
     if (map.isNotEmpty) {
       await _db.update(DatabaseConfig.tableProducts, map, 'id = ?', [id]);
     }

@@ -2,7 +2,7 @@
 
 ## Overview
 
-A Flutter store management app with Clean Architecture, Material 3 theming, SQLite database, local-only authentication, and full Arabic/English localization with RTL support. Has auth flow (welcome → login/signup), a dashboard shell with sidebar navigation, stores feature with full CRUD and responsive grid UI, customers feature with full CRUD and a premium data table UI, and products feature with full CRUD and a premium data table UI.
+A Flutter store management app with Clean Architecture, Material 3 theming, SQLite database, local-only authentication, and full Arabic/English localization with RTL support. Has auth flow (welcome → login/signup), a dashboard shell with sidebar navigation, stores feature with full CRUD and responsive grid UI, customers feature with full CRUD and a premium data table UI, products feature with full CRUD and a premium data table UI, and orders feature with full CRUD, card-based expandable UI, searchable customer dropdown, store filtering by product, box limit validation, inline add-customer, and per-line payment tracking.
 
 **Stack:** Flutter 3.x | Dart ^3.9.2 | Provider | Clean Architecture (feature-first)
 
@@ -105,7 +105,7 @@ lib/
 │               └── customer_table_pagination.dart # Previous/Next + page number boxes
 │   └── products/                      # Product management (data table UI)
 │       ├── domain/
-│       │   ├── entities/product.dart            # Product {id, name, storeId, box, fill, currentState, addedAt} + initialState getter
+│       │   ├── entities/product.dart            # Product {id, name, storeId, box, fill, currentState, price, addedAt} + initialState getter
 │       │   ├── repositories/product_repository.dart  # Abstract CRUD interface
 │       │   └── usecases/
 │       │       ├── get_all_products_usecase.dart
@@ -126,6 +126,40 @@ lib/
 │               ├── product_table_header.dart     # Title row + Export/Add New buttons
 │               ├── product_data_table.dart       # Full DataTable with 8 columns + state handling + store name lookup
 │               └── product_table_pagination.dart # Previous/Next + page number boxes
+│   └── orders/                        # Order management (full implementation)
+│       ├── domain/
+│       │   ├── entities/
+│       │   │   ├── order.dart                  # Order {id, date, customerId, notes?, status, items}
+│   │   │   ├── order_item.dart             # OrderItem {id, orderId, itemId, storeId, boxes, fill, price, isPaid} + totalItems + lineTotal getters
+│       │   │   └── order_status.dart           # OrderStatus enum (cancelled, done, notBought, notPaid)
+│       │   ├── repositories/order_repository.dart  # Abstract CRUD interface + CreateOrderParams/CreateOrderItemParams
+│       │   └── usecases/
+│       │       ├── create_order_usecase.dart
+│       │       ├── get_all_orders_usecase.dart
+│       │       ├── get_order_by_id_usecase.dart
+│       │       ├── update_order_usecase.dart
+│       │       ├── delete_order_usecase.dart
+│       │       └── mark_order_item_paid_usecase.dart
+│       ├── data/
+│       │   ├── datasources/order_local_datasource.dart  # SQLite CRUD via DatabaseHelper, transactional create/delete
+│       │   ├── models/
+│       │   │   ├── order_model.dart                    # OrderModel.toMap / fromMap with items
+│   │   │   └── order_item_model.dart               # OrderItemModel.toMap / fromMap with price and isPaid
+│       │   └── repositories/order_repository_impl.dart  # Concrete implementation
+│       └── presentation/             # UI layer
+│           ├── providers/order_provider.dart     # OrderLoadStatus enum + search/filter/paginate + customerNames map + markItemPaid()
+│           └── widgets/
+│               ├── orders_screen.dart            # Main screen with header + filter chips + card list
+│               ├── orders_header.dart            # Title + search field (StatefulWidget, stable controller) + Add New button
+│               ├── order_filter_chips.dart        # Status filter chips (All/Done/Not Paid/Not Bought/Cancelled)
+│               ├── order_card.dart               # Expandable card: status strip, header (ID/date/total/status badge/actions), customer row, notes, expandable items table; grand total excludes paid items
+│               ├── order_status_badge.dart        # Colored chip for order status
+│               ├── order_avatar.dart              # CircleAvatar with customer initials
+│               ├── order_action_menu.dart         # Three-dot popup (Edit/Delete)
+│               ├── order_items_table.dart         # Inline compact table: product, store, qty, price, line total + grand total; paid items get strikethrough + checkmark, unpaid items show pay button; grand total sums unpaid only
+│               ├── order_add_dialog.dart          # Add dialog: searchable customer DropdownMenu (filter by name/ID/phone) + inline "Add Customer" dialog, store dropdown filtered by selected product, box limit validation (boxes×fill ≤ product.currentState), dynamic item rows (product/store/boxes/fill/price) with live validation + total + price
+│               ├── order_update_dialog.dart       # Update dialog: date, status, notes
+│               └── order_delete_dialog.dart       # Confirmation dialog
 ├── l10n/                              # Localization source files (ARB)
 │   ├── intl_en.arb                    # English strings
 │   └── intl_ar.arb                    # Arabic strings
@@ -191,7 +225,22 @@ ProductsScreen → ProductProvider (ChangeNotifier, search + pagination + sortin
                               └─▶ ProductRepositoryImpl
                                     └─▶ ProductLocalDataSource
                                           └─▶ DatabaseHelper
-                                                └─▶ products table (id, name, storeId, box, fill, currentState, addedAt)
+                                                └─▶ products table (id, name, storeId, box, fill, currentState, price, addedAt)
+```
+
+### Orders
+```
+OrdersScreen → OrderProvider (ChangeNotifier, search + status filter + pagination + customer name map, markItemPaid)
+                ├─▶ GetAllOrdersUseCase / CreateOrderUseCase / UpdateOrderUseCase / DeleteOrderUseCase
+                └─▶ MarkOrderItemPaidUseCase
+                      └─▶ OrderRepository (interface)
+                            └─▶ OrderRepositoryImpl
+                                  └─▶ OrderLocalDataSource
+                                        ├─▶ DatabaseHelper.transaction (atomic create: orders + order_items)
+                                        │     └─▶ orders table (id, date, customerId, notes, status)
+                                        └─▶ DatabaseHelper
+                                              ├─▶ order_items table (id, orderId, itemId, storeId, boxes, fill, price, isPaid)
+                                              └─▶ markItemPaid(id) → UPDATE isPaid=1, returns updated Order
 ```
 
 ---
@@ -214,6 +263,7 @@ Sidebar item tap → NavigationProvider.select(item)
                          NavItem.stores     → StoresScreen
                          NavItem.customer   → CustomersScreen (premium data table)
                          NavItem.product    → ProductsScreen (premium data table)
+                         NavItem.order      → OrdersScreen (card-based expandable list)
                          _                  → placeholder with navItemLabel(context, item)
 ```
 
@@ -232,6 +282,7 @@ Style: Manual `Navigator.pushReplacement` with `PageRouteBuilder` + `FadeTransit
 | `StoreProvider` | Global | StoreStatus (idle/loading/success/failure), List<Store>, error, loadStores(), createStore(), deleteStore() |
 | `CustomerProvider` | Global | CustomerStatus (idle/loading/success/failure), search by name/phone, client-side pagination (10/page), sorting by id/fullName/place, full CRUD via use cases |
 | `ProductProvider` | Global | ProductStatus (idle/loading/success/failure), search by name/id, client-side pagination (10/page), sorting by id/name/storeId/currentState, full CRUD via use cases |
+| `OrderProvider` | Global | OrderLoadStatus (idle/loading/success/failure), search by ID/customer ID/customer name, filter by OrderStatus (toggle, null = all), client-side pagination (20/page), sort by date desc, full CRUD via use cases, markItemPaid(id) via MarkOrderItemPaidUseCase, customer name lookup via customerNames map |
 
 All extend `ChangeNotifier`, consumed via `Provider.of` / `context.watch` / `context.read`.
 
@@ -538,11 +589,47 @@ CREATE TABLE products (
   box          INTEGER NOT NULL,
   fill         INTEGER NOT NULL,
   currentState INTEGER NOT NULL,
+  price        INTEGER NOT NULL DEFAULT 0,
   addedAt      TEXT    NOT NULL
 );
 ```
 
 `initialState = box * fill` is computed by the `Product` entity getter (not stored in DB).
+
+### orders Table Schema
+
+```sql
+CREATE TABLE orders (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  date       TEXT    NOT NULL,
+  customerId INTEGER NOT NULL,
+  notes      TEXT    NULL,
+  status     TEXT    NOT NULL,
+  FOREIGN KEY (customerId) REFERENCES customers(id)
+);
+```
+
+`status` stores one of: `'cancelled'`, `'done'`, `'not_bought'`, `'not_paid'` — mapped to/from `OrderStatus` enum.
+
+### order_items Table Schema
+
+```sql
+CREATE TABLE order_items (
+  id      INTEGER PRIMARY KEY AUTOINCREMENT,
+  orderId INTEGER NOT NULL,
+  itemId  INTEGER NOT NULL,
+  storeId INTEGER NOT NULL,
+  boxes   INTEGER NOT NULL,
+  fill    INTEGER NOT NULL,
+  price   INTEGER NOT NULL,
+  isPaid  INTEGER NOT NULL DEFAULT 0,
+  FOREIGN KEY (orderId)  REFERENCES orders(id),
+  FOREIGN KEY (itemId)   REFERENCES products(id),
+  FOREIGN KEY (storeId)  REFERENCES stores(id)
+);
+```
+
+`totalItems = boxes * fill` and `lineTotal = boxes * fill * price` are computed by the `OrderItem` entity getters (not stored in DB). `isPaid` is stored as `0` (false) or `1` (true).
 
 ### Migration History
 
@@ -551,6 +638,10 @@ CREATE TABLE products (
 | 1 | 2 | `ALTER TABLE stores ADD COLUMN createdAt TEXT NOT NULL DEFAULT ''` |
 | 2 | 3 | `CREATE TABLE customers (...)` |
 | 3 | 4 | `CREATE TABLE products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, storeId INTEGER NOT NULL, box INTEGER NOT NULL, fill INTEGER NOT NULL, currentState INTEGER NOT NULL, addedAt TEXT NOT NULL)` |
+| 4 | 5 | `CREATE TABLE orders (...)` + `CREATE TABLE order_items (...)` |
+| 5 | 6 | `ALTER TABLE order_items ADD COLUMN price INTEGER NOT NULL DEFAULT 0` |
+| 6 | 7 | `ALTER TABLE products ADD COLUMN price INTEGER NOT NULL DEFAULT 0` |
+| 7 | 8 | `ALTER TABLE order_items ADD COLUMN isPaid INTEGER NOT NULL DEFAULT 0` |
 
 ---
 
@@ -561,7 +652,7 @@ CREATE TABLE products (
 3. **Commented-out debug code** (`auth_local_datasource.dart:9-10`): Leftover `delete` calls.
 4. **No error handling** on `hasCredentials()` in `main.dart:18`.
 5. **Test coverage**: Only 1 smoke test. Missing unit tests for providers, use cases, and repositories.
-6. **No other business features**: Inventory, orders, employees, billing, analytics — none exist yet. Only `stores`, `customers`, and `products` have full UIs.
+6. **Pending UIs**: Inventory, employees, billing, analytics — none exist yet. Only `stores`, `customers`, `products`, and `orders` have full UIs.
 
 ---
 
@@ -614,7 +705,7 @@ The app entry point (`main.dart`) sets up:
 1. `sqfliteFfiInit()` + `databaseFactoryFfi` for desktop SQLite
 2. `WidgetsFlutterBinding.ensureInitialized()`
 3. `LanguageProvider` — checks saved locale from `SharedPreferences`
-4. `MultiProvider` wrapping `MyApp` with: `LanguageProvider` → `ThemeProvider` → `AuthProvider` → `NavigationProvider` → `StoreProvider` → `CustomerProvider` → `ProductProvider`
+4. `MultiProvider` wrapping `MyApp` with: `LanguageProvider` → `ThemeProvider` → `AuthProvider` → `NavigationProvider` → `StoreProvider` → `CustomerProvider` → `ProductProvider` → `OrderProvider`
 5. `MaterialApp` configured with:
    - `locale: context.watch<LanguageProvider>().locale`
    - `supportedLocales: [Locale('en'), Locale('ar')]`

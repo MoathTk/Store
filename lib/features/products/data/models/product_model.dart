@@ -8,6 +8,7 @@ class ProductModel extends Product {
     required super.box,
     required super.fill,
     required super.currentState,
+    required super.price,
     required super.addedAt,
   });
 
@@ -18,6 +19,7 @@ class ProductModel extends Product {
     required int box,
     required int fill,
     required int currentState,
+    required int price,
     required DateTime addedAt,
   }) {
     return ProductModel(
@@ -27,6 +29,7 @@ class ProductModel extends Product {
       box: box,
       fill: fill,
       currentState: currentState,
+      price: price,
       addedAt: addedAt,
     );
   }
@@ -39,6 +42,7 @@ class ProductModel extends Product {
       box: map['box'] as int,
       fill: map['fill'] as int,
       currentState: map['currentState'] as int,
+      price: map['price'] as int,
       addedAt: DateTime.parse(map['addedAt'] as String),
     );
   }
@@ -50,6 +54,7 @@ class ProductModel extends Product {
       'box': box,
       'fill': fill,
       'currentState': currentState,
+      'price': price,
       'addedAt': addedAt.toIso8601String(),
     };
   }

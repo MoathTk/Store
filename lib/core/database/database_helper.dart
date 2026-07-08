@@ -30,6 +30,8 @@ class DatabaseHelper {
     await db.execute(DatabaseConfig.createStoresTable);
     await db.execute(DatabaseConfig.createCustomersTable);
     await db.execute(DatabaseConfig.createProductsTable);
+    await db.execute(DatabaseConfig.createOrdersTable);
+    await db.execute(DatabaseConfig.createOrderItemsTable);
   }
 
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
@@ -41,6 +43,25 @@ class DatabaseHelper {
     }
     if (oldVersion < 4) {
       await db.execute(DatabaseConfig.createProductsTable);
+    }
+    if (oldVersion < 5) {
+      await db.execute(DatabaseConfig.createOrdersTable);
+      await db.execute(DatabaseConfig.createOrderItemsTable);
+    }
+    if (oldVersion < 6) {
+      await db.execute(
+        'ALTER TABLE ${DatabaseConfig.tableOrderItems} ADD COLUMN price INTEGER NOT NULL DEFAULT 0',
+      );
+    }
+    if (oldVersion < 7) {
+      await db.execute(
+        'ALTER TABLE ${DatabaseConfig.tableProducts} ADD COLUMN price INTEGER NOT NULL DEFAULT 0',
+      );
+    }
+    if (oldVersion < 8) {
+      await db.execute(
+        'ALTER TABLE ${DatabaseConfig.tableOrderItems} ADD COLUMN isPaid INTEGER NOT NULL DEFAULT 0',
+      );
     }
   }
 
@@ -85,6 +106,11 @@ class DatabaseHelper {
   ) async {
     final db = await database;
     return db.delete(table, where: where, whereArgs: whereArgs);
+  }
+
+  Future<T> transaction<T>(Future<T> Function(Transaction txn) callback) async {
+    final db = await database;
+    return db.transaction(callback);
   }
 
   Future<void> close() async {

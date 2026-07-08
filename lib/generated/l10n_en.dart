@@ -316,6 +316,12 @@ class SEn extends S {
   String get productsColCurrentState => 'Current Qty';
 
   @override
+  String get productsColPrice => 'Unit Price';
+
+  @override
+  String get productsAddPriceHint => 'Unit Price';
+
+  @override
   String get productsColAddedAt => 'Date Added';
 
   @override
@@ -387,4 +393,170 @@ class SEn extends S {
 
   @override
   String get productsActionDelete => 'Delete';
+
+  @override
+  String get ordersTitle => 'Orders';
+
+  @override
+  String get ordersSearchHint => 'Search by ID or customer';
+
+  @override
+  String get ordersExport => 'Export';
+
+  @override
+  String get ordersExportComingSoon => 'Coming soon';
+
+  @override
+  String get ordersAddNew => 'New Order';
+
+  @override
+  String get ordersFilterAll => 'All';
+
+  @override
+  String get ordersFilterDone => 'Done';
+
+  @override
+  String get ordersFilterNotPaid => 'Not Paid';
+
+  @override
+  String get ordersFilterNotBought => 'Not Bought';
+
+  @override
+  String get ordersFilterCancelled => 'Cancelled';
+
+  @override
+  String get ordersStatusCancelled => 'Cancelled';
+
+  @override
+  String get ordersStatusDone => 'Done';
+
+  @override
+  String get ordersStatusNotBought => 'Not Bought';
+
+  @override
+  String get ordersStatusNotPaid => 'Not Paid';
+
+  @override
+  String get ordersEmptyTitle => 'No orders yet';
+
+  @override
+  String get ordersEmptySubtitle => 'Create your first order to get started';
+
+  @override
+  String get ordersErrorTitle => 'Failed to load orders';
+
+  @override
+  String ordersItemsLabel(Object count, Object total) {
+    return '$count items · $total pcs';
+  }
+
+  @override
+  String ordersPhoneLabel(Object phone) {
+    return 'Phone: $phone';
+  }
+
+  @override
+  String get ordersColProduct => 'Product';
+
+  @override
+  String get ordersColStore => 'Store';
+
+  @override
+  String get ordersColQty => 'Qty';
+
+  @override
+  String get ordersActionEdit => 'Edit';
+
+  @override
+  String get ordersActionDelete => 'Delete';
+
+  @override
+  String get ordersAddDialogTitle => 'Create Order';
+
+  @override
+  String get ordersAddCustomerHint => 'Customer';
+
+  @override
+  String get ordersAddDateHint => 'Date';
+
+  @override
+  String get ordersAddStatusLabel => 'Status';
+
+  @override
+  String get ordersAddNotesHint => 'Notes';
+
+  @override
+  String get ordersAddBoxesHint => 'Boxes';
+
+  @override
+  String get ordersAddFillHint => 'Items per Box';
+
+  @override
+  String get ordersAddRemoveItem => 'Remove';
+
+  @override
+  String get ordersAddItem => 'Add Item';
+
+  @override
+  String get ordersAddTotalLabel => 'Total Items:';
+
+  @override
+  String get ordersAddCancel => 'Cancel';
+
+  @override
+  String get ordersAddCreate => 'Create';
+
+  @override
+  String get ordersNoCustomers => 'No customers found. Add customers first.';
+
+  @override
+  String get ordersUpdateDialogTitle => 'Update Order';
+
+  @override
+  String get ordersUpdateSave => 'Save';
+
+  @override
+  String get ordersDeleteTitle => 'Delete Order';
+
+  @override
+  String ordersDeleteConfirm(Object id) {
+    return 'Are you sure you want to delete order #$id?';
+  }
+
+  @override
+  String get ordersDeleteCancel => 'Cancel';
+
+  @override
+  String get ordersDeleteButton => 'Delete';
+
+  @override
+  String get ordersColPrice => 'Unit Price';
+
+  @override
+  String get ordersColLineTotal => 'Line Total';
+
+  @override
+  String get ordersAddPriceHint => 'Price per item';
+
+  @override
+  String ordersTotalPrice(Object total) {
+    return 'Total: E£ $total';
+  }
+
+  @override
+  String get ordersAddCustomerSearchHint => 'Search customer by name or ID';
+
+  @override
+  String get ordersAddNewCustomer => 'Add Customer';
+
+  @override
+  String ordersMaxBoxesError(Object boxes) {
+    return 'Max $boxes boxes available';
+  }
+
+  @override
+  String get ordersNoCustomersFound => 'No customers found';
+
+  @override
+  String get ordersCustomerCreatedSnackbar => 'Customer added successfully';
 }

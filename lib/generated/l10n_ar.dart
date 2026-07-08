@@ -317,6 +317,12 @@ class SAr extends S {
   String get productsColCurrentState => 'الكمية الحالية';
 
   @override
+  String get productsColPrice => 'سعر الوحدة';
+
+  @override
+  String get productsAddPriceHint => 'سعر الوحدة';
+
+  @override
   String get productsColAddedAt => 'تاريخ الإضافة';
 
   @override
@@ -388,4 +394,171 @@ class SAr extends S {
 
   @override
   String get productsActionDelete => 'حذف';
+
+  @override
+  String get ordersTitle => 'الطلبات';
+
+  @override
+  String get ordersSearchHint => 'ابحث بالمعرف أو العميل';
+
+  @override
+  String get ordersExport => 'تصدير';
+
+  @override
+  String get ordersExportComingSoon => 'قريباً';
+
+  @override
+  String get ordersAddNew => 'طلب جديد';
+
+  @override
+  String get ordersFilterAll => 'الكل';
+
+  @override
+  String get ordersFilterDone => 'مكتمل';
+
+  @override
+  String get ordersFilterNotPaid => 'غير مدفوع';
+
+  @override
+  String get ordersFilterNotBought => 'غير مشترى';
+
+  @override
+  String get ordersFilterCancelled => 'ملغي';
+
+  @override
+  String get ordersStatusCancelled => 'ملغي';
+
+  @override
+  String get ordersStatusDone => 'مكتمل';
+
+  @override
+  String get ordersStatusNotBought => 'غير مشترى';
+
+  @override
+  String get ordersStatusNotPaid => 'غير مدفوع';
+
+  @override
+  String get ordersEmptyTitle => 'لا توجد طلبات بعد';
+
+  @override
+  String get ordersEmptySubtitle => 'أنشئ طلبك الأول للبدء';
+
+  @override
+  String get ordersErrorTitle => 'فشل في تحميل الطلبات';
+
+  @override
+  String ordersItemsLabel(Object count, Object total) {
+    return '$count عناصر · $total قطع';
+  }
+
+  @override
+  String ordersPhoneLabel(Object phone) {
+    return 'الهاتف: $phone';
+  }
+
+  @override
+  String get ordersColProduct => 'المنتج';
+
+  @override
+  String get ordersColStore => 'المتجر';
+
+  @override
+  String get ordersColQty => 'الكمية';
+
+  @override
+  String get ordersActionEdit => 'تعديل';
+
+  @override
+  String get ordersActionDelete => 'حذف';
+
+  @override
+  String get ordersAddDialogTitle => 'إنشاء طلب';
+
+  @override
+  String get ordersAddCustomerHint => 'العميل';
+
+  @override
+  String get ordersAddDateHint => 'التاريخ';
+
+  @override
+  String get ordersAddStatusLabel => 'الحالة';
+
+  @override
+  String get ordersAddNotesHint => 'ملاحظات';
+
+  @override
+  String get ordersAddBoxesHint => 'الصناديق';
+
+  @override
+  String get ordersAddFillHint => 'عدد القطع في الصندوق';
+
+  @override
+  String get ordersAddRemoveItem => 'إزالة';
+
+  @override
+  String get ordersAddItem => 'إضافة عنصر';
+
+  @override
+  String get ordersAddTotalLabel => 'إجمالي العناصر:';
+
+  @override
+  String get ordersAddCancel => 'إلغاء';
+
+  @override
+  String get ordersAddCreate => 'إنشاء';
+
+  @override
+  String get ordersNoCustomers =>
+      'لم يتم العثور على عملاء. يرجى إضافة عملاء أولاً.';
+
+  @override
+  String get ordersUpdateDialogTitle => 'تعديل الطلب';
+
+  @override
+  String get ordersUpdateSave => 'حفظ';
+
+  @override
+  String get ordersDeleteTitle => 'حذف الطلب';
+
+  @override
+  String ordersDeleteConfirm(Object id) {
+    return 'هل أنت متأكد أنك تريد حذف الطلب رقم #$id؟';
+  }
+
+  @override
+  String get ordersDeleteCancel => 'إلغاء';
+
+  @override
+  String get ordersDeleteButton => 'حذف';
+
+  @override
+  String get ordersColPrice => 'سعر الوحدة';
+
+  @override
+  String get ordersColLineTotal => 'إجمالي البند';
+
+  @override
+  String get ordersAddPriceHint => 'سعر القطعة';
+
+  @override
+  String ordersTotalPrice(Object total) {
+    return 'الإجمالي: $total ج.م';
+  }
+
+  @override
+  String get ordersAddCustomerSearchHint => 'ابحث عن عميل بالاسم أو الرقم';
+
+  @override
+  String get ordersAddNewCustomer => 'إضافة عميل';
+
+  @override
+  String ordersMaxBoxesError(Object boxes) {
+    return 'الحد الأقصى $boxes صناديق';
+  }
+
+  @override
+  String get ordersNoCustomersFound => 'لا يوجد عملاء';
+
+  @override
+  String get ordersCustomerCreatedSnackbar => 'تم إضافة العميل بنجاح';
 }

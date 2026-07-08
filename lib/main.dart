@@ -21,6 +21,14 @@ import 'features/products/domain/usecases/get_all_products_usecase.dart';
 import 'features/products/domain/usecases/update_product_usecase.dart';
 import 'features/products/presentation/providers/product_provider.dart';
 import 'features/dashboard/presentation/providers/navigation_provider.dart';
+import 'features/orders/data/datasources/order_local_datasource.dart';
+import 'features/orders/data/repositories/order_repository_impl.dart';
+import 'features/orders/domain/usecases/create_order_usecase.dart';
+import 'features/orders/domain/usecases/delete_order_usecase.dart';
+import 'features/orders/domain/usecases/get_all_orders_usecase.dart';
+import 'features/orders/domain/usecases/mark_order_item_paid_usecase.dart';
+import 'features/orders/domain/usecases/update_order_usecase.dart';
+import 'features/orders/presentation/providers/order_provider.dart';
 import 'features/stores/data/datasources/store_local_datasource.dart';
 import 'features/stores/data/repositories/store_repository_impl.dart';
 import 'features/stores/presentation/providers/store_provider.dart';
@@ -92,6 +100,19 @@ class MyApp extends StatelessWidget {
             final delete = DeleteProductUseCase(repository);
             return ProductProvider(getAll, create, update, delete)
               ..loadProducts();
+          },
+        ),
+        ChangeNotifierProvider(
+          create: (_) {
+            final dataSource = OrderLocalDataSource(DatabaseHelper.instance);
+            final repository = OrderRepositoryImpl(dataSource);
+            final getAll = GetAllOrdersUseCase(repository);
+            final create = CreateOrderUseCase(repository);
+            final update = UpdateOrderUseCase(repository);
+            final delete = DeleteOrderUseCase(repository);
+            final markPaid = MarkOrderItemPaidUseCase(repository);
+            return OrderProvider(getAll, create, update, delete, markPaid)
+              ..loadOrders();
           },
         ),
       ],

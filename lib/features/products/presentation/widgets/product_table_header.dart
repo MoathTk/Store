@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:store_management/generated/l10n.dart';
+import '../../../stores/presentation/providers/store_provider.dart';
 import '../providers/product_provider.dart';
 
 class ProductTableHeader extends StatefulWidget {
@@ -35,6 +36,12 @@ class _ProductTableHeaderState extends State<ProductTableHeader> {
   Widget build(BuildContext context) {
     final s = S.of(context)!;
     final colors = Theme.of(context).colorScheme;
+    final provider = context.watch<ProductProvider>();
+    final stores = context.watch<StoreProvider>().stores;
+    final filterStoreId = provider.storeFilter;
+    final filterStoreName = filterStoreId != null
+        ? stores.where((s) => s.id == filterStoreId).firstOrNull?.name
+        : null;
 
     return Row(
       children: [
@@ -79,6 +86,27 @@ class _ProductTableHeaderState extends State<ProductTableHeader> {
             cursorColor: colors.primary,
           ),
         ),
+        if (filterStoreName != null) ...[
+          const SizedBox(width: 8),
+          InputChip(
+            label: Text(
+              filterStoreName,
+              style: TextStyle(
+                fontSize: 13,
+                color: colors.primary,
+              ),
+            ),
+            deleteIcon: Icon(
+              Icons.close_rounded,
+              size: 18,
+              color: colors.primary,
+            ),
+            onDeleted: () => provider.clearStoreFilter(),
+            backgroundColor: colors.primary.withValues(alpha: 0.1),
+            side: BorderSide.none,
+            visualDensity: VisualDensity.compact,
+          ),
+        ],
         const Spacer(),
         Row(
           children: [

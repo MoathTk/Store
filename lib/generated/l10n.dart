@@ -697,6 +697,18 @@ abstract class S {
   /// **'Current Qty'**
   String get productsColCurrentState;
 
+  /// No description provided for @productsColPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit Price'**
+  String get productsColPrice;
+
+  /// No description provided for @productsAddPriceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit Price'**
+  String get productsAddPriceHint;
+
   /// No description provided for @productsColAddedAt.
   ///
   /// In en, this message translates to:
@@ -834,6 +846,318 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Delete'**
   String get productsActionDelete;
+
+  /// No description provided for @ordersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Orders'**
+  String get ordersTitle;
+
+  /// No description provided for @ordersSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by ID or customer'**
+  String get ordersSearchHint;
+
+  /// No description provided for @ordersExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get ordersExport;
+
+  /// No description provided for @ordersExportComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
+  String get ordersExportComingSoon;
+
+  /// No description provided for @ordersAddNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New Order'**
+  String get ordersAddNew;
+
+  /// No description provided for @ordersFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get ordersFilterAll;
+
+  /// No description provided for @ordersFilterDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get ordersFilterDone;
+
+  /// No description provided for @ordersFilterNotPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Paid'**
+  String get ordersFilterNotPaid;
+
+  /// No description provided for @ordersFilterNotBought.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Bought'**
+  String get ordersFilterNotBought;
+
+  /// No description provided for @ordersFilterCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get ordersFilterCancelled;
+
+  /// No description provided for @ordersStatusCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get ordersStatusCancelled;
+
+  /// No description provided for @ordersStatusDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get ordersStatusDone;
+
+  /// No description provided for @ordersStatusNotBought.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Bought'**
+  String get ordersStatusNotBought;
+
+  /// No description provided for @ordersStatusNotPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Paid'**
+  String get ordersStatusNotPaid;
+
+  /// No description provided for @ordersEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No orders yet'**
+  String get ordersEmptyTitle;
+
+  /// No description provided for @ordersEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your first order to get started'**
+  String get ordersEmptySubtitle;
+
+  /// No description provided for @ordersErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load orders'**
+  String get ordersErrorTitle;
+
+  /// No description provided for @ordersItemsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} items · {total} pcs'**
+  String ordersItemsLabel(Object count, Object total);
+
+  /// No description provided for @ordersPhoneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone: {phone}'**
+  String ordersPhoneLabel(Object phone);
+
+  /// No description provided for @ordersColProduct.
+  ///
+  /// In en, this message translates to:
+  /// **'Product'**
+  String get ordersColProduct;
+
+  /// No description provided for @ordersColStore.
+  ///
+  /// In en, this message translates to:
+  /// **'Store'**
+  String get ordersColStore;
+
+  /// No description provided for @ordersColQty.
+  ///
+  /// In en, this message translates to:
+  /// **'Qty'**
+  String get ordersColQty;
+
+  /// No description provided for @ordersActionEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get ordersActionEdit;
+
+  /// No description provided for @ordersActionDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get ordersActionDelete;
+
+  /// No description provided for @ordersAddDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Order'**
+  String get ordersAddDialogTitle;
+
+  /// No description provided for @ordersAddCustomerHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer'**
+  String get ordersAddCustomerHint;
+
+  /// No description provided for @ordersAddDateHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get ordersAddDateHint;
+
+  /// No description provided for @ordersAddStatusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get ordersAddStatusLabel;
+
+  /// No description provided for @ordersAddNotesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get ordersAddNotesHint;
+
+  /// No description provided for @ordersAddBoxesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Boxes'**
+  String get ordersAddBoxesHint;
+
+  /// No description provided for @ordersAddFillHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Items per Box'**
+  String get ordersAddFillHint;
+
+  /// No description provided for @ordersAddRemoveItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get ordersAddRemoveItem;
+
+  /// No description provided for @ordersAddItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Item'**
+  String get ordersAddItem;
+
+  /// No description provided for @ordersAddTotalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Items:'**
+  String get ordersAddTotalLabel;
+
+  /// No description provided for @ordersAddCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get ordersAddCancel;
+
+  /// No description provided for @ordersAddCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get ordersAddCreate;
+
+  /// No description provided for @ordersNoCustomers.
+  ///
+  /// In en, this message translates to:
+  /// **'No customers found. Add customers first.'**
+  String get ordersNoCustomers;
+
+  /// No description provided for @ordersUpdateDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Order'**
+  String get ordersUpdateDialogTitle;
+
+  /// No description provided for @ordersUpdateSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get ordersUpdateSave;
+
+  /// No description provided for @ordersDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Order'**
+  String get ordersDeleteTitle;
+
+  /// No description provided for @ordersDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete order #{id}?'**
+  String ordersDeleteConfirm(Object id);
+
+  /// No description provided for @ordersDeleteCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get ordersDeleteCancel;
+
+  /// No description provided for @ordersDeleteButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get ordersDeleteButton;
+
+  /// No description provided for @ordersColPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit Price'**
+  String get ordersColPrice;
+
+  /// No description provided for @ordersColLineTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Line Total'**
+  String get ordersColLineTotal;
+
+  /// No description provided for @ordersAddPriceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Price per item'**
+  String get ordersAddPriceHint;
+
+  /// No description provided for @ordersTotalPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Total: E£ {total}'**
+  String ordersTotalPrice(Object total);
+
+  /// No description provided for @ordersAddCustomerSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search customer by name or ID'**
+  String get ordersAddCustomerSearchHint;
+
+  /// No description provided for @ordersAddNewCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Customer'**
+  String get ordersAddNewCustomer;
+
+  /// No description provided for @ordersMaxBoxesError.
+  ///
+  /// In en, this message translates to:
+  /// **'Max {boxes} boxes available'**
+  String ordersMaxBoxesError(Object boxes);
+
+  /// No description provided for @ordersNoCustomersFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No customers found'**
+  String get ordersNoCustomersFound;
+
+  /// No description provided for @ordersCustomerCreatedSnackbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer added successfully'**
+  String get ordersCustomerCreatedSnackbar;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

@@ -80,7 +80,7 @@ class CustomerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> createCustomer({
+  Future<Customer> createCustomer({
     required String fullName,
     String? type,
     String? place,
@@ -93,7 +93,7 @@ class CustomerProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      await _createUseCase.execute(
+      final created = await _createUseCase.execute(
         fullName: fullName,
         type: type,
         place: place,
@@ -102,10 +102,12 @@ class CustomerProvider extends ChangeNotifier {
         notes: notes,
       );
       await loadCustomers();
+      return created;
     } catch (e) {
       _error = e.toString();
       _status = CustomerStatus.failure;
       notifyListeners();
+      rethrow;
     }
   }
 

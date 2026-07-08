@@ -54,6 +54,7 @@ class ProductsScreen extends StatelessWidget {
         int? selectedStoreId = stores.isNotEmpty ? stores.first.id : null;
         String boxText = '';
         String fillText = '';
+        String priceText = '';
 
         int computedTotal() {
           final b = int.tryParse(boxText) ?? 0;
@@ -65,7 +66,8 @@ class ProductsScreen extends StatelessWidget {
           return name.trim().isNotEmpty &&
               selectedStoreId != null &&
               (int.tryParse(boxText) ?? 0) > 0 &&
-              (int.tryParse(fillText) ?? 0) > 0;
+              (int.tryParse(fillText) ?? 0) > 0 &&
+              (int.tryParse(priceText) ?? 0) > 0;
         }
 
         return StatefulBuilder(
@@ -214,6 +216,36 @@ class ProductsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     TextField(
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        labelText: s.productsAddPriceHint,
+                        labelStyle: TextStyle(
+                          color: colors.onSurface.withValues(alpha: 0.5),
+                        ),
+                        filled: true,
+                        fillColor: colors.onSurface.withValues(alpha: 0.07),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide.none,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: colors.primary, width: 2),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 14,
+                        ),
+                      ),
+                      style: TextStyle(color: colors.onSurface),
+                      cursorColor: colors.primary,
+                      onChanged: (v) {
+                        priceText = v;
+                        setDialogState(() {});
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    TextField(
                       readOnly: true,
                       decoration: InputDecoration(
                         labelText: s.productsColInitState,
@@ -260,6 +292,7 @@ class ProductsScreen extends StatelessWidget {
                     ? () {
                         final box = int.tryParse(boxText) ?? 0;
                         final fill = int.tryParse(fillText) ?? 0;
+                        final price = int.tryParse(priceText) ?? 0;
                         Navigator.of(ctx).pop();
                         context.read<ProductProvider>().createProduct(
                           name: name.trim(),
@@ -267,6 +300,7 @@ class ProductsScreen extends StatelessWidget {
                           box: box,
                           fill: fill,
                           currentState: box * fill,
+                          price: price,
                         );
                       }
                     : null,

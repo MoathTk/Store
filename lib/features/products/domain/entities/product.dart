@@ -5,6 +5,7 @@ class Product {
   final int box;
   final int fill;
   final int currentState;
+  final int price;
   final DateTime addedAt;
 
   const Product({
@@ -14,6 +15,7 @@ class Product {
     required this.box,
     required this.fill,
     required this.currentState,
+    required this.price,
     required this.addedAt,
   });
 

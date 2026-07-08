@@ -20,6 +20,7 @@ class ProductRepositoryImpl implements ProductRepository {
     required int box,
     required int fill,
     required int currentState,
+    required int price,
   }) =>
       _dataSource.create(
         name: name,
@@ -27,6 +28,7 @@ class ProductRepositoryImpl implements ProductRepository {
         box: box,
         fill: fill,
         currentState: currentState,
+        price: price,
       );
 
   @override
@@ -37,6 +39,7 @@ class ProductRepositoryImpl implements ProductRepository {
     int? box,
     int? fill,
     int? currentState,
+    int? price,
   }) =>
       _dataSource.update(
         id: id,
@@ -45,6 +48,7 @@ class ProductRepositoryImpl implements ProductRepository {
         box: box,
         fill: fill,
         currentState: currentState,
+        price: price,
       );
 
   @override

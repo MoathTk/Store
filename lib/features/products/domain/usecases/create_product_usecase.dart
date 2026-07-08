@@ -12,6 +12,7 @@ class CreateProductUseCase {
     required int box,
     required int fill,
     required int currentState,
+    required int price,
   }) =>
       repository.create(
         name: name,
@@ -19,5 +20,6 @@ class CreateProductUseCase {
         box: box,
         fill: fill,
         currentState: currentState,
+        price: price,
       );
 }

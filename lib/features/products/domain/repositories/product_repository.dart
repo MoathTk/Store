@@ -9,6 +9,7 @@ abstract class ProductRepository {
     required int box,
     required int fill,
     required int currentState,
+    required int price,
   });
   Future<Product> update({
     required int id,
@@ -17,6 +18,7 @@ abstract class ProductRepository {
     int? box,
     int? fill,
     int? currentState,
+    int? price,
   });
   Future<void> delete(int id);
 }

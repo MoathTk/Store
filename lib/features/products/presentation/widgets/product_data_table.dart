@@ -148,6 +148,11 @@ class ProductDataTable extends StatelessWidget {
                 DataColumn(label: Text(s.productsColFill)),
                 DataColumn(label: Text(s.productsColInitState)),
                 DataColumn(
+                  label: Text(s.productsColPrice),
+                  onSort: (_, __) =>
+                      provider.toggleSort(ProductSortField.currentState),
+                ),
+                DataColumn(
                   label: Text(s.productsColCurrentState),
                   onSort: (_, __) =>
                       provider.toggleSort(ProductSortField.currentState),
@@ -179,10 +184,22 @@ class ProductDataTable extends StatelessWidget {
                         style: const TextStyle(fontWeight: FontWeight.w600),
                       ),
                     ),
-                    DataCell(Text(storeName)),
+                    DataCell(
+                      Text(
+                        storeName,
+                        style: TextStyle(
+                          color: colors.primary,
+                          fontWeight: FontWeight.w600,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                      onTap: () => provider.filterByStore(product.storeId),
+                      showEditIcon: false,
+                    ),
                     DataCell(Text(product.box.toString())),
                     DataCell(Text(product.fill.toString())),
                     DataCell(Text('${product.initialState}')),
+                    DataCell(Text(product.price.toString())),
                     DataCell(
                       Text(
                         '${product.currentState}',
@@ -266,6 +283,7 @@ class ProductDataTable extends StatelessWidget {
     final currentStateCtrl = TextEditingController(
       text: product.currentState.toString(),
     );
+    final priceCtrl = TextEditingController(text: product.price.toString());
     int? selectedStoreId = product.storeId;
 
     showDialog(
@@ -276,7 +294,8 @@ class ProductDataTable extends StatelessWidget {
               selectedStoreId != null &&
               (int.tryParse(boxCtrl.text.trim()) ?? 0) > 0 &&
               (int.tryParse(fillCtrl.text.trim()) ?? 0) > 0 &&
-              (int.tryParse(currentStateCtrl.text.trim()) ?? 0) >= 0;
+              (int.tryParse(currentStateCtrl.text.trim()) ?? 0) >= 0 &&
+              (int.tryParse(priceCtrl.text.trim()) ?? 0) > 0;
         }
 
         return StatefulBuilder(
@@ -442,6 +461,34 @@ class ProductDataTable extends StatelessWidget {
                       cursorColor: colors.primary,
                       onChanged: (_) => setDialogState(() {}),
                     ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: priceCtrl,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        labelText: s.productsAddPriceHint,
+                        labelStyle: TextStyle(
+                          color: colors.onSurface.withValues(alpha: 0.5),
+                        ),
+                        filled: true,
+                        fillColor: colors.onSurface.withValues(alpha: 0.07),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide.none,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: colors.primary, width: 2),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 14,
+                        ),
+                      ),
+                      style: TextStyle(color: colors.onSurface),
+                      cursorColor: colors.primary,
+                      onChanged: (_) => setDialogState(() {}),
+                    ),
                   ],
                 ),
               ),
@@ -462,6 +509,7 @@ class ProductDataTable extends StatelessWidget {
                         final fill = int.tryParse(fillCtrl.text.trim()) ?? 0;
                         final currentState =
                             int.tryParse(currentStateCtrl.text.trim()) ?? 0;
+                        final price = int.tryParse(priceCtrl.text.trim()) ?? 0;
                         Navigator.of(ctx).pop();
                         context.read<ProductProvider>().updateProduct(
                           id: product.id,
@@ -470,6 +518,7 @@ class ProductDataTable extends StatelessWidget {
                           box: box,
                           fill: fill,
                           currentState: currentState,
+                          price: price,
                         );
                       }
                     : null,

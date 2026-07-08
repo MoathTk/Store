@@ -2,11 +2,13 @@ class DatabaseConfig {
   DatabaseConfig._();
 
   static const String databaseName = 'store_management.db';
-  static const int databaseVersion = 4;
+  static const int databaseVersion = 8;
 
   static const String tableStores = 'stores';
   static const String tableCustomers = 'customers';
   static const String tableProducts = 'products';
+  static const String tableOrders = 'orders';
+  static const String tableOrderItems = 'order_items';
 
   static String get createStoresTable => '''
     CREATE TABLE $tableStores (
@@ -41,7 +43,34 @@ class DatabaseConfig {
       box          INTEGER NOT NULL,
       fill         INTEGER NOT NULL,
       currentState INTEGER NOT NULL,
+      price        INTEGER NOT NULL,
       addedAt      TEXT    NOT NULL
+    )
+  ''';
+
+  static String get createOrdersTable => '''
+    CREATE TABLE $tableOrders (
+      id         INTEGER PRIMARY KEY AUTOINCREMENT,
+      date       TEXT    NOT NULL,
+      customerId INTEGER NOT NULL,
+      notes      TEXT    NULL,
+      status     TEXT    NOT NULL,
+      FOREIGN KEY (customerId) REFERENCES $tableCustomers(id)
+    )
+  ''';
+
+  static String get createOrderItemsTable => '''
+    CREATE TABLE $tableOrderItems (
+      id      INTEGER PRIMARY KEY AUTOINCREMENT,
+      orderId INTEGER NOT NULL,
+      itemId  INTEGER NOT NULL,
+      storeId INTEGER NOT NULL,
+      boxes   INTEGER NOT NULL,
+      fill    INTEGER NOT NULL,
+      price   INTEGER NOT NULL,
+      FOREIGN KEY (orderId)  REFERENCES $tableOrders(id),
+      FOREIGN KEY (itemId)   REFERENCES $tableProducts(id),
+      FOREIGN KEY (storeId)  REFERENCES $tableStores(id)
     )
   ''';
 }

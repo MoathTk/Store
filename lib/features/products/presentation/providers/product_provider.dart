@@ -30,6 +30,7 @@ class ProductProvider extends ChangeNotifier {
   ProductSortField _sortField = ProductSortField.name;
   bool _sortAscending = true;
   String _searchQuery = '';
+  int? _storeFilter;
 
   ProductStatus get status => _status;
   List<Product> get allProducts => _allProducts;
@@ -37,13 +38,20 @@ class ProductProvider extends ChangeNotifier {
   int get currentPage => _currentPage;
   int get pageSize => _pageSize;
   String get searchQuery => _searchQuery;
+  int? get storeFilter => _storeFilter;
 
   List<Product> get _filtered {
-    if (_searchQuery.isEmpty) return _allProducts;
-    final q = _searchQuery.toLowerCase();
-    return _allProducts.where((p) {
-      return p.name.toLowerCase().contains(q) || p.id.toString().contains(q);
-    }).toList();
+    var result = _allProducts;
+    if (_searchQuery.isNotEmpty) {
+      final q = _searchQuery.toLowerCase();
+      result = result.where((p) {
+        return p.name.toLowerCase().contains(q) || p.id.toString().contains(q);
+      }).toList();
+    }
+    if (_storeFilter != null) {
+      result = result.where((p) => p.storeId == _storeFilter).toList();
+    }
+    return result;
   }
 
   int get totalPages => (_filtered.length / _pageSize).ceil().clamp(1, 999);
@@ -92,6 +100,7 @@ class ProductProvider extends ChangeNotifier {
     required int box,
     required int fill,
     required int currentState,
+    required int price,
   }) async {
     _status = ProductStatus.loading;
     _error = null;
@@ -104,6 +113,7 @@ class ProductProvider extends ChangeNotifier {
         box: box,
         fill: fill,
         currentState: currentState,
+        price: price,
       );
       await loadProducts();
     } catch (e) {
@@ -120,6 +130,7 @@ class ProductProvider extends ChangeNotifier {
     int? box,
     int? fill,
     int? currentState,
+    int? price,
   }) async {
     _status = ProductStatus.loading;
     _error = null;
@@ -133,6 +144,7 @@ class ProductProvider extends ChangeNotifier {
         box: box,
         fill: fill,
         currentState: currentState,
+        price: price,
       );
       await loadProducts();
     } catch (e) {
@@ -171,6 +183,18 @@ class ProductProvider extends ChangeNotifier {
 
   void search(String query) {
     _searchQuery = query;
+    _currentPage = 1;
+    notifyListeners();
+  }
+
+  void filterByStore(int storeId) {
+    _storeFilter = _storeFilter == storeId ? null : storeId;
+    _currentPage = 1;
+    notifyListeners();
+  }
+
+  void clearStoreFilter() {
+    _storeFilter = null;
     _currentPage = 1;
     notifyListeners();
   }

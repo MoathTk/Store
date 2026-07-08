@@ -13,6 +13,7 @@ class UpdateProductUseCase {
     int? box,
     int? fill,
     int? currentState,
+    int? price,
   }) =>
       repository.update(
         id: id,
@@ -21,5 +22,6 @@ class UpdateProductUseCase {
         box: box,
         fill: fill,
         currentState: currentState,
+        price: price,
       );
 }
