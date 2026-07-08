@@ -270,200 +270,222 @@ class ProductDataTable extends StatelessWidget {
 
     showDialog(
       context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor: colors.surface,
-        title: Text(
-          s.productsUpdateDialogTitle,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-            color: colors.onSurface,
-          ),
-        ),
-        content: SizedBox(
-          width: 420,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  controller: nameCtrl,
-                  autofocus: true,
-                  decoration: InputDecoration(
-                    labelText: s.productsAddNameHint,
-                    labelStyle: TextStyle(
-                      color: colors.onSurface.withValues(alpha: 0.5),
-                    ),
-                    filled: true,
-                    fillColor: colors.onSurface.withValues(alpha: 0.07),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: colors.primary, width: 2),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 14,
-                    ),
-                  ),
-                  style: TextStyle(color: colors.onSurface),
-                  cursorColor: colors.primary,
-                ),
-                const SizedBox(height: 16),
-                DropdownButtonFormField<int>(
-                  initialValue: selectedStoreId,
-                  decoration: InputDecoration(
-                    labelText: s.productsAddStoreIdHint,
-                    labelStyle: TextStyle(
-                      color: colors.onSurface.withValues(alpha: 0.5),
-                    ),
-                    filled: true,
-                    fillColor: colors.onSurface.withValues(alpha: 0.07),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: colors.primary, width: 2),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 14,
-                    ),
-                  ),
-                  dropdownColor: colors.surface,
-                  items: stores.map((store) {
-                    return DropdownMenuItem(
-                      value: store.id,
-                      child: Text(store.name),
-                    );
-                  }).toList(),
-                  onChanged: (v) => selectedStoreId = v,
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: boxCtrl,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: s.productsAddBoxHint,
-                    labelStyle: TextStyle(
-                      color: colors.onSurface.withValues(alpha: 0.5),
-                    ),
-                    filled: true,
-                    fillColor: colors.onSurface.withValues(alpha: 0.07),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: colors.primary, width: 2),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 14,
-                    ),
-                  ),
-                  style: TextStyle(color: colors.onSurface),
-                  cursorColor: colors.primary,
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: fillCtrl,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: s.productsAddFillHint,
-                    labelStyle: TextStyle(
-                      color: colors.onSurface.withValues(alpha: 0.5),
-                    ),
-                    filled: true,
-                    fillColor: colors.onSurface.withValues(alpha: 0.07),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: colors.primary, width: 2),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 14,
-                    ),
-                  ),
-                  style: TextStyle(color: colors.onSurface),
-                  cursorColor: colors.primary,
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: currentStateCtrl,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: s.productsAddCurrentStateHint,
-                    labelStyle: TextStyle(
-                      color: colors.onSurface.withValues(alpha: 0.5),
-                    ),
-                    filled: true,
-                    fillColor: colors.onSurface.withValues(alpha: 0.07),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: colors.primary, width: 2),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 14,
-                    ),
-                  ),
-                  style: TextStyle(color: colors.onSurface),
-                  cursorColor: colors.primary,
-                ),
-              ],
+      builder: (ctx) {
+        bool isValid() {
+          return nameCtrl.text.trim().isNotEmpty &&
+              selectedStoreId != null &&
+              (int.tryParse(boxCtrl.text.trim()) ?? 0) > 0 &&
+              (int.tryParse(fillCtrl.text.trim()) ?? 0) > 0 &&
+              (int.tryParse(currentStateCtrl.text.trim()) ?? 0) >= 0;
+        }
+
+        return StatefulBuilder(
+          builder: (context, setDialogState) => AlertDialog(
+            backgroundColor: colors.surface,
+            title: Text(
+              s.productsUpdateDialogTitle,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: colors.onSurface,
+              ),
             ),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(),
-            child: Text(
-              s.productsAddCancel,
-              style: TextStyle(color: colors.onSurface.withValues(alpha: 0.5)),
+            content: SizedBox(
+              width: 420,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      controller: nameCtrl,
+                      autofocus: true,
+                      decoration: InputDecoration(
+                        labelText: s.productsAddNameHint,
+                        labelStyle: TextStyle(
+                          color: colors.onSurface.withValues(alpha: 0.5),
+                        ),
+                        filled: true,
+                        fillColor: colors.onSurface.withValues(alpha: 0.07),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide.none,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: colors.primary, width: 2),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 14,
+                        ),
+                      ),
+                      style: TextStyle(color: colors.onSurface),
+                      cursorColor: colors.primary,
+                      onChanged: (_) => setDialogState(() {}),
+                    ),
+                    const SizedBox(height: 16),
+                    DropdownButtonFormField<int>(
+                      initialValue: selectedStoreId,
+                      decoration: InputDecoration(
+                        labelText: s.productsAddStoreIdHint,
+                        labelStyle: TextStyle(
+                          color: colors.onSurface.withValues(alpha: 0.5),
+                        ),
+                        filled: true,
+                        fillColor: colors.onSurface.withValues(alpha: 0.07),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide.none,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: colors.primary, width: 2),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 14,
+                        ),
+                      ),
+                      dropdownColor: colors.surface,
+                      items: stores.map((store) {
+                        return DropdownMenuItem(
+                          value: store.id,
+                          child: Text(store.name),
+                        );
+                      }).toList(),
+                      onChanged: (v) {
+                        selectedStoreId = v;
+                        setDialogState(() {});
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: boxCtrl,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        labelText: s.productsAddBoxHint,
+                        labelStyle: TextStyle(
+                          color: colors.onSurface.withValues(alpha: 0.5),
+                        ),
+                        filled: true,
+                        fillColor: colors.onSurface.withValues(alpha: 0.07),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide.none,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: colors.primary, width: 2),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 14,
+                        ),
+                      ),
+                      style: TextStyle(color: colors.onSurface),
+                      cursorColor: colors.primary,
+                      onChanged: (_) => setDialogState(() {}),
+                    ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: fillCtrl,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        labelText: s.productsAddFillHint,
+                        labelStyle: TextStyle(
+                          color: colors.onSurface.withValues(alpha: 0.5),
+                        ),
+                        filled: true,
+                        fillColor: colors.onSurface.withValues(alpha: 0.07),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide.none,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: colors.primary, width: 2),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 14,
+                        ),
+                      ),
+                      style: TextStyle(color: colors.onSurface),
+                      cursorColor: colors.primary,
+                      onChanged: (_) => setDialogState(() {}),
+                    ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: currentStateCtrl,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        labelText: s.productsAddCurrentStateHint,
+                        labelStyle: TextStyle(
+                          color: colors.onSurface.withValues(alpha: 0.5),
+                        ),
+                        filled: true,
+                        fillColor: colors.onSurface.withValues(alpha: 0.07),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide.none,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: colors.primary, width: 2),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 14,
+                        ),
+                      ),
+                      style: TextStyle(color: colors.onSurface),
+                      cursorColor: colors.primary,
+                      onChanged: (_) => setDialogState(() {}),
+                    ),
+                  ],
+                ),
+              ),
             ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(),
+                child: Text(
+                  s.productsAddCancel,
+                  style: TextStyle(color: colors.onSurface.withValues(alpha: 0.5)),
+                ),
+              ),
+              TextButton(
+                onPressed: isValid()
+                    ? () {
+                        final name = nameCtrl.text.trim();
+                        final box = int.tryParse(boxCtrl.text.trim()) ?? 0;
+                        final fill = int.tryParse(fillCtrl.text.trim()) ?? 0;
+                        final currentState =
+                            int.tryParse(currentStateCtrl.text.trim()) ?? 0;
+                        Navigator.of(ctx).pop();
+                        context.read<ProductProvider>().updateProduct(
+                          id: product.id,
+                          name: name,
+                          storeId: selectedStoreId,
+                          box: box,
+                          fill: fill,
+                          currentState: currentState,
+                        );
+                      }
+                    : null,
+                child: Text(
+                  s.productsUpdateSave,
+                  style: TextStyle(
+                    color: isValid()
+                        ? colors.primary
+                        : colors.onSurface.withValues(alpha: 0.3),
+                  ),
+                ),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () {
-              final name = nameCtrl.text.trim();
-              if (name.isEmpty) return;
-              if (selectedStoreId == null) return;
-              final box = int.tryParse(boxCtrl.text.trim()) ?? 0;
-              final fill = int.tryParse(fillCtrl.text.trim()) ?? 0;
-              final currentState =
-                  int.tryParse(currentStateCtrl.text.trim()) ?? 0;
-              if (box <= 0 || fill <= 0) return;
-              Navigator.of(ctx).pop();
-              context.read<ProductProvider>().updateProduct(
-                id: product.id,
-                name: name,
-                storeId: selectedStoreId,
-                box: box,
-                fill: fill,
-                currentState: currentState,
-              );
-            },
-            child: Text(
-              s.productsUpdateSave,
-              style: TextStyle(color: colors.primary),
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

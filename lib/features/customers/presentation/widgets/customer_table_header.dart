@@ -3,16 +3,38 @@ import 'package:provider/provider.dart';
 import 'package:store_management/generated/l10n.dart';
 import '../providers/customer_provider.dart';
 
-class CustomerTableHeader extends StatelessWidget {
+class CustomerTableHeader extends StatefulWidget {
   final VoidCallback onAdd;
 
   const CustomerTableHeader({super.key, required this.onAdd});
 
   @override
+  State<CustomerTableHeader> createState() => _CustomerTableHeaderState();
+}
+
+class _CustomerTableHeaderState extends State<CustomerTableHeader> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    final provider = context.read<CustomerProvider>();
+    _controller = TextEditingController(text: provider.searchQuery);
+    _controller.addListener(() {
+      provider.search(_controller.text);
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final s = S.of(context)!;
     final colors = Theme.of(context).colorScheme;
-    final provider = context.watch<CustomerProvider>();
 
     return Row(
       children: [
@@ -28,10 +50,7 @@ class CustomerTableHeader extends StatelessWidget {
         SizedBox(
           width: 260,
           child: TextField(
-            controller: TextEditingController.fromValue(
-              TextEditingValue(text: provider.searchQuery),
-            ),
-            onChanged: provider.search,
+            controller: _controller,
             decoration: InputDecoration(
               hintText: s.customersSearchHint,
               hintStyle: TextStyle(
@@ -80,7 +99,7 @@ class CustomerTableHeader extends StatelessWidget {
             ),
             const SizedBox(width: 12),
             FilledButton.icon(
-              onPressed: onAdd,
+              onPressed: widget.onAdd,
               icon: const Icon(Icons.add_rounded, size: 18),
               label: Text(s.customersAddNew),
               style: FilledButton.styleFrom(

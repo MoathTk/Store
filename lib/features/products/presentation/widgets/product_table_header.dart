@@ -3,16 +3,38 @@ import 'package:provider/provider.dart';
 import 'package:store_management/generated/l10n.dart';
 import '../providers/product_provider.dart';
 
-class ProductTableHeader extends StatelessWidget {
+class ProductTableHeader extends StatefulWidget {
   final VoidCallback onAdd;
 
   const ProductTableHeader({super.key, required this.onAdd});
 
   @override
+  State<ProductTableHeader> createState() => _ProductTableHeaderState();
+}
+
+class _ProductTableHeaderState extends State<ProductTableHeader> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    final provider = context.read<ProductProvider>();
+    _controller = TextEditingController(text: provider.searchQuery);
+    _controller.addListener(() {
+      provider.search(_controller.text);
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final s = S.of(context)!;
     final colors = Theme.of(context).colorScheme;
-    final provider = context.watch<ProductProvider>();
 
     return Row(
       children: [
@@ -28,10 +50,7 @@ class ProductTableHeader extends StatelessWidget {
         SizedBox(
           width: 260,
           child: TextField(
-            controller: TextEditingController.fromValue(
-              TextEditingValue(text: provider.searchQuery),
-            ),
-            onChanged: provider.search,
+            controller: _controller,
             decoration: InputDecoration(
               hintText: s.productsSearchHint,
               hintStyle: TextStyle(
@@ -83,7 +102,7 @@ class ProductTableHeader extends StatelessWidget {
             ),
             const SizedBox(width: 12),
             FilledButton.icon(
-              onPressed: onAdd,
+              onPressed: widget.onAdd,
               icon: const Icon(Icons.add_rounded, size: 18),
               label: Text(s.productsAddNew),
               style: FilledButton.styleFrom(
