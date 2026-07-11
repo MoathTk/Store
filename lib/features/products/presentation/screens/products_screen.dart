@@ -82,7 +82,9 @@ class ProductsScreen extends StatelessWidget {
               ),
             ),
             content: SizedBox(
-              width: 420,
+              width: MediaQuery.of(ctx).size.width < 600
+                  ? MediaQuery.of(ctx).size.width * 0.92
+                  : 420,
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,

@@ -49,7 +49,9 @@ class _OrderUpdateDialogState extends State<OrderUpdateDialog> {
         ),
       ),
       content: SizedBox(
-        width: 420,
+        width: MediaQuery.of(context).size.width < 600
+            ? MediaQuery.of(context).size.width * 0.92
+            : 420,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

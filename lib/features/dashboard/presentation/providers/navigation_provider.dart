@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:store_management/generated/l10n.dart';
 
+enum SidebarMode { full, rail, hidden }
+
 enum NavItem {
   dashboard(Icons.dashboard_rounded, false),
   stores(Icons.store_rounded, false),
@@ -36,8 +38,10 @@ String navItemLabel(BuildContext context, NavItem item) {
 
 class NavigationProvider extends ChangeNotifier {
   NavItem _activeItem = NavItem.dashboard;
+  SidebarMode _sidebarMode = SidebarMode.full;
 
   NavItem get activeItem => _activeItem;
+  SidebarMode get sidebarMode => _sidebarMode;
 
   void select(NavItem item) {
     _activeItem = item;
@@ -46,6 +50,20 @@ class NavigationProvider extends ChangeNotifier {
 
   void reset() {
     _activeItem = NavItem.dashboard;
+    notifyListeners();
+  }
+
+  void setSidebarMode(SidebarMode mode) {
+    _sidebarMode = mode;
+    notifyListeners();
+  }
+
+  void toggleSidebar() {
+    _sidebarMode = switch (_sidebarMode) {
+      SidebarMode.full => SidebarMode.rail,
+      SidebarMode.rail => SidebarMode.hidden,
+      SidebarMode.hidden => SidebarMode.full,
+    };
     notifyListeners();
   }
 }

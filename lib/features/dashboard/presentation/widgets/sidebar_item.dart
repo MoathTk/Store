@@ -6,6 +6,7 @@ class SidebarItem extends StatelessWidget {
   final bool isActive;
   final bool hasDropdown;
   final VoidCallback onTap;
+  final bool compact;
 
   const SidebarItem({
     super.key,
@@ -14,11 +15,39 @@ class SidebarItem extends StatelessWidget {
     required this.isActive,
     this.hasDropdown = false,
     required this.onTap,
+    this.compact = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+
+    if (compact) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+        child: Material(
+          color: isActive ? colors.primary : Colors.transparent,
+          borderRadius: BorderRadius.circular(12),
+          child: InkWell(
+            borderRadius: BorderRadius.circular(12),
+            onTap: onTap,
+            child: SizedBox(
+              width: 48,
+              height: 48,
+              child: Center(
+                child: Icon(
+                  icon,
+                  size: 20,
+                  color: isActive
+                      ? colors.onPrimary
+                      : colors.onSurface.withValues(alpha: 0.55),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),

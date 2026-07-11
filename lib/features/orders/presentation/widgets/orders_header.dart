@@ -40,8 +40,10 @@ class _OrdersHeaderState extends State<OrdersHeader> {
     final s = S.of(context)!;
     final colors = Theme.of(context).colorScheme;
 
+    final horizontalPadding = MediaQuery.of(context).size.width < 600 ? 16.0 : 32.0;
+
     return Padding(
-      padding: const EdgeInsets.fromLTRB(32, 24, 32, 0),
+      padding: EdgeInsets.fromLTRB(horizontalPadding, 24, horizontalPadding, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -56,9 +58,10 @@ class _OrdersHeaderState extends State<OrdersHeader> {
                 ),
               ),
               const Spacer(),
-              SizedBox(
-                width: 280,
-                child: TextField(
+              Flexible(
+                child: SizedBox(
+                  width: 280,
+                  child: TextField(
                   controller: _searchCtrl,
                   focusNode: _focusNode,
                   decoration: InputDecoration(
@@ -105,6 +108,7 @@ class _OrdersHeaderState extends State<OrdersHeader> {
                     FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9\u0600-\u06FF\s]')),
                   ],
                 ),
+              ),
               ),
               const SizedBox(width: 12),
               FilledButton.icon(

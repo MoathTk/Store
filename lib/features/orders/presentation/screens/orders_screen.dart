@@ -103,13 +103,18 @@ class _OrdersScreenState extends State<OrdersScreen> {
       );
     }
 
-    return ListView.builder(
-      padding: const EdgeInsets.fromLTRB(32, 0, 32, 80),
-      itemCount: orders.length,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 12),
-          child: OrderCard(order: orders[index]),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final hp = constraints.maxWidth < 600 ? 16.0 : 32.0;
+        return ListView.builder(
+          padding: EdgeInsets.fromLTRB(hp, 0, hp, 80),
+          itemCount: orders.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: OrderCard(order: orders[index]),
+            );
+          },
         );
       },
     );

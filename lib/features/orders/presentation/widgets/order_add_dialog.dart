@@ -135,7 +135,9 @@ class _OrderAddDialogState extends State<OrderAddDialog> {
               ),
             ),
             content: SizedBox(
-              width: 420,
+              width: MediaQuery.of(ctx).size.width < 600
+                  ? MediaQuery.of(ctx).size.width * 0.92
+                  : 420,
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -376,7 +378,9 @@ class _OrderAddDialogState extends State<OrderAddDialog> {
         ),
       ),
       content: SizedBox(
-        width: 640,
+        width: MediaQuery.of(context).size.width < 700
+            ? MediaQuery.of(context).size.width * 0.95
+            : 640,
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
