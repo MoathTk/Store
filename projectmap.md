@@ -2,7 +2,7 @@
 
 ## Overview
 
-A Flutter store management app with Clean Architecture, Material 3 theming, SQLite database, local-only authentication, and full Arabic/English localization with RTL support. Has auth flow (welcome → login/signup), a dashboard shell with sidebar navigation, stores feature with full CRUD and responsive grid UI, customers feature with full CRUD and a premium data table UI, products feature with full CRUD and a premium data table UI, and orders feature with full CRUD, card-based expandable UI, searchable customer dropdown, store filtering by product, box limit validation, inline add-customer, and per-line payment tracking.
+A Flutter store management app with Clean Architecture, Material 3 theming, SQLite database, local-only authentication, and full Arabic/English localization with RTL support. Has auth flow (welcome → login/signup), a dashboard shell with sidebar navigation, stores feature with full CRUD and responsive grid UI, customers feature with full CRUD and a premium data table UI, products feature with full CRUD and a premium data table UI with store-name filter, and orders feature with full CRUD, card-based expandable UI, searchable customer dropdown, store filtering by product, box limit validation, inline add-customer, per-line payment tracking with relative time display, and auto status-to-done when all items paid.
 
 **Stack:** Flutter 3.x | Dart ^3.9.2 | Provider | Clean Architecture (feature-first)
 
@@ -130,7 +130,7 @@ lib/
 │       ├── domain/
 │       │   ├── entities/
 │       │   │   ├── order.dart                  # Order {id, date, customerId, notes?, status, items}
-│   │   │   ├── order_item.dart             # OrderItem {id, orderId, itemId, storeId, boxes, fill, price, isPaid} + totalItems + lineTotal getters
+│   │   │   ├── order_item.dart             # OrderItem {id, orderId, itemId, storeId, boxes, fill, price, isPaid, paidAt} + totalItems + lineTotal getters
 │       │   │   └── order_status.dart           # OrderStatus enum (cancelled, done, notBought, notPaid)
 │       │   ├── repositories/order_repository.dart  # Abstract CRUD interface + CreateOrderParams/CreateOrderItemParams
 │       │   └── usecases/
@@ -144,7 +144,7 @@ lib/
 │       │   ├── datasources/order_local_datasource.dart  # SQLite CRUD via DatabaseHelper, transactional create/delete
 │       │   ├── models/
 │       │   │   ├── order_model.dart                    # OrderModel.toMap / fromMap with items
-│   │   │   └── order_item_model.dart               # OrderItemModel.toMap / fromMap with price and isPaid
+│   │   │   └── order_item_model.dart               # OrderItemModel.toMap / fromMap with price, isPaid, paidAt
 │       │   └── repositories/order_repository_impl.dart  # Concrete implementation
 │       └── presentation/             # UI layer
 │           ├── providers/order_provider.dart     # OrderLoadStatus enum + search/filter/paginate + customerNames map + markItemPaid()
@@ -156,7 +156,7 @@ lib/
 │               ├── order_status_badge.dart        # Colored chip for order status
 │               ├── order_avatar.dart              # CircleAvatar with customer initials
 │               ├── order_action_menu.dart         # Three-dot popup (Edit/Delete)
-│               ├── order_items_table.dart         # Inline compact table: product, store, qty, price, line total + grand total; paid items get strikethrough + checkmark, unpaid items show pay button; grand total sums unpaid only
+│               ├── order_items_table.dart         # Inline compact table: product, store, qty, price, line total + grand total; paid items get strikethrough + checkmark + relative time ("since 3h"), unpaid items show pay button; grand total sums unpaid only
 │               ├── order_add_dialog.dart          # Add dialog: searchable customer DropdownMenu (filter by name/ID/phone) + inline "Add Customer" dialog, store dropdown filtered by selected product, box limit validation (boxes×fill ≤ product.currentState), dynamic item rows (product/store/boxes/fill/price) with live validation + total + price
 │               ├── order_update_dialog.dart       # Update dialog: date, status, notes
 │               └── order_delete_dialog.dart       # Confirmation dialog
@@ -239,8 +239,8 @@ OrdersScreen → OrderProvider (ChangeNotifier, search + status filter + paginat
                                         ├─▶ DatabaseHelper.transaction (atomic create: orders + order_items)
                                         │     └─▶ orders table (id, date, customerId, notes, status)
                                         └─▶ DatabaseHelper
-                                              ├─▶ order_items table (id, orderId, itemId, storeId, boxes, fill, price, isPaid)
-                                              └─▶ markItemPaid(id) → UPDATE isPaid=1, returns updated Order
+                                              ├─▶ order_items table (id, orderId, itemId, storeId, boxes, fill, price, isPaid, paidAt)
+                                              └─▶ markItemPaid(id) → UPDATE isPaid=1, paidAt=NOW, returns updated Order
 ```
 
 ---
@@ -623,13 +623,14 @@ CREATE TABLE order_items (
   fill    INTEGER NOT NULL,
   price   INTEGER NOT NULL,
   isPaid  INTEGER NOT NULL DEFAULT 0,
+  paidAt  TEXT    NULL,
   FOREIGN KEY (orderId)  REFERENCES orders(id),
   FOREIGN KEY (itemId)   REFERENCES products(id),
   FOREIGN KEY (storeId)  REFERENCES stores(id)
 );
 ```
 
-`totalItems = boxes * fill` and `lineTotal = boxes * fill * price` are computed by the `OrderItem` entity getters (not stored in DB). `isPaid` is stored as `0` (false) or `1` (true).
+`totalItems = boxes * fill` and `lineTotal = boxes * fill * price` are computed by the `OrderItem` entity getters (not stored in DB). `isPaid` is stored as `0` (false) or `1` (true). `paidAt` stores the ISO-8601 timestamp of when the item was marked paid, or `NULL` if unpaid.
 
 ### Migration History
 
@@ -642,6 +643,7 @@ CREATE TABLE order_items (
 | 5 | 6 | `ALTER TABLE order_items ADD COLUMN price INTEGER NOT NULL DEFAULT 0` |
 | 6 | 7 | `ALTER TABLE products ADD COLUMN price INTEGER NOT NULL DEFAULT 0` |
 | 7 | 8 | `ALTER TABLE order_items ADD COLUMN isPaid INTEGER NOT NULL DEFAULT 0` |
+| 8 | 9 | `ALTER TABLE order_items ADD COLUMN paidAt TEXT NULL` |
 
 ---
 

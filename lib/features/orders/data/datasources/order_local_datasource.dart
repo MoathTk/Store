@@ -52,7 +52,7 @@ class OrderLocalDataSource {
           'storeId': item.storeId,
           'boxes': item.boxes,
           'fill': item.fill,
-          'price': item.price, 
+          'price': item.price,
         });
         final productRow = await txn.query(
           DatabaseConfig.tableProducts,
@@ -119,7 +119,8 @@ class OrderLocalDataSource {
               DatabaseConfig.tableProducts,
               {
                 'box': box + (row['boxes'] as int),
-                'currentState': currentState + (row['boxes'] as int) * (row['fill'] as int),
+                'currentState':
+                    currentState + (row['boxes'] as int) * (row['fill'] as int),
               },
               where: 'id = ?',
               whereArgs: [row['itemId']],
@@ -150,7 +151,7 @@ class OrderLocalDataSource {
     final orderId = item['orderId'] as int;
     await _db.update(
       DatabaseConfig.tableOrderItems,
-      {'isPaid': 1},
+      {'isPaid': 1, 'paidAt': DateTime.now().toIso8601String()},
       'id = ?',
       [orderItemId],
     );

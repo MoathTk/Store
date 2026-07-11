@@ -21,6 +21,17 @@ class OrderItemsTable extends StatelessWidget {
     final unpaidItems = items.where((i) => !i.isPaid).toList();
     final grandTotal = unpaidItems.fold(0, (sum, item) => sum + item.lineTotal);
 
+    String paidSince(S s, DateTime? paidAt) {
+      if (paidAt == null) return '';
+      final diff = DateTime.now().difference(paidAt);
+      if (diff.inSeconds < 60) return s.ordersPaidJustNow;
+      if (diff.inMinutes < 60) return s.ordersPaidMinutes(diff.inMinutes);
+      if (diff.inHours < 24) return s.ordersPaidHours(diff.inHours);
+      if (diff.inDays < 30) return s.ordersPaidDays(diff.inDays);
+      if (diff.inDays < 365) return s.ordersPaidMonths((diff.inDays / 30).floor());
+      return s.ordersPaidYears((diff.inDays / 365).floor());
+    }
+
     final headerTextStyle = TextStyle(
       fontSize: 11,
       fontWeight: FontWeight.w700,
@@ -32,9 +43,7 @@ class OrderItemsTable extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.surfaceContainerLowest,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: colors.outlineVariant.withValues(alpha: 0.3),
-        ),
+        border: Border.all(color: colors.outlineVariant.withValues(alpha: 0.3)),
       ),
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -59,6 +68,7 @@ class OrderItemsTable extends StatelessWidget {
                   width: 60,
                   child: Text(s.ordersColPrice, style: headerTextStyle),
                 ),
+
                 SizedBox(
                   width: 70,
                   child: Text(s.ordersColLineTotal, style: headerTextStyle),
@@ -68,8 +78,12 @@ class OrderItemsTable extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             ...items.map((item) {
-              final product = products.where((p) => p.id == item.itemId).firstOrNull;
-              final store = stores.where((s) => s.id == item.storeId).firstOrNull;
+              final product = products
+                  .where((p) => p.id == item.itemId)
+                  .firstOrNull;
+              final store = stores
+                  .where((s) => s.id == item.storeId)
+                  .firstOrNull;
               final isPaid = item.isPaid;
               return Padding(
                 padding: const EdgeInsets.only(bottom: 6),
@@ -84,7 +98,9 @@ class OrderItemsTable extends StatelessWidget {
                           color: isPaid
                               ? colors.onSurface.withValues(alpha: 0.35)
                               : colors.onSurface,
-                          decoration: isPaid ? TextDecoration.lineThrough : null,
+                          decoration: isPaid
+                              ? TextDecoration.lineThrough
+                              : null,
                         ),
                       ),
                     ),
@@ -97,7 +113,9 @@ class OrderItemsTable extends StatelessWidget {
                           color: isPaid
                               ? colors.onSurface.withValues(alpha: 0.35)
                               : colors.onSurface.withValues(alpha: 0.7),
-                          decoration: isPaid ? TextDecoration.lineThrough : null,
+                          decoration: isPaid
+                              ? TextDecoration.lineThrough
+                              : null,
                         ),
                       ),
                     ),
@@ -111,7 +129,9 @@ class OrderItemsTable extends StatelessWidget {
                           color: isPaid
                               ? colors.onSurface.withValues(alpha: 0.35)
                               : colors.onSurface,
-                          decoration: isPaid ? TextDecoration.lineThrough : null,
+                          decoration: isPaid
+                              ? TextDecoration.lineThrough
+                              : null,
                         ),
                       ),
                     ),
@@ -124,7 +144,9 @@ class OrderItemsTable extends StatelessWidget {
                           color: isPaid
                               ? colors.onSurface.withValues(alpha: 0.35)
                               : colors.onSurface.withValues(alpha: 0.7),
-                          decoration: isPaid ? TextDecoration.lineThrough : null,
+                          decoration: isPaid
+                              ? TextDecoration.lineThrough
+                              : null,
                         ),
                       ),
                     ),
@@ -138,18 +160,30 @@ class OrderItemsTable extends StatelessWidget {
                           color: isPaid
                               ? colors.onSurface.withValues(alpha: 0.35)
                               : colors.primary,
-                          decoration: isPaid ? TextDecoration.lineThrough : null,
+                          decoration: isPaid
+                              ? TextDecoration.lineThrough
+                              : null,
                         ),
                       ),
                     ),
                     if (isPaid)
-                      Padding(
-                        padding: const EdgeInsets.only(left: 4),
-                        child: Icon(
-                          Icons.check_circle,
-                          size: 20,
-                          color: Colors.green.withValues(alpha: 0.6),
-                        ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.check_circle,
+                            size: 16,
+                            color: Colors.green.withValues(alpha: 0.6),
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            paidSince(s, item.paidAt),
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: colors.onSurface.withValues(alpha: 0.45),
+                            ),
+                          ),
+                        ],
                       )
                     else
                       IconButton(
@@ -171,7 +205,7 @@ class OrderItemsTable extends StatelessWidget {
                   ],
                 ),
               );
-            }),
+            }), 
             const SizedBox(height: 4),
             if (items.any((i) => i.isPaid))
               Divider(color: colors.outlineVariant.withValues(alpha: 0.4)),

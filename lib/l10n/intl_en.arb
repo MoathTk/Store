@@ -176,6 +176,12 @@
     "ordersAddNewCustomer": "Add Customer",
     "ordersMaxBoxesError": "Max {boxes} boxes available",
     "ordersNoCustomersFound": "No customers found",
-    "ordersCustomerCreatedSnackbar": "Customer added successfully"
+    "ordersCustomerCreatedSnackbar": "Customer added successfully",
+    "ordersPaidJustNow": "just now",
+    "ordersPaidMinutes": "{count}m ago",
+    "ordersPaidHours": "{count}h ago",
+    "ordersPaidDays": "{count}d ago",
+    "ordersPaidMonths": "{count}mo ago",
+    "ordersPaidYears": "{count}y ago"
     
 }

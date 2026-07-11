@@ -2,7 +2,7 @@ class DatabaseConfig {
   DatabaseConfig._();
 
   static const String databaseName = 'store_management.db';
-  static const int databaseVersion = 8;
+  static const int databaseVersion = 9;
 
   static const String tableStores = 'stores';
   static const String tableCustomers = 'customers';
@@ -68,9 +68,19 @@ class DatabaseConfig {
       boxes   INTEGER NOT NULL,
       fill    INTEGER NOT NULL,
       price   INTEGER NOT NULL,
+      isPaid  INTEGER NOT NULL DEFAULT 0,
+      paidAt  TEXT    NULL,
       FOREIGN KEY (orderId)  REFERENCES $tableOrders(id),
       FOREIGN KEY (itemId)   REFERENCES $tableProducts(id),
       FOREIGN KEY (storeId)  REFERENCES $tableStores(id)
     )
+  ''';
+
+  static String get addIsPaidColumn => '''
+    ALTER TABLE $tableOrderItems ADD COLUMN isPaid INTEGER NOT NULL DEFAULT 0
+  ''';
+
+  static String get addPaidAtColumn => '''
+    ALTER TABLE $tableOrderItems ADD COLUMN paidAt TEXT NULL
   ''';
 }

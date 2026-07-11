@@ -26,13 +26,13 @@ class _OrderCardState extends State<OrderCard> {
   bool _expanded = false;
 
   Color _statusColor(OrderStatus status, ColorScheme colors) {
-    return switch (status) {
-      OrderStatus.done => Colors.green,
+    return switch (status) {           
+      OrderStatus.done => Colors.green,                                                               
       OrderStatus.notPaid => Colors.orange,
-      OrderStatus.notBought => Colors.blue,
+      OrderStatus.notBought => Colors.blue,         
       OrderStatus.cancelled => colors.error,
-    };
-  }
+    };                                                                                                
+  }               
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +40,11 @@ class _OrderCardState extends State<OrderCard> {
     final colors = Theme.of(context).colorScheme;
     final order = widget.order;
     final provider = context.watch<OrderProvider>();
-    final customerName = provider.customerNames[order.customerId] ?? '#${order.customerId}';
-    final customerPhone = context.watch<CustomerProvider>().allCustomers
+    final customerName =
+        provider.customerNames[order.customerId] ?? '#${order.customerId}';
+    final customerPhone = context
+        .watch<CustomerProvider>()
+        .allCustomers
         .where((c) => c.id == order.customerId)
         .map((c) => c.phone)
         .firstOrNull;
@@ -50,7 +53,7 @@ class _OrderCardState extends State<OrderCard> {
     final grandTotal = unpaidItems.fold(0, (sum, item) => sum + item.lineTotal);
 
     return Material(
-      color: colors.surfaceContainerLow,
+      color: colors.surfaceContainerLow.withValues(alpha: .4),
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
@@ -82,7 +85,13 @@ class _OrderCardState extends State<OrderCard> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-        _buildHeader(s, colors, order, customerName, grandTotal),
+                        _buildHeader(
+                          s,
+                          colors,
+                          order,
+                          customerName,
+                          grandTotal,
+                        ),
                         const SizedBox(height: 12),
                         _buildCustomerRow(colors, customerName, customerPhone),
                         if (order.items.isNotEmpty) ...[
@@ -93,7 +102,9 @@ class _OrderCardState extends State<OrderCard> {
                                 '${unpaidItems.length} ${s.ordersColQty} · ',
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: colors.onSurface.withValues(alpha: 0.5),
+                                  color: colors.onSurface.withValues(
+                                    alpha: 0.5,
+                                  ),
                                 ),
                               ),
                               Text(
@@ -145,6 +156,14 @@ class _OrderCardState extends State<OrderCard> {
       children: [
         Text(
           '#${order.id}',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: colors.onSurface,
+          ),
+        ),const SizedBox(width: 12),
+        Text(
+          '#${customerName}',
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w700,

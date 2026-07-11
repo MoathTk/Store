@@ -19,9 +19,9 @@ class _ItemRow {
   String? boxesError;
 
   _ItemRow()
-      : boxesCtrl = TextEditingController(),
-        fillCtrl = TextEditingController(),
-        priceCtrl = TextEditingController();
+    : boxesCtrl = TextEditingController(),
+      fillCtrl = TextEditingController(),
+      priceCtrl = TextEditingController();
 }
 
 class OrderAddDialog extends StatefulWidget {
@@ -41,7 +41,7 @@ class _OrderAddDialogState extends State<OrderAddDialog> {
   @override
   void initState() {
     super.initState();
-    _selectedStatus = OrderStatus.notBought;
+    _selectedStatus = OrderStatus.notPaid;
     _addItem();
   }
 
@@ -175,10 +175,7 @@ class _OrderAddDialogState extends State<OrderAddDialog> {
                       ),
                       dropdownColor: colors.surface,
                       items: [
-                        const DropdownMenuItem(
-                          value: null,
-                          child: Text('—'),
-                        ),
+                        const DropdownMenuItem(value: null, child: Text('—')),
                         ...CustomerType.values.map(
                           (t) => DropdownMenuItem(
                             value: t.value,
@@ -390,10 +387,7 @@ class _OrderAddDialogState extends State<OrderAddDialog> {
                   padding: const EdgeInsets.only(bottom: 16),
                   child: Text(
                     s.ordersNoCustomers,
-                    style: TextStyle(
-                      color: colors.error,
-                      fontSize: 13,
-                    ),
+                    style: TextStyle(color: colors.error, fontSize: 13),
                   ),
                 ),
               DropdownMenu<Customer>(
@@ -403,11 +397,13 @@ class _OrderAddDialogState extends State<OrderAddDialog> {
                 initialSelection: _selectedCustomer,
                 hintText: s.ordersAddCustomerSearchHint,
                 dropdownMenuEntries: [
-                  ...customers.map((c) => DropdownMenuEntry<Customer>(
-                    value: c,
-                    label: c.fullName,
-                    leadingIcon: Icon(Icons.person, size: 18),
-                  )),
+                  ...customers.map(
+                    (c) => DropdownMenuEntry<Customer>(
+                      value: c,
+                      label: c.fullName,
+                      leadingIcon: Icon(Icons.person, size: 18),
+                    ),
+                  ),
                 ],
                 onSelected: (c) {
                   setState(() {
@@ -556,13 +552,15 @@ class _OrderAddDialogState extends State<OrderAddDialog> {
                               decoration: InputDecoration(
                                 labelText: s.ordersColProduct,
                                 labelStyle: TextStyle(
-                                  color: colors.onSurface
-                                      .withValues(alpha: 0.5),
+                                  color: colors.onSurface.withValues(
+                                    alpha: 0.5,
+                                  ),
                                   fontSize: 13,
                                 ),
                                 filled: true,
-                                fillColor: colors.onSurface
-                                    .withValues(alpha: 0.07),
+                                fillColor: colors.onSurface.withValues(
+                                  alpha: 0.07,
+                                ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: BorderSide.none,
@@ -600,8 +598,8 @@ class _OrderAddDialogState extends State<OrderAddDialog> {
                                     if (p != null) {
                                       item.storeId = p.storeId;
                                       if (p.price > 0) {
-                                        item.priceCtrl.text =
-                                            p.price.toString();
+                                        item.priceCtrl.text = p.price
+                                            .toString();
                                       }
                                     }
                                   } else {
@@ -618,13 +616,15 @@ class _OrderAddDialogState extends State<OrderAddDialog> {
                               decoration: InputDecoration(
                                 labelText: s.ordersColStore,
                                 labelStyle: TextStyle(
-                                  color: colors.onSurface
-                                      .withValues(alpha: 0.5),
+                                  color: colors.onSurface.withValues(
+                                    alpha: 0.5,
+                                  ),
                                   fontSize: 13,
                                 ),
                                 filled: true,
-                                fillColor: colors.onSurface
-                                    .withValues(alpha: 0.07),
+                                fillColor: colors.onSurface.withValues(
+                                  alpha: 0.07,
+                                ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: BorderSide.none,
@@ -644,7 +644,8 @@ class _OrderAddDialogState extends State<OrderAddDialog> {
                                     ? stores.where((s) {
                                         final p = products
                                             .where(
-                                                (p) => p.id == item.productId)
+                                              (p) => p.id == item.productId,
+                                            )
                                             .firstOrNull;
                                         return p != null && s.id == p.storeId;
                                       }).toList()
@@ -676,12 +677,14 @@ class _OrderAddDialogState extends State<OrderAddDialog> {
                                 hintText: s.ordersAddBoxesHint,
                                 hintStyle: TextStyle(
                                   fontSize: 12,
-                                  color: colors.onSurface
-                                      .withValues(alpha: 0.35),
+                                  color: colors.onSurface.withValues(
+                                    alpha: 0.35,
+                                  ),
                                 ),
                                 filled: true,
-                                fillColor: colors.onSurface
-                                    .withValues(alpha: 0.07),
+                                fillColor: colors.onSurface.withValues(
+                                  alpha: 0.07,
+                                ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: BorderSide.none,
@@ -709,12 +712,14 @@ class _OrderAddDialogState extends State<OrderAddDialog> {
                                 hintText: s.ordersAddFillHint,
                                 hintStyle: TextStyle(
                                   fontSize: 12,
-                                  color: colors.onSurface
-                                      .withValues(alpha: 0.35),
+                                  color: colors.onSurface.withValues(
+                                    alpha: 0.35,
+                                  ),
                                 ),
                                 filled: true,
-                                fillColor: colors.onSurface
-                                    .withValues(alpha: 0.07),
+                                fillColor: colors.onSurface.withValues(
+                                  alpha: 0.07,
+                                ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: BorderSide.none,
@@ -742,12 +747,14 @@ class _OrderAddDialogState extends State<OrderAddDialog> {
                                 hintText: s.ordersAddPriceHint,
                                 hintStyle: TextStyle(
                                   fontSize: 12,
-                                  color: colors.onSurface
-                                      .withValues(alpha: 0.35),
+                                  color: colors.onSurface.withValues(
+                                    alpha: 0.35,
+                                  ),
                                 ),
                                 filled: true,
-                                fillColor: colors.onSurface
-                                    .withValues(alpha: 0.07),
+                                fillColor: colors.onSurface.withValues(
+                                  alpha: 0.07,
+                                ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: BorderSide.none,
@@ -770,8 +777,7 @@ class _OrderAddDialogState extends State<OrderAddDialog> {
                             icon: Icon(
                               Icons.remove_circle_outline,
                               size: 20,
-                              color:
-                                  colors.error.withValues(alpha: 0.7),
+                              color: colors.error.withValues(alpha: 0.7),
                             ),
                             onPressed: () => _removeItem(i),
                             padding: EdgeInsets.zero,
@@ -785,16 +791,10 @@ class _OrderAddDialogState extends State<OrderAddDialog> {
                       ),
                       if (item.boxesError != null)
                         Padding(
-                          padding: const EdgeInsets.only(
-                            top: 4,
-                            left: 8,
-                          ),
+                          padding: const EdgeInsets.only(top: 4, left: 8),
                           child: Text(
                             item.boxesError!,
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: colors.error,
-                            ),
+                            style: TextStyle(fontSize: 11, color: colors.error),
                           ),
                         ),
                     ],

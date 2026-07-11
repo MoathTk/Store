@@ -561,4 +561,32 @@ class SAr extends S {
 
   @override
   String get ordersCustomerCreatedSnackbar => 'تم إضافة العميل بنجاح';
+
+  @override
+  String get ordersPaidJustNow => 'قبل قليل';
+
+  @override
+  String ordersPaidMinutes(Object count) {
+    return 'منذ $count د';
+  }
+
+  @override
+  String ordersPaidHours(Object count) {
+    return 'منذ $count س';
+  }
+
+  @override
+  String ordersPaidDays(Object count) {
+    return 'منذ $count يوم';
+  }
+
+  @override
+  String ordersPaidMonths(Object count) {
+    return 'منذ $count شهر';
+  }
+
+  @override
+  String ordersPaidYears(Object count) {
+    return 'منذ $count سنة';
+  }
 }

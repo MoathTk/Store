@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:store_management/generated/l10n.dart';
 import '../providers/order_provider.dart';
-import 'order_card.dart';
-import 'order_filter_chips.dart';
-import 'orders_header.dart';
+import '../widgets/order_card.dart';
+import '../widgets/order_filter_chips.dart';
+import '../widgets/orders_header.dart';
 
 class OrdersScreen extends StatefulWidget {
   const OrdersScreen({super.key});

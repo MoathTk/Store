@@ -1158,6 +1158,42 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Customer added successfully'**
   String get ordersCustomerCreatedSnackbar;
+
+  /// No description provided for @ordersPaidJustNow.
+  ///
+  /// In en, this message translates to:
+  /// **'just now'**
+  String get ordersPaidJustNow;
+
+  /// No description provided for @ordersPaidMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}m ago'**
+  String ordersPaidMinutes(Object count);
+
+  /// No description provided for @ordersPaidHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}h ago'**
+  String ordersPaidHours(Object count);
+
+  /// No description provided for @ordersPaidDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}d ago'**
+  String ordersPaidDays(Object count);
+
+  /// No description provided for @ordersPaidMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}mo ago'**
+  String ordersPaidMonths(Object count);
+
+  /// No description provided for @ordersPaidYears.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}y ago'**
+  String ordersPaidYears(Object count);
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

@@ -10,6 +10,7 @@ class OrderItemModel extends OrderItem {
     required super.fill,
     required super.price,
     super.isPaid,
+    super.paidAt,
   });
 
   factory OrderItemModel.fromMap(Map<String, dynamic> map) {
@@ -22,6 +23,7 @@ class OrderItemModel extends OrderItem {
       fill: map['fill'] as int,
       price: map['price'] as int,
       isPaid: (map['isPaid'] as int?) == 1,
+      paidAt: map['paidAt'] != null ? DateTime.parse(map['paidAt'] as String) : null,
     );
   }
 
@@ -34,6 +36,7 @@ class OrderItemModel extends OrderItem {
       'fill': fill,
       'price': price,
       'isPaid': isPaid ? 1 : 0,
+      'paidAt': paidAt?.toIso8601String(),
     };
   }
 }

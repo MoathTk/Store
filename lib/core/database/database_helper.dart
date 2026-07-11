@@ -63,6 +63,11 @@ class DatabaseHelper {
         'ALTER TABLE ${DatabaseConfig.tableOrderItems} ADD COLUMN isPaid INTEGER NOT NULL DEFAULT 0',
       );
     }
+    if (oldVersion < 9) {
+      await db.execute(
+        'ALTER TABLE ${DatabaseConfig.tableOrderItems} ADD COLUMN paidAt TEXT NULL',
+      );
+    }
   }
 
   Future<int> insert(String table, Map<String, dynamic> values) async {

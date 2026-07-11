@@ -559,4 +559,32 @@ class SEn extends S {
 
   @override
   String get ordersCustomerCreatedSnackbar => 'Customer added successfully';
+
+  @override
+  String get ordersPaidJustNow => 'just now';
+
+  @override
+  String ordersPaidMinutes(Object count) {
+    return '${count}m ago';
+  }
+
+  @override
+  String ordersPaidHours(Object count) {
+    return '${count}h ago';
+  }
+
+  @override
+  String ordersPaidDays(Object count) {
+    return '${count}d ago';
+  }
+
+  @override
+  String ordersPaidMonths(Object count) {
+    return '${count}mo ago';
+  }
+
+  @override
+  String ordersPaidYears(Object count) {
+    return '${count}y ago';
+  }
 }

@@ -26,18 +26,30 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m2(count, total) => "${count} عناصر · ${total} قطع";
 
-  static String m3(phone) => "الهاتف: ${phone}";
+  static String m3(boxes) => "الحد الأقصى ${boxes} صناديق";
 
-  static String m4(total) => "الإجمالي: ${total} ج.م";
+  static String m4(count) => "منذ ${count} يوم";
 
-  static String m5(label) => "صفحة ${label}";
+  static String m5(count) => "منذ ${count} س";
 
-  static String m6(name) => "هل أنت متأكد أنك تريد حذف \"${name}\"؟";
+  static String m6(count) => "منذ ${count} د";
 
-  static String m7(id) =>
+  static String m7(count) => "منذ ${count} شهر";
+
+  static String m8(count) => "منذ ${count} سنة";
+
+  static String m9(phone) => "الهاتف: ${phone}";
+
+  static String m10(total) => "الإجمالي: ${total} ج.م";
+
+  static String m11(label) => "صفحة ${label}";
+
+  static String m12(name) => "هل أنت متأكد أنك تريد حذف \"${name}\"؟";
+
+  static String m13(id) =>
       "لا يوجد متجر بالمعرف ${id}. يرجى إضافة المتجر أولاً.";
 
-  static String m8(name) => "هل أنت متأكد أنك تريد حذف \"${name}\"؟";
+  static String m14(name) => "هل أنت متأكد أنك تريد حذف \"${name}\"؟";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -142,6 +154,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "ordersAddCancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
     "ordersAddCreate": MessageLookupByLibrary.simpleMessage("إنشاء"),
     "ordersAddCustomerHint": MessageLookupByLibrary.simpleMessage("العميل"),
+    "ordersAddCustomerSearchHint": MessageLookupByLibrary.simpleMessage(
+      "ابحث عن عميل بالاسم أو الرقم",
+    ),
     "ordersAddDateHint": MessageLookupByLibrary.simpleMessage("التاريخ"),
     "ordersAddDialogTitle": MessageLookupByLibrary.simpleMessage("إنشاء طلب"),
     "ordersAddFillHint": MessageLookupByLibrary.simpleMessage(
@@ -149,6 +164,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "ordersAddItem": MessageLookupByLibrary.simpleMessage("إضافة عنصر"),
     "ordersAddNew": MessageLookupByLibrary.simpleMessage("طلب جديد"),
+    "ordersAddNewCustomer": MessageLookupByLibrary.simpleMessage("إضافة عميل"),
     "ordersAddNotesHint": MessageLookupByLibrary.simpleMessage("ملاحظات"),
     "ordersAddPriceHint": MessageLookupByLibrary.simpleMessage("سعر القطعة"),
     "ordersAddRemoveItem": MessageLookupByLibrary.simpleMessage("إزالة"),
@@ -161,6 +177,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "ordersColProduct": MessageLookupByLibrary.simpleMessage("المنتج"),
     "ordersColQty": MessageLookupByLibrary.simpleMessage("الكمية"),
     "ordersColStore": MessageLookupByLibrary.simpleMessage("المتجر"),
+    "ordersCustomerCreatedSnackbar": MessageLookupByLibrary.simpleMessage(
+      "تم إضافة العميل بنجاح",
+    ),
     "ordersDeleteButton": MessageLookupByLibrary.simpleMessage("حذف"),
     "ordersDeleteCancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
     "ordersDeleteConfirm": m1,
@@ -182,10 +201,20 @@ class MessageLookup extends MessageLookupByLibrary {
     "ordersFilterNotBought": MessageLookupByLibrary.simpleMessage("غير مشترى"),
     "ordersFilterNotPaid": MessageLookupByLibrary.simpleMessage("غير مدفوع"),
     "ordersItemsLabel": m2,
+    "ordersMaxBoxesError": m3,
     "ordersNoCustomers": MessageLookupByLibrary.simpleMessage(
       "لم يتم العثور على عملاء. يرجى إضافة عملاء أولاً.",
     ),
-    "ordersPhoneLabel": m3,
+    "ordersNoCustomersFound": MessageLookupByLibrary.simpleMessage(
+      "لا يوجد عملاء",
+    ),
+    "ordersPaidDays": m4,
+    "ordersPaidHours": m5,
+    "ordersPaidJustNow": MessageLookupByLibrary.simpleMessage("قبل قليل"),
+    "ordersPaidMinutes": m6,
+    "ordersPaidMonths": m7,
+    "ordersPaidYears": m8,
+    "ordersPhoneLabel": m9,
     "ordersSearchHint": MessageLookupByLibrary.simpleMessage(
       "ابحث بالمعرف أو العميل",
     ),
@@ -194,12 +223,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "ordersStatusNotBought": MessageLookupByLibrary.simpleMessage("غير مشترى"),
     "ordersStatusNotPaid": MessageLookupByLibrary.simpleMessage("غير مدفوع"),
     "ordersTitle": MessageLookupByLibrary.simpleMessage("الطلبات"),
-    "ordersTotalPrice": m4,
+    "ordersTotalPrice": m10,
     "ordersUpdateDialogTitle": MessageLookupByLibrary.simpleMessage(
       "تعديل الطلب",
     ),
     "ordersUpdateSave": MessageLookupByLibrary.simpleMessage("حفظ"),
-    "placeholderPage": m5,
+    "placeholderPage": m11,
     "productsActionDelete": MessageLookupByLibrary.simpleMessage("حذف"),
     "productsActionEdit": MessageLookupByLibrary.simpleMessage("تعديل"),
     "productsAddBoxHint": MessageLookupByLibrary.simpleMessage("عدد الصناديق"),
@@ -219,6 +248,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "productsAddNameHint": MessageLookupByLibrary.simpleMessage("اسم المنتج"),
     "productsAddNew": MessageLookupByLibrary.simpleMessage("إضافة جديد"),
+    "productsAddPriceHint": MessageLookupByLibrary.simpleMessage("سعر الوحدة"),
     "productsAddStoreIdHint": MessageLookupByLibrary.simpleMessage(
       "معرف المتجر",
     ),
@@ -233,10 +263,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "الكمية الأولية",
     ),
     "productsColName": MessageLookupByLibrary.simpleMessage("الاسم"),
+    "productsColPrice": MessageLookupByLibrary.simpleMessage("سعر الوحدة"),
     "productsColStore": MessageLookupByLibrary.simpleMessage("المتجر"),
     "productsDeleteButton": MessageLookupByLibrary.simpleMessage("حذف"),
     "productsDeleteCancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
-    "productsDeleteConfirm": m6,
+    "productsDeleteConfirm": m12,
     "productsDeleteTitle": MessageLookupByLibrary.simpleMessage("حذف المنتج"),
     "productsEmptySubtitle": MessageLookupByLibrary.simpleMessage(
       "أضف منتجك الأول للبدء",
@@ -255,7 +286,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "productsStoreNotFound": MessageLookupByLibrary.simpleMessage(
       "المتجر غير موجود",
     ),
-    "productsStoreNotFoundMsg": m7,
+    "productsStoreNotFoundMsg": m13,
     "productsTitle": MessageLookupByLibrary.simpleMessage("المنتجات"),
     "productsUpdateDialogTitle": MessageLookupByLibrary.simpleMessage(
       "تعديل المنتج",
@@ -285,7 +316,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "storesAddTooltip": MessageLookupByLibrary.simpleMessage("إضافة متجر"),
     "storesDeleteButton": MessageLookupByLibrary.simpleMessage("حذف"),
     "storesDeleteCancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
-    "storesDeleteConfirm": m8,
+    "storesDeleteConfirm": m14,
     "storesDeleteTitle": MessageLookupByLibrary.simpleMessage("حذف المتجر"),
     "storesEmptySubtitle": MessageLookupByLibrary.simpleMessage(
       "أضف متجرك الأول للبدء",

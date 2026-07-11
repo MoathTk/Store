@@ -26,18 +26,30 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m2(count, total) => "${count} items · ${total} pcs";
 
-  static String m3(phone) => "Phone: ${phone}";
+  static String m3(boxes) => "Max ${boxes} boxes available";
 
-  static String m4(total) => "Total: E£ ${total}";
+  static String m4(count) => "${count}d ago";
 
-  static String m5(label) => "${label} Page";
+  static String m5(count) => "${count}h ago";
 
-  static String m6(name) => "Are you sure you want to delete \"${name}\"?";
+  static String m6(count) => "${count}m ago";
 
-  static String m7(id) =>
+  static String m7(count) => "${count}mo ago";
+
+  static String m8(count) => "${count}y ago";
+
+  static String m9(phone) => "Phone: ${phone}";
+
+  static String m10(total) => "Total: E£ ${total}";
+
+  static String m11(label) => "${label} Page";
+
+  static String m12(name) => "Are you sure you want to delete \"${name}\"?";
+
+  static String m13(id) =>
       "No store exists with ID ${id}. Please add the store first.";
 
-  static String m8(name) => "Are you sure you want to delete \"${name}\"?";
+  static String m14(name) => "Are you sure you want to delete \"${name}\"?";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -146,6 +158,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "ordersAddCancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "ordersAddCreate": MessageLookupByLibrary.simpleMessage("Create"),
     "ordersAddCustomerHint": MessageLookupByLibrary.simpleMessage("Customer"),
+    "ordersAddCustomerSearchHint": MessageLookupByLibrary.simpleMessage(
+      "Search customer by name or ID",
+    ),
     "ordersAddDateHint": MessageLookupByLibrary.simpleMessage("Date"),
     "ordersAddDialogTitle": MessageLookupByLibrary.simpleMessage(
       "Create Order",
@@ -153,6 +168,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "ordersAddFillHint": MessageLookupByLibrary.simpleMessage("Items per Box"),
     "ordersAddItem": MessageLookupByLibrary.simpleMessage("Add Item"),
     "ordersAddNew": MessageLookupByLibrary.simpleMessage("New Order"),
+    "ordersAddNewCustomer": MessageLookupByLibrary.simpleMessage(
+      "Add Customer",
+    ),
     "ordersAddNotesHint": MessageLookupByLibrary.simpleMessage("Notes"),
     "ordersAddPriceHint": MessageLookupByLibrary.simpleMessage(
       "Price per item",
@@ -165,6 +183,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "ordersColProduct": MessageLookupByLibrary.simpleMessage("Product"),
     "ordersColQty": MessageLookupByLibrary.simpleMessage("Qty"),
     "ordersColStore": MessageLookupByLibrary.simpleMessage("Store"),
+    "ordersCustomerCreatedSnackbar": MessageLookupByLibrary.simpleMessage(
+      "Customer added successfully",
+    ),
     "ordersDeleteButton": MessageLookupByLibrary.simpleMessage("Delete"),
     "ordersDeleteCancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "ordersDeleteConfirm": m1,
@@ -186,10 +207,20 @@ class MessageLookup extends MessageLookupByLibrary {
     "ordersFilterNotBought": MessageLookupByLibrary.simpleMessage("Not Bought"),
     "ordersFilterNotPaid": MessageLookupByLibrary.simpleMessage("Not Paid"),
     "ordersItemsLabel": m2,
+    "ordersMaxBoxesError": m3,
     "ordersNoCustomers": MessageLookupByLibrary.simpleMessage(
       "No customers found. Add customers first.",
     ),
-    "ordersPhoneLabel": m3,
+    "ordersNoCustomersFound": MessageLookupByLibrary.simpleMessage(
+      "No customers found",
+    ),
+    "ordersPaidDays": m4,
+    "ordersPaidHours": m5,
+    "ordersPaidJustNow": MessageLookupByLibrary.simpleMessage("just now"),
+    "ordersPaidMinutes": m6,
+    "ordersPaidMonths": m7,
+    "ordersPaidYears": m8,
+    "ordersPhoneLabel": m9,
     "ordersSearchHint": MessageLookupByLibrary.simpleMessage(
       "Search by ID or customer",
     ),
@@ -198,12 +229,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "ordersStatusNotBought": MessageLookupByLibrary.simpleMessage("Not Bought"),
     "ordersStatusNotPaid": MessageLookupByLibrary.simpleMessage("Not Paid"),
     "ordersTitle": MessageLookupByLibrary.simpleMessage("Orders"),
-    "ordersTotalPrice": m4,
+    "ordersTotalPrice": m10,
     "ordersUpdateDialogTitle": MessageLookupByLibrary.simpleMessage(
       "Update Order",
     ),
     "ordersUpdateSave": MessageLookupByLibrary.simpleMessage("Save"),
-    "placeholderPage": m5,
+    "placeholderPage": m11,
     "productsActionDelete": MessageLookupByLibrary.simpleMessage("Delete"),
     "productsActionEdit": MessageLookupByLibrary.simpleMessage("Edit"),
     "productsAddBoxHint": MessageLookupByLibrary.simpleMessage(
@@ -225,6 +256,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "productsAddNameHint": MessageLookupByLibrary.simpleMessage("Product Name"),
     "productsAddNew": MessageLookupByLibrary.simpleMessage("Add New"),
+    "productsAddPriceHint": MessageLookupByLibrary.simpleMessage("Unit Price"),
     "productsAddStoreIdHint": MessageLookupByLibrary.simpleMessage("Store ID"),
     "productsColAddedAt": MessageLookupByLibrary.simpleMessage("Date Added"),
     "productsColBox": MessageLookupByLibrary.simpleMessage("Boxes"),
@@ -235,10 +267,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "productsColId": MessageLookupByLibrary.simpleMessage("ID"),
     "productsColInitState": MessageLookupByLibrary.simpleMessage("Initial Qty"),
     "productsColName": MessageLookupByLibrary.simpleMessage("Name"),
+    "productsColPrice": MessageLookupByLibrary.simpleMessage("Unit Price"),
     "productsColStore": MessageLookupByLibrary.simpleMessage("Store"),
     "productsDeleteButton": MessageLookupByLibrary.simpleMessage("Delete"),
     "productsDeleteCancel": MessageLookupByLibrary.simpleMessage("Cancel"),
-    "productsDeleteConfirm": m6,
+    "productsDeleteConfirm": m12,
     "productsDeleteTitle": MessageLookupByLibrary.simpleMessage(
       "Delete Product",
     ),
@@ -261,7 +294,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "productsStoreNotFound": MessageLookupByLibrary.simpleMessage(
       "Store Not Found",
     ),
-    "productsStoreNotFoundMsg": m7,
+    "productsStoreNotFoundMsg": m13,
     "productsTitle": MessageLookupByLibrary.simpleMessage("Products"),
     "productsUpdateDialogTitle": MessageLookupByLibrary.simpleMessage(
       "Update Product",
@@ -293,7 +326,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "storesAddTooltip": MessageLookupByLibrary.simpleMessage("Add store"),
     "storesDeleteButton": MessageLookupByLibrary.simpleMessage("Delete"),
     "storesDeleteCancel": MessageLookupByLibrary.simpleMessage("Cancel"),
-    "storesDeleteConfirm": m8,
+    "storesDeleteConfirm": m14,
     "storesDeleteTitle": MessageLookupByLibrary.simpleMessage("Delete Store"),
     "storesEmptySubtitle": MessageLookupByLibrary.simpleMessage(
       "Add your first store to get started",

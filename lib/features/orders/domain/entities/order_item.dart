@@ -7,6 +7,7 @@ class OrderItem {
   final int fill;
   final int price;
   final bool isPaid;
+  final DateTime? paidAt;
 
   const OrderItem({
     required this.id,
@@ -17,6 +18,7 @@ class OrderItem {
     required this.fill,
     required this.price,
     this.isPaid = false,
+    this.paidAt,
   });
 
   int get totalItems => boxes * fill;

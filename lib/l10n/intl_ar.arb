@@ -175,5 +175,11 @@
     "ordersAddNewCustomer": "إضافة عميل",
     "ordersMaxBoxesError": "الحد الأقصى {boxes} صناديق",
     "ordersNoCustomersFound": "لا يوجد عملاء",
-    "ordersCustomerCreatedSnackbar": "تم إضافة العميل بنجاح"
+    "ordersCustomerCreatedSnackbar": "تم إضافة العميل بنجاح",
+    "ordersPaidJustNow": "قبل قليل",
+    "ordersPaidMinutes": "منذ {count} د",
+    "ordersPaidHours": "منذ {count} س",
+    "ordersPaidDays": "منذ {count} يوم",
+    "ordersPaidMonths": "منذ {count} شهر",
+    "ordersPaidYears": "منذ {count} سنة"
 }

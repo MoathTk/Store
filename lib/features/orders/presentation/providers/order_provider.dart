@@ -60,8 +60,7 @@ class OrderProvider extends ChangeNotifier {
     return result;
   }
 
-  int get totalPages =>
-      (_filtered.length / _pageSize).ceil().clamp(1, 999);
+  int get totalPages => (_filtered.length / _pageSize).ceil().clamp(1, 999);
 
   List<Order> get paginatedOrders {
     final sorted = List<Order>.from(_filtered);
