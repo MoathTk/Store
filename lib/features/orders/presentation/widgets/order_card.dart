@@ -26,13 +26,13 @@ class _OrderCardState extends State<OrderCard> {
   bool _expanded = false;
 
   Color _statusColor(OrderStatus status, ColorScheme colors) {
-    return switch (status) {           
-      OrderStatus.done => Colors.green,                                                               
+    return switch (status) {
+      OrderStatus.done => Colors.green,
       OrderStatus.notPaid => Colors.orange,
-      OrderStatus.notBought => Colors.blue,         
+      OrderStatus.notBought => Colors.blue,
       OrderStatus.cancelled => colors.error,
-    };                                                                                                
-  }               
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -161,15 +161,16 @@ class _OrderCardState extends State<OrderCard> {
             fontWeight: FontWeight.w700,
             color: colors.onSurface,
           ),
-        ),const SizedBox(width: 12),
-        Text(
-          '#${customerName}',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w700,
-            color: colors.onSurface,
-          ),
         ),
+        // ),const SizedBox(width: 12),
+        // Text(
+        //   '#${customerName}',
+        //   style: TextStyle(
+        //     fontSize: 16,
+        //     fontWeight: FontWeight.w700,
+        //     color: colors.onSurface,
+        //   ),
+        // ),
         const SizedBox(width: 12),
         Text(
           '${order.date.year}-${order.date.month.toString().padLeft(2, '0')}-${order.date.day.toString().padLeft(2, '0')}',
